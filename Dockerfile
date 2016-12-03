@@ -1,6 +1,6 @@
 FROM cell/debsandbox
 MAINTAINER Cell <maintainer.docker.cell@outer.systems>
-ENV	DOCKER_IMAGE="plic/czsh"
+ENV	DOCKER_IMAGE="cell/czsh"
 
 ADD material/payload	/opt/payload/
 ADD material/scripts	/usr/local/bin/

@@ -11,7 +11,7 @@ stacktrace () {
 
 init() {
 	trap "stacktrace" ERR
-	registry="plic"
+	registry="cell"
 	context="$(cd "$(dirname "${BASH_SOURCE[0]}" )" && pwd)"
 	dirname="$(basename ${context})"
 	image="${registry:+${registry}/}${dirname}"
