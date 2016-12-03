@@ -1,0 +1,6 @@
+LANG=C.UTF-8
+LANGUAGE=C.UTF-8
+LC_ALL=C.UTF-8
+export LANG LANGUAGE LC_ALL
+
+chsh -s /bin/zsh $USER
