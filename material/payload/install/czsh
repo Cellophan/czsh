@@ -1,4 +1,4 @@
 #!/bin/bash
 
-eval $(docker run --rm -ti cell/zsh cmd) $@
+eval $(docker run --rm -ti cell/czsh cmd) $@
 
