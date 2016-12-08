@@ -37,3 +37,11 @@ RUN	git clone https://github.com/Cellophan/scripts.git /tmp/scripts &&\
 		https://github.com/docker/compose/releases/download/1.9.0/docker-compose-$(uname -s)-$(uname -m) \
 		>> /usr/local/bin/docker-compose &&\
 	chmod +x /usr/local/bin/docker-compose
+
+RUN	apt-get update &&\
+	DEBIAN_FRONTEND=noninteractive apt-get install -qy unzip &&\
+	wget -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip &&\
+	unzip -d /tmp /tmp/jid.zip &&\
+	mv /tmp/jid_linux_amd64 /usr/local/bin/jid &&\
+	apt-get remove -y unzip
+
