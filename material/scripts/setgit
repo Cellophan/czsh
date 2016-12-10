@@ -1,0 +1,7 @@
+#!/bin/bash
+
+git config user.email "$(git --no-pager log -1 --pretty=format:"%ae" HEAD)"
+git config user.name  "$(git --no-pager log -1 --pretty=format:"%an" HEAD)"
+git config push.default simple
+echo  "$(git config user.name) <$(git config user.email)>"
+
