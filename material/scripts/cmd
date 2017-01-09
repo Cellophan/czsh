@@ -9,6 +9,7 @@ echo -n "docker run -ti --rm \
 	-v /var/run/docker.sock:/var/run/docker.sock \
 	-e TERM \
 	-e VIRTUAL_ENV=\$(basename \${0}) \
+	-e COMPOSE_PROJECT_NAME \
 	$@ \
 	${DOCKER_IMAGE}"
 
