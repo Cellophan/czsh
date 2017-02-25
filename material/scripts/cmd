@@ -1,7 +1,8 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
-echo -n "docker run -ti --rm \
+echo -n "if [ -n \"\$DISPLAY\" ]; then echo display; display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; fi; \
+	docker run -ti --rm \
 	-w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
 	-v /etc/localtime:/etc/localtime:ro \
 	-v \$HOME/.ssh:\$HOME/.ssh:ro \
@@ -10,8 +11,7 @@ echo -n "docker run -ti --rm \
 	-e TERM \
 	-e VIRTUAL_ENV=\$(basename \${0}) \
 	-e COMPOSE_PROJECT_NAME \
-	-e DISPLAY \
-	-v /tmp/.X11-unix:/tmp/.X11-unix \
+	\${display:-} \
 	$@ \
 	${DOCKER_IMAGE}"
 
