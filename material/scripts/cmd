@@ -1,7 +1,8 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
-echo -n "if [ -n \"\$DISPLAY\" ]; then echo display; display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; fi; \
+echo -n "[[ -n \"\$DISPLAY\" ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
+	[[ -n \"\$SSH_AUTH_SOCK\" ]] && ssh=\"-e SSH_AUTH_SOCK -v \$SSH_AUTH_SOCK:\$SSH_AUTH_SOCK\"; \
 	docker run -ti --rm \
 	-w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
 	-v /etc/localtime:/etc/localtime:ro \
@@ -11,7 +12,7 @@ echo -n "if [ -n \"\$DISPLAY\" ]; then echo display; display='-e DISPLAY -v /tmp
 	-e TERM \
 	-e VIRTUAL_ENV=\$(basename \${0}) \
 	-e COMPOSE_PROJECT_NAME \
+	\${ssh:-} \
 	\${display:-} \
 	$@ \
 	${DOCKER_IMAGE}"
-
