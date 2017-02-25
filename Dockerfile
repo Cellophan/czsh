@@ -26,12 +26,6 @@ RUN	apt-get update &&\
 	mv /tmp/jid_linux_amd64 /usr/local/bin/jid &&\
 	apt-get remove -y unzip
 
-COPY material/payload	/opt/payload/
-COPY material/scripts	/usr/local/bin/
-COPY material/profile.d	/etc/profile.d/
-COPY material/zshrc		/etc/skel/.zshrc
-COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
-
 #zsh and oh-my-zsh and my theme
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
 RUN apt-get update &&\
@@ -54,4 +48,10 @@ RUN apt-get update &&\
 	DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
 	/usr/sbin/update-locale LANG=C.UTF-8 &&\
 	chsh -s /bin/zsh
+
+COPY material/payload	/opt/payload/
+COPY material/scripts	/usr/local/bin/
+COPY material/profile.d	/etc/profile.d/
+COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
+COPY material/zshrc		/etc/skel/.zshrc
 
