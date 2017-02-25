@@ -1,5 +1,4 @@
 FROM cell/debsandbox
-MAINTAINER Cell <maintainer.docker.cell@outer.systems>
 ENV	DOCKER_IMAGE="cell/czsh"
 
 #Tools
