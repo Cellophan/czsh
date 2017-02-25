@@ -10,6 +10,8 @@ echo -n "docker run -ti --rm \
 	-e TERM \
 	-e VIRTUAL_ENV=\$(basename \${0}) \
 	-e COMPOSE_PROJECT_NAME \
+	-e DISPLAY \
+	-v /tmp/.X11-unix:/tmp/.X11-unix \
 	$@ \
 	${DOCKER_IMAGE}"
 
