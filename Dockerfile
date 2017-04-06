@@ -2,9 +2,9 @@ FROM cell/debsandbox
 ENV	DOCKER_IMAGE="cell/czsh"
 
 #Tools
-#  make
+#  make icdiff
 RUN apt-get update &&\
-	apt-get install -qy --no-install-recommends make &&\
+	apt-get install -qy --no-install-recommends make icdiff &&\
 	apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #  docker-compose
@@ -43,7 +43,7 @@ RUN	mkdir -p /etc/skel/.fonts /etc/skel.config/fontconfig/conf.d &&\
 RUN apt-get update &&\
 	apt-get install -qy --no-install-recommends fontconfig locales &&\
 	apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-	locale-gen en_US.UTF-8 en_us &&\
+	locale-gen en_US.UTF-8 en_US &&\
 	DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
 	/usr/sbin/update-locale LANG=C.UTF-8 &&\
 	chsh -s /bin/zsh
@@ -52,5 +52,5 @@ COPY material/payload	/opt/payload/
 COPY material/scripts	/usr/local/bin/
 COPY material/profile.d	/etc/profile.d/
 COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
-COPY material/zshrc		/etc/skel/.zshrc
+COPY material/skel/*	/etc/skel/
 
