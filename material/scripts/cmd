@@ -1,8 +1,9 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
-echo -n "[[ -n \"\$DISPLAY\" ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
-	[[ -d \"\$HOME/.ssh\" ]] && ssh_dir=\"-v \$HOME/.ssh:\$HOME/.ssh:ro\"; \
+echo -n "\
+	[[ -n \"\$DISPLAY\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
+	[[ -d \"\$HOME/.ssh\"     ]] && ssh_dir=\"-v \$HOME/.ssh:\$HOME/.ssh:ro\"; \
 	[[ -n \"\$SSH_AUTH_SOCK\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \$SSH_AUTH_SOCK:\$SSH_AUTH_SOCK\"; \
 	docker run -ti --rm \
 		-w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
@@ -15,5 +16,6 @@ echo -n "[[ -n \"\$DISPLAY\" ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X
 		-e COMPOSE_PROJECT_NAME \
 		\${ssh_dir:-} \${ssh_sock:-} \
 		\${display:-} \
+		--net host \
 		$@ \
 		${DOCKER_IMAGE}"
