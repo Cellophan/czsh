@@ -2,9 +2,9 @@ FROM cell/debsandbox
 ENV	DOCKER_IMAGE="cell/czsh"
 
 #Tools
-#  make
+#  make icdiff
 RUN apt update &&\
-	apt install -qy --no-install-recommends make &&\
+	apt install -qy --no-install-recommends make icdiff &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/*
 
 #  git-town
