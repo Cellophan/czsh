@@ -1,4 +1,4 @@
 #!/bin/bash
 
-eval $(docker run --rm -ti --entrypoint cmd cell/czsh) $@
+eval $(docker run --rm --entrypoint cmd cell/czsh) $@
 
