@@ -1,3 +1,26 @@
+FROM debian as fly
+ENV GO_VERSION 1.7.3
+
+RUN apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy wget git direnv &&\
+    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+    wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz &&\
+    tar -C /usr/local -xzf /tmp/go.tar.gz &&\
+    rm /tmp/go.tar.gz
+RUN mkdir /app &&\
+    cd /app &&\
+    export \
+        GOPATH=/app \
+        GOBIN=/usr/local/go/bin \
+        PATH=${PATH}:/usr/local/go/bin &&\
+    git clone --recursive https://github.com/concourse/concourse.git
+RUN cd /app/concourse/src/github.com/concourse/fly &&\
+    export \
+        GOPATH=/app \
+        GOBIN=/usr/local/go/bin \
+        PATH=${PATH}:/usr/local/go/bin &&\
+    go build
+
 FROM cell/debsandbox
 ENV	DOCKER_IMAGE="cell/czsh"
 
@@ -32,6 +55,7 @@ RUN	apt update &&\
 	mv /tmp/jid_linux_amd64 /usr/local/bin/jid &&\
 	rm /tmp/jid.zip && apt remove -y unzip wget &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/*
+	apt-get remove -y unzip
 
 #zsh and oh-my-zsh and my theme
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
