@@ -55,7 +55,6 @@ RUN	apt update &&\
 	mv /tmp/jid_linux_amd64 /usr/local/bin/jid &&\
 	rm /tmp/jid.zip && apt remove -y unzip wget &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/*
-	apt-get remove -y unzip
 
 #zsh and oh-my-zsh and my theme
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
