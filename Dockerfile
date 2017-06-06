@@ -1,59 +1,60 @@
-FROM debian as fly
-ENV GO_VERSION 1.7.3
+#fly
+FROM ubuntu as fly
 
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy wget git direnv &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-    wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go${GO_VERSION}.linux-amd64.tar.gz &&\
-    tar -C /usr/local -xzf /tmp/go.tar.gz &&\
-    rm /tmp/go.tar.gz
-RUN mkdir /app &&\
-    cd /app &&\
-    export \
-        GOPATH=/app \
-        GOBIN=/usr/local/go/bin \
-        PATH=${PATH}:/usr/local/go/bin &&\
-    git clone --recursive https://github.com/concourse/concourse.git
-RUN cd /app/concourse/src/github.com/concourse/fly &&\
-    export \
-        GOPATH=/app \
-        GOBIN=/usr/local/go/bin \
-        PATH=${PATH}:/usr/local/go/bin &&\
-    go build
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy wget git direnv
 
-FROM cell/debsandbox
+RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf /tmp/go.tar.gz
+
+ENV GOPATH=/app GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+RUN mkdir /app
+WORKDIR /app
+RUN git clone --recursive https://github.com/concourse/fly.git /app
+RUN go get
+RUN go build
+RUN mv /usr/local/go/bin/app /usr/local/go/fly
+
+#docker-compose and dc
+FROM ubuntu as dc
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends sudo curl git ca-certificates
+RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
+RUN find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
+    /usr/local/bin/dc install
+RUN curl -sSL \
+		https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
+		>> /usr/local/bin/docker-compose
+RUN chmod +x /usr/local/bin/docker-compose
+
+#git-town
+FROM ubuntu as git-town
+RUN apt-get update
+RUN apt install -qy --no-install-recommends wget ca-certificates
+RUN wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64
+RUN chmod a+x /usr/local/bin/git-town
+
+#jid
+FROM ubuntu as jid
+RUN	apt update
+RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
+RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip
+RUN unzip -d /tmp /tmp/jid.zip
+RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
+
+#Main
+FROM cell/playground
 ENV	DOCKER_IMAGE="cell/czsh"
 
-#Tools
-#  make icdiff
+#Imports
+COPY --from=fly      /usr/local/go/fly /usr/local/bin/
+COPY --from=dc       /usr/local/bin/* /usr/local/bin/
+COPY --from=git-town /usr/local/bin/* /usr/local/bin/
+COPY --from=jid      /usr/local/bin/* /usr/local/bin/
+
+#make icdiff
 RUN apt update &&\
 	apt install -qy --no-install-recommends make icdiff &&\
-	apt clean -y && rm -rf /var/lib/apt/lists/*
-
-#  git-town
-RUN apt update &&\
-	apt install -qy --no-install-recommends wget &&\
-	wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64 &&\
-	chmod a+x /usr/local/bin/git-town &&\
-	apt remove -y wget && apt clean -y && rm -rf /var/lib/apt/lists/*
-
-#  docker-compose
-RUN	git clone https://github.com/Cellophan/scripts.git /tmp/scripts &&\
-	find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
-	rm -rf /tmp/scripts &&\
-	dc install &&\
-	curl -sSL \
-		https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
-		>> /usr/local/bin/docker-compose &&\
-	chmod +x /usr/local/bin/docker-compose
-
-#  jid
-RUN	apt update &&\
-	DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget &&\
-	wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip &&\
-	unzip -d /tmp /tmp/jid.zip &&\
-	mv /tmp/jid_linux_amd64 /usr/local/bin/jid &&\
-	rm /tmp/jid.zip && apt remove -y unzip wget &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/*
 
 #zsh and oh-my-zsh and my theme
