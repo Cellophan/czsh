@@ -1,5 +1,5 @@
 #fly
-FROM cell/playground as fly
+FROM ubuntu as fly
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy wget git direnv
@@ -16,7 +16,7 @@ RUN go build
 RUN mv /usr/local/go/bin/app /usr/local/go/fly
 
 #docker-compose and dc
-FROM cell/playground as dc
+FROM ubuntu as dc
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends sudo curl git ca-certificates
 RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
@@ -28,14 +28,14 @@ RUN curl -sSL \
 RUN chmod +x /usr/local/bin/docker-compose
 
 #git-town
-FROM cell/playground as git-town
+FROM ubuntu as git-town
 RUN apt-get update
 RUN apt install -qy --no-install-recommends wget ca-certificates
 RUN wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64
 RUN chmod a+x /usr/local/bin/git-town
 
 #jid
-FROM cell/playground as jid
+FROM ubuntu as jid
 RUN	apt update
 RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
 RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip
