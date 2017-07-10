@@ -1,4 +1,4 @@
-#fly
+#fly: the cli tool for concourse
 FROM ubuntu as fly
 
 RUN apt-get update
@@ -42,6 +42,14 @@ RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/do
 RUN unzip -d /tmp /tmp/jid.zip
 RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
 
+#vault
+#FROM ubuntu as vault
+#RUN	apt update
+#RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
+#RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip
+#RUN unzip -d /tmp /tmp/jid.zip
+#RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
+
 #Main
 FROM cell/playground
 ENV	DOCKER_IMAGE="cell/czsh"
@@ -51,10 +59,11 @@ COPY --from=fly      /usr/local/go/fly /usr/local/bin/
 COPY --from=dc       /usr/local/bin/* /usr/local/bin/
 COPY --from=git-town /usr/local/bin/* /usr/local/bin/
 COPY --from=jid      /usr/local/bin/* /usr/local/bin/
+#COPY --from=vault  /usr/local/bin/* /usr/local/bin/
 
-#make icdiff
+#make icdiff sshpass
 RUN apt update &&\
-	apt install -qy --no-install-recommends make icdiff &&\
+	apt install -qy --no-install-recommends make icdiff sshpass &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/*
 
 #zsh and oh-my-zsh and my theme

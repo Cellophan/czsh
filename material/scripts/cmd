@@ -17,5 +17,6 @@ echo -n "\
 		\${ssh_dir:-} \${ssh_sock:-} \
 		\${display:-} \
 		--net host \
+    --pid host \
 		$@ \
 		${DOCKER_IMAGE}"
