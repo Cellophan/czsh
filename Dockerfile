@@ -30,7 +30,7 @@ RUN chmod +x /usr/local/bin/docker-compose
 #git-town
 FROM ubuntu as git-town
 RUN apt-get update
-RUN apt install -qy --no-install-recommends wget ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends wget ca-certificates
 RUN wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64
 RUN chmod a+x /usr/local/bin/git-town
 
@@ -43,28 +43,16 @@ RUN unzip -d /tmp /tmp/jid.zip
 RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
 
 #vault
-#FROM ubuntu as vault
-#RUN	apt update
-#RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
-#RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip
-#RUN unzip -d /tmp /tmp/jid.zip
-#RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
+FROM ubuntu as vault
+RUN apt update
+RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
+RUN wget --no-verbose -O /tmp/vault.zip 'https://releases.hashicorp.com/vault/0.7.3/vault_0.7.3_linux_amd64.zip'
+RUN unzip -d /tmp /tmp/vault.zip
+RUN mv /tmp/vault /usr/local/bin/vault
 
 #Main
 FROM cell/playground
-ENV	DOCKER_IMAGE="cell/czsh"
-
-#Imports
-COPY --from=fly      /usr/local/go/fly /usr/local/bin/
-COPY --from=dc       /usr/local/bin/* /usr/local/bin/
-COPY --from=git-town /usr/local/bin/* /usr/local/bin/
-COPY --from=jid      /usr/local/bin/* /usr/local/bin/
-#COPY --from=vault  /usr/local/bin/* /usr/local/bin/
-
-#make icdiff sshpass
-RUN apt update &&\
-	apt install -qy --no-install-recommends make icdiff sshpass &&\
-	apt clean -y && rm -rf /var/lib/apt/lists/*
+ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh and my theme
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
@@ -88,6 +76,18 @@ RUN apt update &&\
 	DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
 	/usr/sbin/update-locale LANG=C.UTF-8 &&\
 	chsh -s /bin/zsh
+
+#Imports
+COPY --from=fly      /usr/local/go/fly /usr/local/bin/
+COPY --from=dc       /usr/local/bin/* /usr/local/bin/
+COPY --from=git-town /usr/local/bin/* /usr/local/bin/
+COPY --from=jid      /usr/local/bin/* /usr/local/bin/
+COPY --from=vault  /usr/local/bin/* /usr/local/bin/
+
+#make icdiff sshpass
+RUN apt update &&\
+	apt install -qy --no-install-recommends make icdiff sshpass &&\
+	apt clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload	/opt/payload/
 COPY material/scripts	/usr/local/bin/
