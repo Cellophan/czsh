@@ -1,3 +1,21 @@
+#golang env
+FROM ubuntu as golang
+
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -qy wget git ca-certificates
+RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf /tmp/go.tar.gz
+
+ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+RUN go get golang.org/x/tools/cmd/godoc
+RUN go get golang.org/x/tools/cmd/goimports
+RUN go get golang.org/x/tools/cmd/gorename
+RUN go get github.com/nsf/gocode
+RUN go get github.com/rogpeppe/godef
+RUN go get github.com/golang/lint/golint
+RUN go get github.com/kisielk/errcheck
+RUN go get github.com/jstemmer/gotags
+
 #fly: the cli tool for concourse
 FROM ubuntu as fly
 
@@ -83,6 +101,7 @@ COPY --from=dc       /usr/local/bin/* /usr/local/bin/
 COPY --from=git-town /usr/local/bin/* /usr/local/bin/
 COPY --from=jid      /usr/local/bin/* /usr/local/bin/
 COPY --from=vault  /usr/local/bin/* /usr/local/bin/
+COPY --from=golang /usr/local/go /usr/local/go
 
 #make icdiff sshpass
 RUN apt update &&\
