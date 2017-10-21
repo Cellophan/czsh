@@ -54,7 +54,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose vault)
+plugins=(git docker docker-compose vault fzf-zsh)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -90,3 +90,26 @@ export EDITOR='vim'
 DEFAULT_USER=$(echo $USER)
 VIRTUAL_ENV_DISABLE_PROMPT=true
 
+# https://statico.github.io/vim3.html
+# https://github.com/statico/dotfiles/blob/340c01d0970bc2cd6a27284ddb87774131c00e5c/.zshrc#L812-L829
+_has() {
+  return $( whence $1 >/dev/null )
+}
+
+# fzf via local installation
+if [ -e ~/.fzf ]; then
+  _append_to_path ~/.fzf/bin
+  source ~/.fzf/shell/key-bindings.zsh
+  source ~/.fzf/shell/completion.zsh
+fi
+
+# fzf + ag configuration
+if _has fzf && _has ag; then
+  export FZF_DEFAULT_COMMAND='ag -g ""'
+  export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND"
+  export FZF_DEFAULT_OPTS='
+  --color light
+  --no-mouse
+  '
+fi

@@ -57,10 +57,13 @@ ENV DOCKER_IMAGE="cell/czsh"
 #zsh and oh-my-zsh and my theme
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
 RUN apt update &&\
-	apt install -qy --no-install-recommends zsh dconf-cli wget &&\
+	apt install -qy --no-install-recommends zsh dconf-cli wget silversearcher-ag &&\
 	apt clean -y && rm -rf /var/lib/apt/lists/* &&\
 	git clone https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
 	git clone https://github.com/Cellophan/agnoster-zsh-theme.git /etc/skel/.agnoster-zsh-theme &&\
+  git clone https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
+  /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
+  git clone https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
 	ln -s /etc/skel/.agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/themes/agnoster-real.zsh-theme &&\
 	ln -s /etc/skel/.oh-my-zsh /root &&\
 	ln -s /etc/skel/.zshrc /root &&\
