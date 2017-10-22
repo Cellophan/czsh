@@ -109,9 +109,9 @@ COPY --from=git-town /usr/local/bin/*  /usr/local/bin/
 COPY --from=jid      /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang   /usr/local/go     /usr/local/go
 
-#make icdiff
+#make
 RUN apt update &&\
-  apt install -qy --no-install-recommends make icdiff &&\
+  apt install -qy --no-install-recommends make &&\
   apt clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
