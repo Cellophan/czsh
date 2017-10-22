@@ -60,14 +60,6 @@ RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/do
 RUN unzip -d /tmp /tmp/jid.zip
 RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
 
-#vault
-FROM ubuntu as vault
-RUN apt update
-RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
-RUN wget --no-verbose -O /tmp/vault.zip 'https://releases.hashicorp.com/vault/0.7.3/vault_0.7.3_linux_amd64.zip'
-RUN unzip -d /tmp /tmp/vault.zip
-RUN mv /tmp/vault /usr/local/bin/vault
-
 #Main
 FROM cell/playground
 ENV DOCKER_IMAGE="cell/czsh"
@@ -115,7 +107,6 @@ COPY --from=fly      /usr/local/go/fly /usr/local/bin/
 COPY --from=dc       /usr/local/bin/*  /usr/local/bin/
 COPY --from=git-town /usr/local/bin/*  /usr/local/bin/
 COPY --from=jid      /usr/local/bin/*  /usr/local/bin/
-COPY --from=vault    /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang   /usr/local/go     /usr/local/go
 
 #make icdiff
