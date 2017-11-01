@@ -3,13 +3,14 @@
 
 echo -n "
   [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix' ;
-	[[ -d \"\${HOME/.ssh}\"     ]] && ssh_dir=\"-v \${HOME}/.ssh:\${HOME}/.ssh:ro\"; \
+  [[ -d \"\${HOME/.ssh}\"     ]] && ssh_dir=\"-v \${HOME}/.ssh:\${HOME}/.ssh:ro\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}\" ;
-	[[ -d \"\${HOME}/.docker\"  ]] && docker_dir=\"-v \${HOME}/.docker:\${HOME}/.docker:ro\"; \
+  [[ -d \"\${HOME}/.docker\"  ]] && docker_dir=\"-v \${HOME}/.docker:\${HOME}/.docker:ro\"; \
+  [[ \"\${PWD}\" != \"\${HOME}\" ]] && wd=\${PWD}; \
   home_dir=\$(find \${HOME} -maxdepth 1 -not -path '*/\.*' -not -path '.' -not -path \${HOME} | awk '{ printf(\"-v %s:%s \", \$0, \$0); }') ;
 
   docker run -ti --rm \
-    -w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
+    -w \"\${PWD}\" -v \"\${wd}\":\"\${wd}\" \
     -v /etc/localtime:/etc/localtime:ro \
     -v \${HOME}/.ssh:\${HOME}/.ssh:ro \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
