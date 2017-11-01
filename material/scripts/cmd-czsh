@@ -1,0 +1,25 @@
+#!/bin/bash
+#Provide the default parameters used by the image.
+
+echo -n "\
+  [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
+  [[ -d \"\${HOME/.ssh}\"     ]] && ssh_dir=\"-v \${HOME}/.ssh:\${HOME}/.ssh:ro\"; \
+  [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}:ro\"; \
+  [[ -d \"\${HOME}/.docker\"  ]] && docker_dir=\"-v \${HOME}/.docker:\${HOME}/.docker:ro\"; \
+
+  docker run -ti --rm \
+    -w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
+    -v /etc/localtime:/etc/localtime:ro \
+    -v \$HOME/.ssh:\$HOME/.ssh:ro \
+    -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -e TERM \
+    -e VIRTUAL_ENV=\$(basename \${0}) \
+    -e COMPOSE_PROJECT_NAME \
+    \${display:-} \
+    \${ssh_dir:-} \${ssh_sock:-} \
+    \${docker_dir:-} \
+    --net host \
+    --pid host \
+    $@ \
+    ${DOCKER_IMAGE}"
