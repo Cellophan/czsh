@@ -15,6 +15,7 @@ RUN go get github.com/rogpeppe/godef
 RUN go get github.com/golang/lint/golint
 RUN go get github.com/kisielk/errcheck
 RUN go get github.com/jstemmer/gotags
+RUN go get github.com/Originate/git-town
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc
 RUN go get neugram.io/ng
 
@@ -46,13 +47,6 @@ RUN curl -sSL \
     https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
     >> /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
-
-#git-town
-FROM ubuntu as git-town
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends wget ca-certificates
-RUN wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64
-RUN chmod a+x /usr/local/bin/git-town
 
 #Main
 FROM cell/playground
@@ -99,7 +93,6 @@ RUN apt update &&\
 #Imports
 COPY --from=fly      /usr/local/go/fly /usr/local/bin/
 COPY --from=dc       /usr/local/bin/*  /usr/local/bin/
-COPY --from=git-town /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang   /usr/local/go     /usr/local/go
 
 #make
