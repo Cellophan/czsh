@@ -100,7 +100,6 @@ RUN apt update &&\
 COPY --from=fly      /usr/local/go/fly /usr/local/bin/
 COPY --from=dc       /usr/local/bin/*  /usr/local/bin/
 COPY --from=git-town /usr/local/bin/*  /usr/local/bin/
-COPY --from=jid      /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang   /usr/local/go     /usr/local/go
 
 #make
