@@ -54,14 +54,6 @@ RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends wget 
 RUN wget --no-verbose -O /usr/local/bin/git-town https://github.com/Originate/git-town/releases/download/v4.0.1/git-town-linux-amd64
 RUN chmod a+x /usr/local/bin/git-town
 
-#jid
-FROM ubuntu as jid
-RUN apt update
-RUN DEBIAN_FRONTEND=noninteractive apt install -qy --no-install-recommends unzip wget ca-certificates
-RUN wget --no-verbose -O /tmp/jid.zip  https://github.com/simeji/jid/releases/download/0.6.1/jid_linux_amd64.zip
-RUN unzip -d /tmp /tmp/jid.zip
-RUN mv /tmp/jid_linux_amd64 /usr/local/bin/jid
-
 #Main
 FROM cell/playground
 ENV DOCKER_IMAGE="cell/czsh"
