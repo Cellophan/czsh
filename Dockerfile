@@ -2,8 +2,8 @@
 FROM ubuntu as golang
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -qy wget git ca-certificates
-RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
+RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf /tmp/go.tar.gz
 
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
@@ -15,6 +15,8 @@ RUN go get github.com/rogpeppe/godef
 RUN go get github.com/golang/lint/golint
 RUN go get github.com/kisielk/errcheck
 RUN go get github.com/jstemmer/gotags
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc
+RUN go get neugram.io/ng
 
 #fly: the cli tool for concourse
 FROM ubuntu as fly
