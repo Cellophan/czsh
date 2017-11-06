@@ -1,5 +1,5 @@
 #golang env
-FROM ubuntu as golang
+FROM ubuntu:rolling as golang
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
@@ -37,7 +37,7 @@ RUN go get neugram.io/ng
 #RUN mv /usr/local/go/bin/app /usr/local/go/fly
 
 #docker-compose and dc
-FROM ubuntu as dc
+FROM ubuntu:rolling as dc
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends sudo curl git ca-certificates
 RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
