@@ -1,7 +1,6 @@
 REGISTRY=cell
 CONTEXT=$(abspath $(shell pwd))
 IMAGE=$(notdir ${CONTEXT})
-BLAH=${CONTEXT}
 
 .PHONY: build
 
