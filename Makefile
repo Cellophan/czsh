@@ -8,3 +8,5 @@ BLAH=${CONTEXT}
 build:
 	docker build -t ${REGISTRY}/${IMAGE} ${CONTEXT}
 
+fresh:
+	docker build -t ${REGISTRY}/${IMAGE} --pull --no-cache ${CONTEXT}
