@@ -19,33 +19,16 @@ RUN go get github.com/Originate/git-town
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc
 RUN go get neugram.io/ng
 
-##fly: the cli tool for concourse
-#FROM ubuntu as fly
-#
-#RUN apt-get update
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy wget git direnv
-#
-#RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
-#RUN tar -C /usr/local -xzf /tmp/go.tar.gz
-#
-#ENV GOPATH=/app GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-#RUN mkdir /app
-#WORKDIR /app
-#RUN git clone --recursive https://github.com/concourse/fly.git /app
-#RUN go get
-#RUN go build
-#RUN mv /usr/local/go/bin/app /usr/local/go/fly
-
 #docker-compose and dc
 FROM ubuntu:rolling as dc
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends sudo curl git ca-certificates
 RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
 RUN find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
-    /usr/local/bin/dc install
+  /usr/local/bin/dc install
 RUN curl -sSL \
-    https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
-    >> /usr/local/bin/docker-compose
+  https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
+  >> /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
 #Main
@@ -91,7 +74,6 @@ RUN apt update &&\
   chsh -s /bin/zsh
 
 #Imports
-#COPY --from=fly      /usr/local/go/fly /usr/local/bin/
 COPY --from=dc       /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang   /usr/local/go     /usr/local/go
 
