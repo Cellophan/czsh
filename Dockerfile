@@ -7,17 +7,18 @@ RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.9.2
 RUN tar -C /usr/local -xzf /tmp/go.tar.gz
 
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-RUN go get golang.org/x/tools/cmd/godoc
-RUN go get golang.org/x/tools/cmd/goimports
-RUN go get golang.org/x/tools/cmd/gorename
-RUN go get github.com/nsf/gocode
-RUN go get github.com/rogpeppe/godef
-RUN go get github.com/golang/lint/golint
-RUN go get github.com/kisielk/errcheck
-RUN go get github.com/jstemmer/gotags
-RUN go get github.com/Originate/git-town
+RUN go get -u golang.org/x/tools/cmd/godoc
+RUN go get -u golang.org/x/tools/cmd/goimports
+RUN go get -u golang.org/x/tools/cmd/gorename
+RUN go get -u github.com/nsf/gocode
+RUN go get -u github.com/rogpeppe/godef
+RUN go get -u github.com/golang/lint/golint
+RUN go get -u github.com/kisielk/errcheck
+RUN go get -u github.com/jstemmer/gotags
+RUN go get -u github.com/Originate/git-town
+RUN go get -u github.com/golang/dep/cmd/dep
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc
-RUN go get neugram.io/ng
+RUN go get -u neugram.io/ng
 
 #docker-compose and dc
 FROM ubuntu:rolling as dc
