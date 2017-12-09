@@ -2,9 +2,8 @@
 FROM ubuntu:rolling as golang-tools
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates golang-go
-#RUN wget -O /tmp/go.tar.gz --quiet https://storage.googleapis.com/golang/go1.9.2.linux-amd64.tar.gz
-#RUN tar -C /usr/local -xzf /tmp/go.tar.gz
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy golang-go
 
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 RUN go get -u golang.org/x/tools/cmd/godoc
