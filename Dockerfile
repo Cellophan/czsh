@@ -16,8 +16,6 @@ RUN go get -u github.com/kisielk/errcheck
 RUN go get -u github.com/jstemmer/gotags
 RUN go get -u github.com/Originate/git-town
 RUN go get -u github.com/golang/dep/cmd/dep
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc
-#RUN go get -u neugram.io/ng
 
 #docker-compose and dc
 FROM ubuntu:rolling as dc
