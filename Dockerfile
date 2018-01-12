@@ -78,6 +78,7 @@ RUN apt update &&\
 #Imports
 COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
+COPY --from=drone/cli    /bin/drone        /usr/local/bin/
 
 #make
 RUN apt update &&\
