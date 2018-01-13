@@ -1,4 +1,4 @@
 #!/bin/bash
 
-exec docker run --rm -ti -e DRONE_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXh0IjoiY2VsbCIsInR5cGUiOiJ1c2VyIn0.sVUlSCHufKectY1_GL5Pd3i4QAKfkoc1lWrs6YQfLEA -e DRONE_SERVER=http://127.0.0.1:8000 --net container:$(docker ps --format '{{ .Names }}'| grep drone-server) drone/cli
+exec docker run --rm -ti -e DRONE_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZXh0IjoiY2VsbCIsInR5cGUiOiJ1c2VyIn0.sVUlSCHufKectY1_GL5Pd3i4QAKfkoc1lWrs6YQfLEA -e DRONE_SERVER=http://127.0.0.1:8000 --net container:$(docker ps --format '{{ .Names }}'| grep drone-server) drone/cli $@
 
