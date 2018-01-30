@@ -25,9 +25,18 @@ RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
 RUN find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
   /usr/local/bin/dc install
 RUN curl -sSL \
-  https://github.com/docker/compose/releases/download/1.13.0/docker-compose-$(uname -s)-$(uname -m) \
+  https://github.com/docker/compose/releases/download/1.18.0/docker-compose-$(uname -s)-$(uname -m) \
   >> /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
+
+#container-diff #container-structure-test
+#from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
+FROM ubuntu:rolling as container-tools
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates
+RUN curl -L https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
+RUN curl -L https://storage.googleapis.com/container-structure-test/latest/container-structure-test >/usr/local/bin/container-structure-test
+RUN chmod +x /usr/local/bin/*
 
 #Main
 FROM cell/playground
@@ -79,6 +88,7 @@ RUN apt update &&\
 COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 #COPY --from=drone/cli    /bin/drone        /usr/local/bin/
+COPY --from=container-tools /usr/local/bin/*  /usr/local/bin/
 
 #make
 RUN apt update &&\
