@@ -47,6 +47,6 @@ What worked for me is to follow the steps in the `Dockerfile` of this project af
 
 ## Others
 
-This image rely on [cell/playground](https://github.com/Cellophan/dockerized-playground).
+This image relies on [cell/playground](https://github.com/Cellophan/dockerized-playground).
 
 A similar image centered on `vim` is [cell/cvim](https://github.com/Cellophan/cvim).
