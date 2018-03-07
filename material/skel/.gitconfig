@@ -48,3 +48,6 @@ default = simple
   # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
+[core]
+	excludesfile = /home/cell/.gitignore
+  # A global-ish ignore file
