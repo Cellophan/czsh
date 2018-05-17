@@ -38,12 +38,6 @@ RUN curl -L https://storage.googleapis.com/container-diff/latest/container-diff-
 RUN curl -L https://storage.googleapis.com/container-structure-test/latest/container-structure-test >/usr/local/bin/container-structure-test
 RUN chmod +x /usr/local/bin/*
 
-#Agnoser theme
-FROM ubuntu:rolling as agnoser
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy git
-RUN git clone https://github.com/Cellophan/agnoster-zsh-theme.git
-
 #Main
 FROM cell/playground
 ENV DOCKER_IMAGE="cell/czsh"
