@@ -44,9 +44,9 @@ ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
-RUN apt update &&\
-  apt install -qy --no-install-recommends zsh &&\
-  apt clean -y && rm -rf /var/lib/apt/lists/* &&\
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends zsh &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   git clone https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
   ln -s /etc/skel/.oh-my-zsh /root &&\
   ln -s /etc/skel/.zshrc /root
@@ -56,33 +56,33 @@ RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/ske
   ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
 
 #fzf
-RUN apt update &&\
-  apt install -qy --no-install-recommends silversearcher-ag &&\
-  apt clean -y && rm -rf /var/lib/apt/lists/* &&\
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends silversearcher-ag &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   git clone https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
   /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
   git clone https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh
 
 #powerline
-RUN apt update &&\
-  apt install -qy --no-install-recommends wget dconf-cli &&\
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends wget dconf-cli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   mkdir -p /etc/skel/.fonts /etc/skel.config/fontconfig/conf.d &&\
   wget -q -P /etc/skel/.fonts/ https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
   wget -q -P /etc/skel/.config/fontconfig/conf.d https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
-  apt remove -y wget
+  apt-get remove -y wget
 
-RUN apt update &&\
-  apt install -qy --no-install-recommends fontconfig locales &&\
-  apt clean -y && rm -rf /var/lib/apt/lists/* &&\
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends fontconfig locales &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   locale-gen en_US.UTF-8 en_US &&\
   DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
   /usr/sbin/update-locale LANG=C.UTF-8 &&\
   chsh -s /bin/zsh
 
-RUN apt update &&\
+RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates golang-go &&\
-  apt remove -y wget
+  apt-get remove -y wget
 
 #Imports
 COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
@@ -91,9 +91,9 @@ COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=container-tools /usr/local/bin/*  /usr/local/bin/
 
 #make
-RUN apt update &&\
-  apt install -qy --no-install-recommends make &&\
-  apt clean -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends make &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
