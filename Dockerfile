@@ -58,7 +58,8 @@ RUN apt update &&\
   ln -s /etc/skel/.zshrc /root
 
 #agnoster
-COPY --from=agnoser /agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes/
+RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
+  ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
 
 #fzf
 RUN apt update &&\
