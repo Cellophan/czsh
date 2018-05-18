@@ -14,7 +14,11 @@ RUN go get -u github.com/rogpeppe/godef
 RUN go get -u github.com/golang/lint/golint
 RUN go get -u github.com/kisielk/errcheck
 RUN go get -u github.com/jstemmer/gotags
+
+#RUN go get -u github.com/Originate/git-town
+RUN go get -u github.com/interesse/git-town
 RUN go get -u github.com/golang/dep/cmd/dep
+RUN go get -u mvdan.cc/sh/cmd/shfmt
 
 RUN go get -u github.com/Originate/git-town
 RUN go get -u github.com/erning/gorun
