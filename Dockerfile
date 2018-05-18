@@ -29,7 +29,7 @@ RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
 RUN find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
   /usr/local/bin/dc install
 RUN curl -sSL \
-  https://github.com/docker/compose/releases/download/1.18.0/docker-compose-$(uname -s)-$(uname -m) \
+  https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) \
   >> /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/docker-compose
 
