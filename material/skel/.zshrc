@@ -137,3 +137,10 @@ preexec () {
     fi
 }
 
+alias status='git status'
+alias pull='git pull'
+alias push='git push'
+alias add='git add'
+alias commit='git commit'
+alias checkout='git checkout'
+alias master='git checkout master'
