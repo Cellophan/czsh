@@ -58,9 +58,10 @@ RUN apt-get update &&\
 #agnoster
 RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
   ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
-
 #zsh-autosuggestions
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+#zsh-autosuggestions
+RUN  git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 
 #fzf
 RUN apt-get update &&\

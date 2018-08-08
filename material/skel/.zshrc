@@ -54,7 +54,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose vault fzf-zsh zsh-autosuggestions)
+plugins=(git docker docker-compose vault fzf-zsh zsh-autosuggestions zsh-syntax-highlighting)
 #z zsh-syntax-highlighting zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
@@ -137,6 +137,8 @@ preexec () {
         echo -e "${RDATE}"
     fi
 }
+
+alias set-virtualenv="sudo apt update && sudo apt install -qy python-pip && pip install virtualenv"
 
 alias status='git status'
 alias pull='git pull'
