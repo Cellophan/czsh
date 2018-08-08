@@ -51,7 +51,7 @@ ENV DOCKER_IMAGE="cell/czsh"
 RUN apt-get update &&\
   apt-get install -qy --no-install-recommends zsh &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-  git clone https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
+  git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
   ln -s /etc/skel/.oh-my-zsh /root &&\
   ln -s /etc/skel/.zshrc /root
 
@@ -66,9 +66,9 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/sk
 RUN apt-get update &&\
   apt-get install -qy --no-install-recommends silversearcher-ag &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-  git clone https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
+  git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
   /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
-  git clone https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh
+  git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh
 
 #powerline
 RUN apt-get update &&\
