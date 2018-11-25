@@ -88,9 +88,18 @@ RUN apt-get update &&\
   /usr/sbin/update-locale LANG=C.UTF-8 &&\
   chsh -s /bin/zsh
 
+#golan-go
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates golang-go &&\
   apt-get remove -y wget
+
+#nnn
+# https://github.com/jarun/nnn
+# TODO: make a link for czsh instead of an extra layer?
+COPY material/payload/install/czsh /usr/local/bin/
+# TODO: Use NNN_MULTISCRIPT instead of EDITOR and NNN_USE_EDITOR for starting cvim?
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn
 
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
