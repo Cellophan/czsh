@@ -96,7 +96,7 @@ RUN apt-get update &&\
 #nnn
 # https://github.com/jarun/nnn
 # TODO: make a link for czsh instead of an extra layer?
-COPY material/payload/install/czsh /usr/local/bin/
+COPY material/payload/deploy/czsh /usr/local/bin/
 # TODO: Use NNN_MULTISCRIPT instead of EDITOR and NNN_USE_EDITOR for starting cvim?
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn
