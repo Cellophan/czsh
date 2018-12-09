@@ -6,7 +6,6 @@ echo -n "\
   [[ -d \"\${HOME/.ssh}\"     ]] && ssh_dir=\"-v \${HOME}/.ssh:\${HOME}/.ssh:ro\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}:ro\"; \
   [[ -d \"\${HOME}/.docker\"  ]] && docker_dir=\"-v \${HOME}/.docker:\${HOME}/.docker:ro\"; \
-  [[ -e \"\${HOME}/.czsh_history\" ]] && czsh_history=\"-v \${HOME}/.czsh_history:\${HOME}/.zsh_history\"; \
 
   docker run -ti --rm \
     -w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
@@ -20,7 +19,6 @@ echo -n "\
     \${display:-} \
     \${ssh_dir:-} \${ssh_sock:-} \
     \${docker_dir:-} \
-    \${czsh_history} \
     --net host \
     --pid host \
     $@ \
