@@ -16,10 +16,11 @@ RUN go get -u github.com/kisielk/errcheck
 RUN go get -u github.com/jstemmer/gotags
 RUN go get -u github.com/golang/dep/cmd/dep
 
-#RUN go get -u github.com/Originate/git-town
-RUN go get -u github.com/interesse/git-town
+RUN go get -u github.com/Originate/git-town
+#RUN go get -u github.com/interesse/git-town
 RUN go get -u github.com/erning/gorun
 RUN go get -u mvdan.cc/sh/cmd/shfmt
+RUN go get -u github.com/gruntwork-io/terragrunt
 
 #docker-compose and dc
 #FROM ubuntu:rolling as dc
@@ -33,13 +34,19 @@ RUN go get -u mvdan.cc/sh/cmd/shfmt
 #  >> /usr/local/bin/docker-compose
 #RUN chmod +x /usr/local/bin/docker-compose
 
-#container-diff #container-structure-test
-#from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
-FROM ubuntu:rolling as container-tools
+#downloaded-tools
+FROM ubuntu:rolling as downloaded-tools
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip
+#container-diff
+#from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
 RUN curl -L https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
-RUN curl -L https://storage.googleapis.com/container-structure-test/latest/container-structure-test >/usr/local/bin/container-structure-test
+WORKDIR /usr/local/bin
+#terraform
+RUN curl -sSL https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip >/tmp/terraform.zip &&\
+  unzip /tmp/terraform.zip
+#kubectl
+RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN chmod +x /usr/local/bin/*
 
 #Main
@@ -91,7 +98,8 @@ RUN apt-get update &&\
 #golan-go
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates golang-go &&\
-  apt-get remove -y wget
+  apt-get remove -y wget &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #nnn
 # https://github.com/jarun/nnn
@@ -99,13 +107,20 @@ RUN apt-get update &&\
 COPY material/payload/deploy/czsh /usr/local/bin/
 # TODO: Use NNN_MULTISCRIPT instead of EDITOR and NNN_USE_EDITOR for starting cvim?
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#aws-cli
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip groff &&\
+  pip3 install --system setuptools &&\
+  pip3 install --system awscli &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
-#COPY --from=drone/cli    /bin/drone        /usr/local/bin/
-COPY --from=container-tools /usr/local/bin/*  /usr/local/bin/
+COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 
 #make
 RUN apt-get update &&\
