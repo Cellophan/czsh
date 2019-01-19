@@ -69,6 +69,8 @@ RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/ske
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 #zsh-autosuggestions
 RUN  git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+#terragrunt.plugin.zsh
+RUN  git clone --depth 1 https://github.com/Cellophan/terragrunt.plugin.zsh.git /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
 
 #fzf
 RUN apt-get update &&\
@@ -132,5 +134,3 @@ COPY material/scripts /usr/local/bin/
 COPY material/profile.d /etc/profile.d/
 COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
 COPY material/skel/*  /etc/skel/
-
-COPY material/custom/plugins/terragrunt /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
