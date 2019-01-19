@@ -133,3 +133,4 @@ COPY material/profile.d /etc/profile.d/
 COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
 COPY material/skel/*  /etc/skel/
 
+COPY material/custom/plugins/terragrunt /etc/skel/.oh-my-zsh/custom/plugins/terragrunt

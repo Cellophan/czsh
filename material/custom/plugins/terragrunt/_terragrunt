@@ -1,0 +1,19 @@
+#compdef terragrunt
+
+local -a _terragrunt_cmds
+_terragrunt_cmds=(
+    'plan-all:Display the plans of a ''stack'' by running ''terragrunt plan'' in each subfolder'
+    'apply-all:Apply a ''stack'' by running ''terragrunt apply'' in each subfolder'
+    'output-all:Display the outputs of a ''stack'' by running ''terragrunt output'' in each subfolder'
+    'destroy-all:Destroy a ''stack'' by running ''terragrunt destroy'' in each subfolder'
+    'validate-all:Validate ''stack'' by running ''terragrunt validate'' in each subfolder'
+    ':Terragrunt forwards all other commands directly to Terraform'
+)
+
+_arguments '*:: :->command'
+
+if (( CURRENT == 1 )); then
+  _describe -t commands "terragrunt command" _terragrunt_cmds
+  return
+fi
+
