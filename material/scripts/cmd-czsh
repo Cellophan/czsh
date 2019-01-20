@@ -1,25 +1,24 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
+RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
+RW="\${PWD} /var/run/docker.sock \${HOME}/.aws"
+
 echo -n "\
   [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
-  [[ -d \"\${HOME/.ssh}\"     ]] && ssh_dir=\"-v \${HOME}/.ssh:\${HOME}/.ssh:ro\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}:ro\"; \
-  [[ -d \"\${HOME}/.docker\"  ]] && docker_dir=\"-v \${HOME}/.docker:\${HOME}/.docker:ro\"; \
+  ro=\"\"; for i in ${RO}; do [[ -e \"\${i}\" ]] && ro=\"\${ro} -v \${i}:\${i}:ro\"; done; \
+  rw=\"\"; for i in ${RW}; do [[ -e \"\${i}\" ]] && rw=\"\${rw} -v \${i}:\${i}\"; done; \
 
   docker run -ti --rm \
-    -w \"\$PWD\" -v \"\$PWD\":\"\$PWD\" \
-    -v /etc/localtime:/etc/localtime:ro \
-    -v \$HOME/.ssh:\$HOME/.ssh:ro \
+    --net host --pid host \
+    -w \"\$PWD\" \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
-    -v /var/run/docker.sock:/var/run/docker.sock \
-    -e TERM \
     -e VIRTUAL_ENV=\$(basename \${0}) \
+    -e TERM \
     -e COMPOSE_PROJECT_NAME \
     \${display:-} \
-    \${ssh_dir:-} \${ssh_sock:-} \
-    \${docker_dir:-} \
-    --net host \
-    --pid host \
+    \${ssh_sock:-} \
+    \${ro} \${rw} \
     $@ \
     ${DOCKER_IMAGE}"
