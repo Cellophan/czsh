@@ -21,6 +21,7 @@ RUN go get -u github.com/Originate/git-town
 RUN go get -u github.com/erning/gorun
 RUN go get -u mvdan.cc/sh/cmd/shfmt
 RUN go get -u github.com/gruntwork-io/terragrunt
+RUN go get -u github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 
 #docker-compose and dc
 #FROM ubuntu:rolling as dc
