@@ -68,9 +68,13 @@ RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/ske
 #zsh-autosuggestions
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 #zsh-autosuggestions
-RUN  git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 #terragrunt.plugin.zsh
-RUN  git clone --depth 1 https://github.com/Cellophan/terragrunt.plugin.zsh.git /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
+RUN git clone --depth 1 https://github.com/Cellophan/terragrunt.plugin.zsh.git /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
+#kubectl
+COPY --from=downloaded-tools /usr/local/bin/kubectl  /usr/local/bin/kubectl
+RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
+  kubectl completion zsh > /etc/skel/.oh-my-zsh/custom/plugins/kubectl/kubectl.plugin.zsh
 
 #fzf
 RUN apt-get update &&\
