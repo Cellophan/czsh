@@ -54,7 +54,8 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker docker-compose fzf-zsh zsh-autosuggestions zsh-syntax-highlighting aws terraform terragrunt kubectl)
+plugins=(git docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting aws terraform terragrunt kubectl)
+#docker-compose
 #z zsh-syntax-highlighting zsh-autosuggestions
 
 source $ZSH/oh-my-zsh.sh
