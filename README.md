@@ -36,7 +36,7 @@ $ czsh command
 This is just a shortcut added in `/usr/local/bin`:
 
 ```
-docker run --rm --entrypoint install -v /usr/local/bin:/installdir cell/czsh
+docker run --rm --entrypoint deploy -v /usr/local/bin:/deploydir cell/czsh
 ```
 
 ### powerline
