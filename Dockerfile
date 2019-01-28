@@ -6,22 +6,22 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends w
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy golang-go
 
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-RUN go get -u golang.org/x/tools/cmd/godoc
-RUN go get -u golang.org/x/tools/cmd/goimports
-RUN go get -u golang.org/x/tools/cmd/gorename
-RUN go get -u github.com/nsf/gocode
-RUN go get -u github.com/rogpeppe/godef
-RUN go get -u github.com/golang/lint/golint
-RUN go get -u github.com/kisielk/errcheck
-RUN go get -u github.com/jstemmer/gotags
-RUN go get -u github.com/golang/dep/cmd/dep
+RUN go get golang.org/x/tools/cmd/godoc
+RUN go get golang.org/x/tools/cmd/goimports
+RUN go get golang.org/x/tools/cmd/gorename
+RUN go get github.com/nsf/gocode
+RUN go get github.com/rogpeppe/godef
+RUN go get github.com/golang/lint/golint
+RUN go get github.com/kisielk/errcheck
+RUN go get github.com/jstemmer/gotags
+RUN go get github.com/golang/dep/cmd/dep
 
-RUN go get -u github.com/Originate/git-town
-#RUN go get -u github.com/interesse/git-town
-RUN go get -u github.com/erning/gorun
-RUN go get -u mvdan.cc/sh/cmd/shfmt
-RUN go get -u github.com/gruntwork-io/terragrunt
-RUN go get -u github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
+RUN go get github.com/Originate/git-town
+#RUN go get github.com/interesse/git-town
+RUN go get github.com/erning/gorun
+RUN go get mvdan.cc/sh/cmd/shfmt
+RUN go get github.com/gruntwork-io/terragrunt
+RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 
 #docker-compose and dc
 #FROM ubuntu:rolling as dc
