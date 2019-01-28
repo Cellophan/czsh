@@ -16,7 +16,6 @@ echo -n "\
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
     -e VIRTUAL_ENV=\$(basename \${0}) \
     -e TERM \
-    -e COMPOSE_PROJECT_NAME \
     \${display:-} \
     \${ssh_sock:-} \
     \${ro} \${rw} \
