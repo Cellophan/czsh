@@ -124,6 +124,13 @@ RUN apt-get update &&\
   pip3 install --system awscli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#Completion for bash for colleagues
+#RUN apt-get update &&\
+#  apt-get install -qy --no-install-recommends bash-completion &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+#  kubectl completion bash >> /etc/skel/.bashrc
+#  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
+
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
