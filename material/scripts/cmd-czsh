@@ -2,7 +2,7 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
-RW="\${PWD} /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube"
+RW="\${PWD} /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.minikube"
 
 echo -n "\
   [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \

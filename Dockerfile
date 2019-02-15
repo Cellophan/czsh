@@ -48,6 +48,10 @@ RUN curl -sSL https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11
   unzip /tmp/terraform.zip
 #kubectl
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+#minikube
+#RUN curl -sSL https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 >/usr/local/bin/minikube
+#docker-compose
+RUN curl -sSL https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/*
 
 #Main
