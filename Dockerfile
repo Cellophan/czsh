@@ -51,7 +51,7 @@ RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl 
 #minikube
 #RUN curl -sSL https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 >/usr/local/bin/minikube
 #docker-compose
-RUN curl -sSL https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
 RUN chmod +x /usr/local/bin/*
 
 #Main
