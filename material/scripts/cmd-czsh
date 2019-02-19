@@ -14,7 +14,7 @@ echo -n "\
     --net host --pid host \
     -w \"\$PWD\" \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
-    -e VIRTUAL_ENV=\$(basename \${0}) \
+    -e VIRTUAL_ENV='•' \
     -e TERM \
     \${display:-} \
     \${ssh_sock:-} \
