@@ -23,18 +23,6 @@ RUN go get mvdan.cc/sh/cmd/shfmt
 RUN go get github.com/gruntwork-io/terragrunt
 RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 
-#docker-compose and dc
-#FROM ubuntu:rolling as dc
-#RUN apt-get update
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends sudo curl git ca-certificates
-#RUN git clone https://github.com/Cellophan/scripts.git /tmp/scripts
-#RUN find /tmp/scripts -maxdepth 1 -type f -executable -exec cp {} /usr/local/bin/ \; &&\
-#  /usr/local/bin/dc install
-#RUN curl -sSL \
-#  https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) \
-#  >> /usr/local/bin/docker-compose
-#RUN chmod +x /usr/local/bin/docker-compose
-
 #downloaded-tools
 FROM ubuntu:rolling as downloaded-tools
 RUN apt-get update
