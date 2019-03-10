@@ -16,6 +16,7 @@ echo -n "\
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
     -e VIRTUAL_ENV='•' \
     -e TERM \
+    -e DRONE_SERVER -e DRONE_TOKEN \
     \${display:-} \
     \${ssh_sock:-} \
     \${ro} \${rw} \
