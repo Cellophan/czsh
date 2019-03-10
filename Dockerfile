@@ -40,6 +40,7 @@ RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl 
 #RUN curl -sSL https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 >/usr/local/bin/minikube
 #docker-compose
 RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
 RUN chmod +x /usr/local/bin/*
 
 #Main
