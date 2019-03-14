@@ -140,8 +140,6 @@ preexec () {
     fi
 }
 
-alias set-virtualenv="sudo apt update && sudo apt install -qy python-pip && pip install virtualenv"
-
 alias status='git status'
 alias pull='git pull'
 alias push='git push'
