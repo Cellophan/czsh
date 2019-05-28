@@ -57,8 +57,6 @@ RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.
 RUN cd $GOPATH/src/github.com/containers/skopeo &&\
   make binary-local DISABLE_CGO=1 &&\
   mv skopeo /usr/local/bin/
-RUN cd $GOPATH/src/github.com/containers/skopeo &&\
-  echo A && ls -lh /usr/local/bin && echo B
 
 #Main
 FROM cell/playground
