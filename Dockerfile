@@ -23,7 +23,7 @@ RUN go get mvdan.cc/sh/cmd/shfmt
 RUN go get github.com/gruntwork-io/terragrunt
 RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 
-#downloaded-tools
+#download tools
 FROM ubuntu:rolling as downloaded-tools
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip
@@ -42,6 +42,23 @@ RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl 
 RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
 RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
 RUN chmod +x /usr/local/bin/*
+
+#build tools
+FROM ubuntu:rolling as built-tools
+
+# Skopeo
+# From https://github.com/containers/skopeo
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy golang-go libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
+
+ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.com/containers/skopeo
+RUN cd $GOPATH/src/github.com/containers/skopeo &&\
+  make binary-local DISABLE_CGO=1 &&\
+  mv skopeo /usr/local/bin/
+RUN cd $GOPATH/src/github.com/containers/skopeo &&\
+  echo A && ls -lh /usr/local/bin && echo B
 
 #Main
 FROM cell/playground
@@ -128,6 +145,7 @@ RUN apt-get update &&\
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
+COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 #make
 RUN apt-get update &&\
