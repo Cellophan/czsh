@@ -154,4 +154,4 @@ COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
 COPY material/profile.d /etc/profile.d/
 COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
-COPY material/skel/*  /etc/skel/
+COPY material/skel  /etc/skel
