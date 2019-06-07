@@ -49,5 +49,5 @@ default = simple
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
 [core]
-	excludesfile = /home/cell/.gitignore
+	excludesfile = ~/.gitignore
   # A global-ish ignore file
