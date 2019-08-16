@@ -5,3 +5,6 @@
 Session.vim
 .netrwhist
 *~
+
+# ccode
+.ccode
