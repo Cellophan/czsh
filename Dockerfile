@@ -20,8 +20,8 @@ RUN go get github.com/Originate/git-town
 #RUN go get github.com/interesse/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
-RUN go get github.com/gruntwork-io/terragrunt
-RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
+#RUN go get github.com/gruntwork-io/terragrunt
+#RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 
 #download tools
 FROM ubuntu:rolling as downloaded-tools
@@ -148,6 +148,11 @@ COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 #make
 RUN apt-get update &&\
   apt-get install -qy --no-install-recommends make &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#pass
+RUN apt-get update &&\
+  apt-get install -qy --no-install-recommends pass gnupg2 &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
