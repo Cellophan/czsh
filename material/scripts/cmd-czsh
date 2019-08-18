@@ -2,11 +2,12 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
-RW="\${PWD} /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.minikube"
+RW="\${PWD} /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.minikube"
 
 echo -n "\
   [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}:ro\"; \
+  [[ -e \"/dev/shm\"       ]] && shm='-v /dev/shm:/dev/shm'; \
   ro=\"\"; for i in ${RO}; do [[ -e \"\${i}\" ]] && ro=\"\${ro} -v \${i}:\${i}:ro\"; done; \
   rw=\"\"; for i in ${RW}; do [[ -e \"\${i}\" ]] && rw=\"\${rw} -v \${i}:\${i}\"; done; \
 
@@ -17,6 +18,7 @@ echo -n "\
     -e VIRTUAL_ENV='•' \
     -e TERM \
     -e DRONE_SERVER -e DRONE_TOKEN \
+    \${shm:-} \
     \${display:-} \
     \${ssh_sock:-} \
     \${ro} \${rw} \
