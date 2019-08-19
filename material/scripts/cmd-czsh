@@ -8,6 +8,7 @@ echo -n "\
   [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix'; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}:ro\"; \
   [[ -e \"/dev/shm\"       ]] && shm='-v /dev/shm:/dev/shm'; \
+  [[ -e \"/run/user/${USER}\"       ]] && usr='-v /run/user/${USER}:/run/user/${USER}'; \
   ro=\"\"; for i in ${RO}; do [[ -e \"\${i}\" ]] && ro=\"\${ro} -v \${i}:\${i}:ro\"; done; \
   rw=\"\"; for i in ${RW}; do [[ -e \"\${i}\" ]] && rw=\"\${rw} -v \${i}:\${i}\"; done; \
 
@@ -18,7 +19,7 @@ echo -n "\
     -e VIRTUAL_ENV='•' \
     -e TERM \
     -e DRONE_SERVER -e DRONE_TOKEN \
-    \${shm:-} \
+    \${shm:-} \${usr:-} \
     \${display:-} \
     \${ssh_sock:-} \
     \${ro} \${rw} \
