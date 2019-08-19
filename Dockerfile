@@ -20,9 +20,9 @@ RUN go get github.com/Originate/git-town
 #RUN go get github.com/interesse/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
-#RUN go get github.com/gruntwork-io/terragrunt
-#RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
-RUN go get github.com/containous/yaegi/cmd/yaegi
+##RUN go get github.com/gruntwork-io/terragrunt
+##RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
+#RUN go get github.com/containous/yaegi/cmd/yaegi
 
 #download tools
 FROM ubuntu:rolling as downloaded-tools
