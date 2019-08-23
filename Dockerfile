@@ -30,7 +30,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip
 #container-diff
 #from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
-RUN curl -L https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
+RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
 WORKDIR /usr/local/bin
 #terraform
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip >/tmp/terraform.zip &&\
@@ -126,6 +126,12 @@ RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#pass
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+
 #aws-cli
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip groff &&\
@@ -133,12 +139,25 @@ RUN apt-get update &&\
   pip3 install --system awscli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#awsudo
+#RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+
 #Completion for bash for colleagues
 #RUN apt-get update &&\
 #  apt-get install -qy --no-install-recommends bash-completion &&\
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
 #  kubectl completion bash >> /etc/skel/.bashrc
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
+
+#crystal
+#From https://crystal-lang.org/reference/installation/on_debian_and_ubuntu.html
+RUN apt update &&\
+  apt install -qy gnupg &&\
+  curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add - &&\
+  echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list &&\
+  apt-get update &&\
+  apt install -qy crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
