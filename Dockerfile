@@ -129,7 +129,7 @@ RUN apt-get update &&\
 
 #pass
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 
