@@ -2,19 +2,20 @@
 FROM ubuntu:rolling as golang-tools
 
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy golang-go
-
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates
+RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
+  tar -C /usr/local -xz -f /tmp/go.tgz &&\
+  chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+
 RUN go get golang.org/x/tools/cmd/godoc
 RUN go get golang.org/x/tools/cmd/goimports
 RUN go get golang.org/x/tools/cmd/gorename
 RUN go get github.com/nsf/gocode
 RUN go get github.com/rogpeppe/godef
-RUN go get github.com/golang/lint/golint
+#RUN go get github.com/golang/lint/golint
 RUN go get github.com/kisielk/errcheck
 RUN go get github.com/jstemmer/gotags
-RUN go get github.com/golang/dep/cmd/dep
 
 RUN go get github.com/Originate/git-town
 #RUN go get github.com/interesse/git-town
@@ -22,7 +23,7 @@ RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
 ##RUN go get github.com/gruntwork-io/terragrunt
 ##RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
-#RUN go get github.com/containous/yaegi/cmd/yaegi
+RUN go get github.com/containous/yaegi/cmd/yaegi
 RUN go get github.com/digitalocean/doctl/cmd/doctl
 
 #download tools
@@ -31,18 +32,17 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip
 #container-diff
 #from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
-RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
 WORKDIR /usr/local/bin
 #terraform
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip >/tmp/terraform.zip &&\
   unzip /tmp/terraform.zip
-#kubectl
+
+RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-#minikube
-#RUN curl -sSL https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 >/usr/local/bin/minikube
-#docker-compose
 RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
 RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
+
 RUN chmod +x /usr/local/bin/*
 
 #build tools
@@ -112,12 +112,6 @@ RUN apt-get update &&\
   /usr/sbin/update-locale LANG=C.UTF-8 &&\
   chsh -s /bin/zsh
 
-#golan-go
-RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates golang-go &&\
-  apt-get remove -y wget &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
 #nnn
 # https://github.com/jarun/nnn
 # TODO: make a link for czsh instead of an extra layer?
@@ -131,7 +125,6 @@ RUN apt-get update &&\
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
 
 #aws-cli
 RUN apt-get update &&\

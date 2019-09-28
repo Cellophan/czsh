@@ -2,8 +2,8 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
-RW="\${PWD} /dev/shm /run/user /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.minikube \${HOME}/.config/doctl"
-E="TERM DRONE_SERVER DRONE_TOKEN"
+RW="\${PWD} /dev/shm /run/user /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl"
+E="TERM"
 
 echo -n "\
   ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
