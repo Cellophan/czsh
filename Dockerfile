@@ -34,7 +34,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends c
 #from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
 WORKDIR /usr/local/bin
 #terraform
-RUN curl -sSL https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip >/tmp/terraform.zip &&\
+RUN curl -sSL https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip >/tmp/terraform.zip &&\
   unzip /tmp/terraform.zip
 
 RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
