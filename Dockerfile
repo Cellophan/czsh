@@ -25,6 +25,7 @@ RUN go get mvdan.cc/sh/cmd/shfmt
 ##RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 RUN go get github.com/containous/yaegi/cmd/yaegi
 RUN go get github.com/digitalocean/doctl/cmd/doctl
+RUN go get github.com/charmbracelet/glow
 
 #download tools
 FROM ubuntu:rolling as downloaded-tools
