@@ -1,0 +1,5 @@
+#!/bin/bash
+
+git config push.default simple
+git config core.excludesfile ~/.gitignore
+
