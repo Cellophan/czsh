@@ -103,7 +103,7 @@ RUN apt-get update &&\
   mkdir -p /etc/skel/.fonts /etc/skel.config/fontconfig/conf.d &&\
   wget -q -P /etc/skel/.fonts/ https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
   wget -q -P /etc/skel/.config/fontconfig/conf.d https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
-  apt-get remove -y wget
+  apt-get remove -y wget dconf-cli
 
 RUN apt-get update &&\
   apt-get install -qy --no-install-recommends fontconfig locales &&\
