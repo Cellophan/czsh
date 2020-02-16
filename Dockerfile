@@ -164,9 +164,9 @@ COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
-#make
+#tools
 RUN apt-get update &&\
-  apt-get install -qy --no-install-recommends make &&\
+  apt-get install -qy --no-install-recommends make ncdu apt-file &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #pass
