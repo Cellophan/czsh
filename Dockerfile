@@ -139,7 +139,7 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #awsudo
-#RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 
 #Completion for bash for colleagues
 #RUN apt-get update &&\
