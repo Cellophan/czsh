@@ -22,7 +22,6 @@ RUN go get github.com/Originate/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
 ##RUN go get github.com/gruntwork-io/terragrunt
-##RUN go get github.com/kubernetes-sigs/aws-iam-authenticator/cmd/aws-iam-authenticator
 RUN go get github.com/containous/yaegi/cmd/yaegi
 RUN go get github.com/digitalocean/doctl/cmd/doctl
 RUN go get github.com/charmbracelet/glow
@@ -133,7 +132,10 @@ RUN apt-get update &&\
   pip3 install --system setuptools &&\
   pip3 install --system awscli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
+#awsudo
+RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 
+#pwgen
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
