@@ -52,14 +52,24 @@ FROM ubuntu:rolling as built-tools
 # Skopeo
 # From https://github.com/containers/skopeo
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy golang-go libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
-
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
+RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
+  tar -C /usr/local -xz -f /tmp/go.tgz &&\
+  chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+
 RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.com/containers/skopeo
 RUN cd $GOPATH/src/github.com/containers/skopeo &&\
   make binary-local DISABLE_CGO=1 &&\
   mv skopeo /usr/local/bin/
+
+# gh cli
+# From https://github.com/cli/cli/blob/master/source.md
+RUN git clone https://github.com/cli/cli.git $GOPATH/githubcli
+RUN cd $GOPATH/githubcli &&\
+  make
+RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
 
 #Main
 FROM cell/playground
