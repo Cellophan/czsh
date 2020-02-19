@@ -2,7 +2,7 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
-RW="\${PWD} /dev/shm /run/user /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl"
+RW="\${PWD} /dev/shm /run/user /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh"
 E="TERM"
 
 echo -n "\
