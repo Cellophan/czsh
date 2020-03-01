@@ -144,15 +144,18 @@ RUN apt-get update &&\
   pip3 install --system awscli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 #awsudo
-RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+#RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+RUN pip3 install --system git+https://github.com/outersystems/awsudo.git
 
 #pwgen
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-#awsudo
-RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+#socat (used in material/scripts/xdg-open)
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Completion for bash for colleagues
 #RUN apt-get update &&\
