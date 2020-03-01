@@ -8,7 +8,7 @@ E="TERM"
 echo -n "\
   ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
   [[ -n \"\${DISPLAY}\"       ]] && e_list=\"\${e_list} DISPLAY\"       && rw_list=\"\${rw_list} /tmp/.X11-unix\"; \
-  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${rw_list} \${XAUTHORITY}\"; \
+  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${ro_list} \${XAUTHORITY}\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && e_list=\"\${e_list} SSH_AUTH_SOCK\" && ro_list=\"\${ro_list} \${SSH_AUTH_SOCK}\"; \
 
   ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]] && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
