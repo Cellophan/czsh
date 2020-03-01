@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -e
+
+: ${XDG_OPEN_SERVER_SOCK:=/run/user/${UID}/xdg-open-server.sock}
+
+if [ -S ${XDG_OPEN_SERVER_SOCK} ]; then
+  echo "\"$@\"" | socat - UNIX:${XDG_OPEN_SERVER_SOCK}
+else
+  echo "$XDG_OPEN_SERVER_SOCK doesn t exist." >&2
+  echo "Run on your host: socat UNIX-LISTEN:/run/user/1000/xdg-open-server.sock,fork exec:'xargs xdg-open' &" >&2
+  exit 1
+fi
