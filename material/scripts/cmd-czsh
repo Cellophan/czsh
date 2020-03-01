@@ -2,14 +2,14 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
-RW="\${PWD} /dev/shm /run/user /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh"
+RW="\${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh"
 E="TERM"
 
 echo -n "\
   ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
   [[ -n \"\${DISPLAY}\"       ]] && e_list=\"\${e_list} DISPLAY\"       && rw_list=\"\${rw_list} /tmp/.X11-unix\"; \
+  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${rw_list} \${XAUTHORITY}\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && e_list=\"\${e_list} SSH_AUTH_SOCK\" && ro_list=\"\${ro_list} \${SSH_AUTH_SOCK}\"; \
-  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && rw_list=\"\${rw_list} \${XAUTHORITY}\"; \
 
   ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]] && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
   rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]] && rw_args=\"\${rw_args} -v \${i}:\${i}\"; done; \
