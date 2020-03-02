@@ -66,7 +66,7 @@ RUN cd $GOPATH/src/github.com/containers/skopeo &&\
 
 # gh cli
 # From https://github.com/cli/cli/blob/master/source.md
-RUN git clone https://github.com/cli/cli.git $GOPATH/githubcli
+RUN git clone --depth 1 https://github.com/cli/cli.git $GOPATH/githubcli
 RUN cd $GOPATH/githubcli &&\
   make
 RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
