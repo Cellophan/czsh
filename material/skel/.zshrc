@@ -159,4 +159,4 @@ alias service='docker service'
 alias dc='docker-compose'
 alias up='docker-compose up'
 alias down='docker-compose down'
-alias aws='awsudo -u $AWS_PROFILE aws'
+
