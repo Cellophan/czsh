@@ -7,7 +7,7 @@ set -e
 if [ -S ${XDG_OPEN_SERVER_SOCK} ]; then
   echo "\"$@\"" | socat - UNIX:${XDG_OPEN_SERVER_SOCK}
 else
-  echo "$XDG_OPEN_SERVER_SOCK doesn t exist." >&2
-  echo "Run on your host: socat UNIX-LISTEN:/run/user/1000/xdg-open-server.sock,fork exec:'xargs xdg-open' &" >&2
+  echo "${XDG_OPEN_SERVER_SOCK} doesn t exist." >&2
+  echo "Run on your host: socat UNIX-LISTEN:${XDG_OPEN_SERVER_SOCK},fork exec:'xargs xdg-open' &" >&2
   exit 1
 fi
