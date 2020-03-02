@@ -42,7 +42,7 @@ RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl 
 RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
 RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
 RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
-RUN curl -sSL https://github.com/concourse/concourse/releases/download/3.14.1/fly_linux_amd64 >/usr/local/bin/fly
+RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
 
 RUN chmod +x /usr/local/bin/*
 
