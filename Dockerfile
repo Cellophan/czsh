@@ -174,6 +174,13 @@ RUN apt update &&\
   apt install -qy crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/
 
+#k6
+RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
+  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list &&\
+  sudo apt-get update &&\
+  sudo apt-get install k6 &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/
+
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
@@ -195,3 +202,4 @@ COPY material/scripts /usr/local/bin/
 COPY material/profile.d /etc/profile.d/
 COPY material/virtualenv.sudoers /etc/sudoers.d/virtualenv
 COPY material/skel  /etc/skel
+
