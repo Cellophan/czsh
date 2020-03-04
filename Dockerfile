@@ -145,6 +145,10 @@ RUN apt-get update &&\
   pip3 install --system setuptools &&\
   pip3 install --system awscli &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
+#aws cli session-manager-plugin
+RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/session-manager-plugin.deb &&\
+  dpkg -i /tmp/session-manager-plugin.deb &&\
+  rm /tmp/session-manager-plugin.deb
 #awsudo
 #RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 RUN pip3 install --system git+https://github.com/outersystems/awsudo.git
