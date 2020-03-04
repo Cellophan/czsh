@@ -26,26 +26,6 @@ RUN go get github.com/containous/yaegi/cmd/yaegi
 RUN go get github.com/digitalocean/doctl/cmd/doctl
 RUN go get github.com/charmbracelet/glow
 
-#download tools
-FROM ubuntu:rolling as downloaded-tools
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip
-#container-diff
-#from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
-WORKDIR /usr/local/bin
-#terraform
-RUN curl -sSL https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip >/tmp/terraform.zip &&\
-  unzip /tmp/terraform.zip
-
-RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
-RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
-RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
-RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
-RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
-RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
-
-RUN chmod +x /usr/local/bin/*
-
 #build tools
 FROM ubuntu:rolling as built-tools
 
@@ -70,6 +50,28 @@ RUN git clone --depth 1 https://github.com/cli/cli.git $GOPATH/githubcli
 RUN cd $GOPATH/githubcli &&\
   make
 RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
+
+#download tools
+FROM ubuntu:rolling as downloaded-tools
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
+#container-diff
+#from http://opensource.googleblog.com/2018/01/container-structure-tests-unit-tests.html
+WORKDIR /usr/local/bin
+#terraform
+RUN curl -sSL https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip >/tmp/terraform.zip &&\
+  unzip /tmp/terraform.zip
+
+RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
+RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) > /usr/local/bin/docker-compose
+RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
+RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
+RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
+RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
+  cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
+
+RUN chmod +x /usr/local/bin/*
 
 #Main
 FROM cell/playground
