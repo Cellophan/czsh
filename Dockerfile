@@ -195,7 +195,7 @@ COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 #tools
 RUN apt-get update &&\
-  apt-get install -qy --no-install-recommends make ncdu apt-file &&\
+  apt-get install -qy --no-install-recommends make ncdu apt-file pssh &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #pass
