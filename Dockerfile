@@ -175,16 +175,6 @@ RUN apt-get update &&\
 #  kubectl completion bash >> /etc/skel/.bashrc
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
 
-#crystal
-#From https://crystal-lang.org/reference/installation/on_debian_and_ubuntu.html
-RUN apt update &&\
-  apt install -qy gnupg &&\
-  curl -sL "https://keybase.io/crystal/pgp_keys.asc" | sudo apt-key add - &&\
-  echo "deb https://dist.crystal-lang.org/apt crystal main" | sudo tee /etc/apt/sources.list.d/crystal.list &&\
-  apt-get update &&\
-  apt install -qy crystal libssl-dev libxml2-dev libyaml-dev libgmp-dev libreadline-dev libz-dev &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/
-
 #k6
 RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
   echo "deb https://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list &&\
