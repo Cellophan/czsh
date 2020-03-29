@@ -137,12 +137,18 @@ RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#python3
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
+  pip3 install --system setuptools &&\
+  pip3 install --system pytest pylint &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
 #aws-cli
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip groff &&\
-  pip3 install --system setuptools &&\
-  pip3 install --system awscli &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+  pip3 install --system awscli
 #aws cli session-manager-plugin
 RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/session-manager-plugin.deb &&\
   dpkg -i /tmp/session-manager-plugin.deb &&\
