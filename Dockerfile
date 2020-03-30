@@ -140,8 +140,9 @@ RUN apt-get update &&\
 #python3
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3-wheel &&\
   pip3 install --system setuptools &&\
-  pip3 install --system pytest pylint &&\
+  pip3 install --system pytest &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #aws-cli
@@ -176,10 +177,10 @@ RUN apt-get update &&\
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
 
 #k6
-RUN sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
-  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | sudo tee -a /etc/apt/sources.list &&\
-  sudo apt-get update &&\
-  sudo apt-get install k6 &&\
+RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
+  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list &&\
+  apt-get update &&\
+  apt-get install k6 &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #Imports
