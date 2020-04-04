@@ -155,9 +155,8 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
   dpkg -i /tmp/session-manager-plugin.deb &&\
   rm /tmp/session-manager-plugin.deb
 #awsudo
-#RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
-#RUN pip3 install --system git+https://github.com/outersystems/awsudo.git
-RUN pip3 install --system git+https://github.com/outersystems/awsudo.git@exploration
+RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
+RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git
 
 #pwgen
 RUN apt-get update &&\
