@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo -e "echo $(cat ~/.ssh/*.pub) | sudo tee -a /home/ec2-user/.ssh/authorized_keys\n" | awsudo2 aws --region eu-central-1 ssm start-session --target $@
+
