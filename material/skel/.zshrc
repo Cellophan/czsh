@@ -160,5 +160,4 @@ alias dc='docker-compose'
 alias up='docker-compose up'
 alias down='docker-compose down'
 alias aws='awsudo2 aws'
-alias ssm-copy-id='echo -e "echo $(cat ~/.ssh/*.pub) | sudo tee -a /home/ec2-user/.ssh/authorized_keys\n" | aws --region eu-central-1 ssm start-session --target '
 
