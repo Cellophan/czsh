@@ -141,6 +141,8 @@ preexec () {
     fi
 }
 
+setopt no_beep
+
 alias status='git status'
 alias pull='git pull'
 alias push='git push'
