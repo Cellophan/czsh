@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Inspired from https://github.com/brandon-rhodes/homedir/blob/master/bin/s
+
+read -r -d '' rc <<-EOF
+alias czsh='eval \$(docker run --rm --entrypoint cmd cell/czsh)'
+alias me='eval \$(docker run --rm --entrypoint cmd-me cell/czsh)'
+alias cvim='eval \$(docker run --rm --entrypoint cmd cell/cvim)'
+alias playground='eval \$(docker run --rm --entrypoint cmd cell/cell/playground)'
+EOF
+
+exec ssh -t "$1" -- 'exec /bin/bash --rcfile /dev/fd/3 3<<<'$(printf %q "$rc")
+
