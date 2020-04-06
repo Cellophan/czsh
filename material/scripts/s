@@ -4,10 +4,11 @@
 
 read -r -d '' rc <<-EOF
 
+alias docker='sudo docker '
 alias czsh='eval \$(docker run --rm --entrypoint cmd cell/czsh)'
 alias me='eval \$(docker run --rm --entrypoint cmd-me cell/czsh)'
 alias cvim='eval \$(docker run --rm --entrypoint cmd cell/cvim)'
-alias playground='eval \$(docker run --rm --entrypoint cmd cell/cell/playground)'
+alias playground='eval \$(docker run --rm --entrypoint cmd cell/playground)'
 
 rc="\$(cat /dev/fd/3)"
 function s {
