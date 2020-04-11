@@ -182,6 +182,7 @@ alias z=' zz'
 
 setopt no_beep
 
+alias qr='qrencode -t UTF8'
 alias status='git status'
 alias pull='git pull'
 alias push='git push'
