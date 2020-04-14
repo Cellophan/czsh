@@ -154,7 +154,7 @@ RUN apt-get update &&\
 RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/session-manager-plugin.deb &&\
   dpkg -i /tmp/session-manager-plugin.deb &&\
   rm /tmp/session-manager-plugin.deb
-#awsudo
+#awsudo 1&2
 RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git
 
@@ -190,7 +190,7 @@ COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 #tools
 RUN apt-get update &&\
-  apt-get install -qy --no-install-recommends make ncdu apt-file pssh &&\
+  apt-get install -qy --no-install-recommends make ncdu apt-file &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #pass
