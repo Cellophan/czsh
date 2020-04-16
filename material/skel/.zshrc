@@ -141,6 +141,14 @@ preexec () {
     fi
 }
 
+# clot - fill screen with garbage, as visual separator
+# taken from http://leahneukirchen.org/dotfiles/.zshrc
+clot() {
+  head -c $((LINES*COLUMNS)) </dev/urandom |
+    LC_ALL=C tr '\0-\377' ${(l:256::.*o@:)} |
+    fold -w $COLUMNS
+}
+
 # zz - smart directory changer
 # http://leahneukirchen.org/dotfiles/.zshrc
 # http://leahneukirchen.org/blog/archive/2017/01/zz-a-smart-and-efficient-directory-changer.html
