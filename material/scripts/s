@@ -4,6 +4,8 @@
 
 read -r -d '' rc <<-EOF
 
+[[ -e ~/.profile ]] && source ~/.profile
+
 alias docker='sudo docker '
 alias czsh='eval \$(docker run --rm --entrypoint cmd cell/czsh)'
 alias me='eval \$(docker run --rm --entrypoint cmd-me cell/czsh)'
