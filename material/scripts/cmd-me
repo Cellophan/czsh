@@ -3,24 +3,26 @@
 
 RO="\${HOME}/.docker \${HOME}/.ssh /etc/localtime"
 RW="\${PWD} /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube"
+E="USER TERM SSH_CONNECTION"
 
 echo -n "
-  [[ -n \"\${DISPLAY}\"       ]] && display='-e DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix' ;
-  [[ -n \"\${SSH_AUTH_SOCK}\" ]] && ssh_sock=\"-e SSH_AUTH_SOCK -v \${SSH_AUTH_SOCK}:\${SSH_AUTH_SOCK}\" ;
+  ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
+  [[ -n \"\${DISPLAY}\"       ]] && e_list=\"\${e_list} DISPLAY\"       && rw_list=\"\${rw_list} /tmp/.X11-unix\"; \
+  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${ro_list} \${XAUTHORITY}\"; \
+  [[ -n \"\${SSH_AUTH_SOCK}\" ]] && e_list=\"\${e_list} SSH_AUTH_SOCK\" && ro_list=\"\${ro_list} \${SSH_AUTH_SOCK}\"; \
   [[ \"\${PWD}\" != \"\${HOME}\" ]] && wd=\${PWD}; \
+
   home_dir=\$(find \${HOME} -maxdepth 1 -not -path '*/\.*' -not -path '.' -not -path \${HOME} | awk '{ printf(\"-v %s:%s \", \$0, \$0); }') ; \
-  ro=\"\"; for i in ${RO}; do [[ -e \"\${i}\" ]] && ro=\"\${ro} -v \${i}:\${i}:ro\"; done; \
-  rw=\"\"; for i in ${RW}; do [[ -e \"\${i}\" ]] && rw=\"\${rw} -v \${i}:\${i}\"; done; \
+  ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]]  && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
+  rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]]  && rw_args=\"\${rw_args} -v \${i}:\${i}\"; done; \
+  e_args=\"\";  for i in \${e_list};  do [[ -n \"\${!i}\" ]] && e_args=\"\${e_args} -e \${i}=\${!i// /_}\"; done; \
 
   docker run -ti --rm \
     --net host --pid host \
     -w \"\${PWD}\" -v \"\${wd}\":\"\${wd}\" \
-    -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
-    -e TERM \
+    -e UID=\$(id --user) -e GID=\$(id --group) \
     -e VIRTUAL_ENV=\$(basename \${0}) \
-    \${display:-} \
-    \${ssh_sock:-} \
-    \${home_dir:-} \
-    \${ro} \${rw} \
+    \${ro_args} \${rw_args} \${e_args} \
+    \${home_dir} \
     $@ \
     ${DOCKER_IMAGE}"
