@@ -1,9 +1,13 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
+# The variables (SSH_CONNECTION, I'm looking at you) with a value containng spaces, have them replaced by _ . This is breaking their usage but at least it s not breaking the start of the conatiner. I you know how to keep the spaces but make the docker command valid, please reach me!
+
+# Perhaps add XDG variables? \${!XDG_*}
+
 RO="\${HOME}/.ssh /etc/localtime"
 RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc"
-E="TERM SSH_CONNECTION"
+E="USER TERM SSH_CONNECTION"
 
 echo -n "\
   ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
@@ -11,15 +15,16 @@ echo -n "\
   [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${ro_list} \${XAUTHORITY}\"; \
   [[ -n \"\${SSH_AUTH_SOCK}\" ]] && e_list=\"\${e_list} SSH_AUTH_SOCK\" && ro_list=\"\${ro_list} \${SSH_AUTH_SOCK}\"; \
 
-  ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]] && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
-  rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]] && rw_args=\"\${rw_args} -v \${i}:\${i}\"; done; \
-  e_args=\"\";  for i in \${e_list};  do e_args=\"\${e_args} -e \${i}\"; done; \
+  ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]]  && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
+  rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]]  && rw_args=\"\${rw_args} -v \${i}:\${i}\"; done; \
+  e_args=\"\";  for i in \${e_list};  do [[ -n \"\${!i}\" ]] && e_args=\"\${e_args} -e \${i}=\${!i// /_}\"; done; \
 
   docker run -ti --rm \
     --net host --pid host \
     -w \"\$PWD\" \
-    -e USER=\${USER} -e UID=\$(id --user) -e GID=\$(id --group) \
+    -e UID=\$(id --user) -e GID=\$(id --group) \
     -e VIRTUAL_ENV='•' \
     \${ro_args} \${rw_args} \${e_args} \
     $@ \
     ${DOCKER_IMAGE}"
+
