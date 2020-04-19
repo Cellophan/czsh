@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -vx
+
+sudo apt-get update
+sudo apt-get install -qy --no-install-recommends \
+    libc++1 libappindicator1 gconf2 gconf-service gvfs-bin libasound2 libcap2 \
+    libgconf-2-4 libgnome-keyring-dev libgtk2.0-0 libnotify4 libnss3 \
+    libxkbfile1 libxss1 libxtst6 libx11-xcb1 xdg-utils libatomic1 libgtk-3-0 \
+    libgtkextra libgconf2 libxcomposite1
+sudo apt-get install -qy --no-install-recommends \
+    curl ca-certificates
+curl -sSL "https://discordapp.com/api/download?platform=linux&format=deb" \
+    >/tmp/discord.deb
+sudo dpkg -i /tmp/discord.deb
+rm /tmp/discord.deb
+
+set +vx
+
+echo exec $SHELL
+echo discord --no-sandbox

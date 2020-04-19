@@ -1,7 +1,7 @@
 #!/bin/bash
 #Provide the default parameters used by the image.
 
-# The variables (SSH_CONNECTION, I'm looking at you) with a value containng spaces, have them replaced by _ . This is breaking their usage but at least it s not breaking the start of the conatiner. I you know how to keep the spaces but make the docker command valid, please reach me!
+# The variables (SSH_CONNECTION, I'm looking at you) with a value containing spaces have them replaced by _ . This is breaking their usage but at least it s not breaking the start of the container. If you know how to keep the spaces but make the docker command valid, please reach me!
 
 # Perhaps add XDG variables? \${!XDG_*}
 

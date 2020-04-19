@@ -1,0 +1,27 @@
+#!/bin/bash
+#Provide the default parameters used by the image.
+
+RO="/etc/localtime /etc/machine-id /etc/modprobe.d/alsa-base.conf"
+RW="\${PWD} /run/user/\$(id --user) /var/run"
+Z="/dev/shm"
+E="TERM DBUS_SESSION_BUS_ADDRESS XDG_RUNTIME_DIR QT4_IM_MODULE QT_IM_MODULE"
+
+echo -n "\
+  ro_list=\"${RO}\"; rw_list=\"${RW}\"; z_list=\"${Z}\"; e_list=\"${E}\"; \
+  [[ -n \"\${DISPLAY}\"       ]] && e_list=\"\${e_list} DISPLAY\"       && rw_list=\"\${rw_list} /tmp/.X11-unix\"; \
+  [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${ro_list} \${XAUTHORITY}\"; \
+
+  ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]] && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
+  rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]] && rw_args=\"\${rw_args} -v \${i}:\${i}\";    done; \
+  z_args=\"\";  for i in \${z_list};  do [[ -e \"\${i}\" ]] &&  z_args=\"\${z_args}  -v \${i}:\${i}:z\";  done; \
+  e_args=\"\";  for i in \${e_list};  do e_args=\"\${e_args} -e \${i}\"; done; \
+
+  docker run -ti --rm \
+    --net host --pid host \
+    --device /dev/snd \
+    -e VIRTUAL_ENV='csnd' \
+    -w \"\$PWD\" \
+    -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
+    \${ro_args} \${rw_args} \${z_args} \${e_args} \
+    $@ \
+    ${DOCKER_IMAGE}"
