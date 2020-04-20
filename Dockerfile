@@ -134,7 +134,7 @@ RUN apt-get update &&\
 
 #pass
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #python3
@@ -191,11 +191,6 @@ COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 #tools
 RUN apt-get update &&\
   apt-get install -qy --no-install-recommends make ncdu apt-file &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-#pass
-RUN apt-get update &&\
-  apt-get install -qy --no-install-recommends pass gnupg2 &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
