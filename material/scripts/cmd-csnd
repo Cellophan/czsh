@@ -18,7 +18,7 @@ echo -n "\
 
   docker run -ti --rm \
     --net host --pid host \
-    --device /dev/snd \
+    --device /dev/snd --device /dev/video0 \
     -e VIRTUAL_ENV='csnd' \
     -w \"\$PWD\" \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
