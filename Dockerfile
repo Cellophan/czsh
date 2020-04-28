@@ -28,6 +28,8 @@ RUN go get github.com/charmbracelet/glow
 
 #build tools
 FROM ubuntu:rolling as built-tools
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl make gcc
 
 # Skopeo
 # From https://github.com/containers/skopeo
@@ -93,6 +95,10 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/sk
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
 #terragrunt.plugin.zsh
 RUN git clone --depth 1 https://github.com/Cellophan/terragrunt.plugin.zsh.git /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
+#awsudo
+#RUN git clone --depth 1 https://github.com/turhn/awsudo.git /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
+#  ln -s /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/autocomplete.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/awsudo2.plugin.zsh
+#RUN git clone --depth 1 --branch add-zsh-completion https://github.com/turhn/awsudo.git /etc/skel/.oh-my-zsh/custom/plugins/awsudo2
 #kubectl
 COPY --from=downloaded-tools /usr/local/bin/kubectl  /usr/local/bin/kubectl
 RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
@@ -166,6 +172,11 @@ RUN apt-get update &&\
 #socat (used in material/scripts/xdg-open)
 RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#icdiff (used in material/scripts/git-icdiff)
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Completion for bash for colleagues
