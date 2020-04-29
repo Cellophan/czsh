@@ -241,4 +241,5 @@ alias up='docker-compose up'
 alias down='docker-compose down'
 alias logs='docker-compose logs'
 alias aws='awsudo2 aws'
+alias terraform='awsudo2 terraform'
 
