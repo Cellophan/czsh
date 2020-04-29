@@ -5,6 +5,7 @@
 read -r -d '' rc <<-EOF
 
 [[ -e ~/.profile ]] && source ~/.profile
+[[ -e ~/.bash_profile ]] && source ~/.bash_profile
 
 alias docker='sudo docker '
 alias czsh='eval \$(docker run --rm --entrypoint cmd cell/czsh)'
