@@ -96,9 +96,10 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
 #terragrunt.plugin.zsh
 RUN git clone --depth 1 https://github.com/Cellophan/terragrunt.plugin.zsh.git /etc/skel/.oh-my-zsh/custom/plugins/terragrunt
 #awsudo
-#RUN git clone --depth 1 https://github.com/turhn/awsudo.git /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
-#  ln -s /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/autocomplete.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/awsudo2.plugin.zsh
-#RUN git clone --depth 1 --branch add-zsh-completion https://github.com/turhn/awsudo.git /etc/skel/.oh-my-zsh/custom/plugins/awsudo2
+RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
+  mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
+  cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
+  rm -rf /tmp/awsudo2
 #kubectl
 COPY --from=downloaded-tools /usr/local/bin/kubectl  /usr/local/bin/kubectl
 RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
