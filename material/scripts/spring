@@ -1,0 +1,16 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+sudo apt update
+sudo apt install -qy openssh-server netcat
+
+sudo kdir /run/sshd
+
+echo "No run on the laptop:"
+echo 'ssh -CD 4446 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand="docker exec -i <container-id> nc 127.0.0.1 22" 127.0.0.1"'
+
+echo "This command will now hand to keep the sshd running"
+
+sudo /usr/sbin/sshd -D
+
