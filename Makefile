@@ -24,7 +24,6 @@ fresh:
 > docker build -t ${REGISTRY}/${IMAGE} --pull --no-cache ${CONTEXT}
 .PHONY: fresh
 
-use: SHELL := /usr/local/bin/czsh
 use:
-> echo blah
+> ./material/payload/deploy/czsh
 .PHONY: use
