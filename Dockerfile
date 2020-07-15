@@ -27,32 +27,32 @@ RUN go get github.com/digitalocean/doctl/cmd/doctl
 RUN go get github.com/charmbracelet/glow
 RUN go get github.com/wagoodman/dive
 
-#build tools
-FROM ubuntu:rolling as built-tools
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl make gcc
-
-# Skopeo
-# From https://github.com/containers/skopeo
-RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
-RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
-  tar -C /usr/local -xz -f /tmp/go.tgz &&\
-  chown -R root:root /usr/local/go
-ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-
-RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.com/containers/skopeo
-RUN cd $GOPATH/src/github.com/containers/skopeo &&\
-  make binary-local DISABLE_CGO=1 &&\
-  mv skopeo /usr/local/bin/
-
-# gh cli
-# From https://github.com/cli/cli/blob/master/source.md
-RUN git clone --depth 1 https://github.com/cli/cli.git $GOPATH/githubcli
-RUN cd $GOPATH/githubcli &&\
-  make
-RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
+##build tools
+#FROM ubuntu:rolling as built-tools
+#RUN apt-get update
+#RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl make gcc
+#
+### Skopeo
+### From https://github.com/containers/skopeo
+##RUN apt-get update
+##RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl
+##RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
+##RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
+##  tar -C /usr/local -xz -f /tmp/go.tgz &&\
+##  chown -R root:root /usr/local/go
+##ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
+##
+##RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.com/containers/skopeo
+##RUN cd $GOPATH/src/github.com/containers/skopeo &&\
+##  make binary-local DISABLE_CGO=1 &&\
+##  mv skopeo /usr/local/bin/
+#
+### gh cli
+### From https://github.com/cli/cli/blob/master/source.md
+##RUN git clone --depth 1 https://github.com/cli/cli.git $GOPATH/githubcli
+##RUN cd $GOPATH/githubcli &&\
+##  make
+##RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
 
 #download tools
 FROM ubuntu:rolling as downloaded-tools
@@ -159,12 +159,17 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   pip3 install --system awscli
 #aws cli session-manager-plugin
-RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/session-manager-plugin.deb &&\
-  dpkg -i /tmp/session-manager-plugin.deb &&\
-  rm /tmp/session-manager-plugin.deb
+RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb
 #awsudo 1&2
 RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git
+
+#github.com/cli/cli
+RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb
 
 #pwgen
 RUN apt-get update &&\
@@ -195,11 +200,16 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D4
   apt-get install k6 &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/
 
+#dive
+RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb
+
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
-COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
+#COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 #tools
 RUN apt-get update &&\

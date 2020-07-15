@@ -9,3 +9,6 @@
 
 * https://github.com/brandon-rhodes/homedir
 
+## vim
+
+    :w !sudo tee %
