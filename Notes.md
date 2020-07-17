@@ -12,3 +12,10 @@
 ## vim
 
     :w !sudo tee %
+
+## completion
+
+* http://zsh.sourceforge.net/Doc/Release/Completion-System.html#Completion-System
+* https://mads-hartmann.com/2017/08/06/writing-zsh-completion-scripts.html
+* http://zv.github.io/a-review-of-zsh-completion-utilities
+
