@@ -152,10 +152,18 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #aws-cli
+#RUN apt-get update &&\
+#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+#  pip3 install --system awscli
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-  pip3 install --system awscli
+  cd /tmp &&\
+  curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" >/tmp/awscliv2.zip &&\
+  unzip /tmp/awscliv2.zip &&\
+  /tmp/aws/install &&\
+  rm -rf /tmp/aws
 #aws cli session-manager-plugin
 RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
