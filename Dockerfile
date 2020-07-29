@@ -60,12 +60,10 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
 WORKDIR /usr/local/bin
 
-RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64                   >/usr/local/bin/container-diff
+RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
 RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
-RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest                                >/usr/local/bin/ecs-cli
-RUN curl -sSL https://github.com/aws/amazon-ecs-cli-v2/releases/download/v0.0.6/ecs-preview-linux-v0.0.6        >/usr/local/bin/ecs-preview
-RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64                  >/usr/local/bin/fly
-RUN curl -sSL https://github.com/drone/drone-cli/releases/download/v1.0.7/drone_linux_amd64.tar.gz | tar zx
+RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
+RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
   cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
@@ -166,10 +164,10 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
 RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
 RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git
 
-#github.com/cli/cli
-RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
-  dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb
+##github.com/cli/cli
+#RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
+#  dpkg -i /tmp/tmp.deb &&\
+#  rm /tmp/tmp.deb
 
 #pwgen
 RUN apt-get update &&\
@@ -201,9 +199,9 @@ RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D4
   apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #dive
-RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
-  dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb
+#RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
+#  dpkg -i /tmp/tmp.deb &&\
+#  rm /tmp/tmp.deb
 
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
