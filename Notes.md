@@ -1,3 +1,7 @@
+# Notes
+
+Random things for inspiration.
+
 ## git
 
 ### Ban content
