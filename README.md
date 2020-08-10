@@ -1,13 +1,13 @@
 # czsh
-[zsh](https://en.wikipedia.org/wiki/Z_shell) with [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) and [agnoster theme](https://github.com/agnoster/agnoster-zsh-them) in a container.
+Some have a repo with dot-files, here is a repo with my shell and tools packaged in a docker image. What started as [zsh](https://en.wikipedia.org/wiki/Z_shell) with [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh) and [agnoster theme](https://github.com/agnoster/agnoster-zsh-them) in a container became a repo of the settings I like and some helpers.
 
 This is thought as a toolbox and contains:
 
 * `docker` (the client)
-* `docker-compose`
-* Shortcuts for docker compose: `up`, `down`, `logs`, `pull`, `scale`, `start`, `stop`, `ps`
 * `refresh` for pulling the image itself.
-* `drone` client.
+* [docker-compose](https://docs.docker.com/compose/), [awsudo2](https://github.com/outersystems/awsudo2), [terraform](https://www.terraform.io/), [aws](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* zsh aliases
+* ...
 
 
 ## Use
