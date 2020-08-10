@@ -7,7 +7,7 @@ sudo apt install -qy openssh-server netcat
 
 sudo mkdir /run/sshd
 
-echo "No run on the laptop:"
+echo "Now run on the laptop:"
 echo 'ssh -CD 1080 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ProxyCommand="docker exec -i <container-id> nc 127.0.0.1 22" 127.0.0.1'
 
 echo "This command will now hand to keep the sshd running"
