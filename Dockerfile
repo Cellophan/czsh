@@ -22,7 +22,6 @@ RUN go get github.com/Originate/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
 ##RUN go get github.com/gruntwork-io/terragrunt
-RUN go get github.com/containous/yaegi/cmd/yaegi
 RUN go get github.com/digitalocean/doctl/cmd/doctl
 RUN go get github.com/charmbracelet/glow
 RUN go get github.com/wagoodman/dive
