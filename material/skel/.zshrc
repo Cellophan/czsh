@@ -244,3 +244,6 @@ alias aws='awsudo2 aws'
 alias terraform='awsudo2 terraform'
 alias make='awsudo2 make'
 
+# inspired by https://www.atlassian.com/git/tutorials/dotfiles
+alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+
