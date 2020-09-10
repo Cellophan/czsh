@@ -5,8 +5,8 @@
 
 # Perhaps add XDG variables? \${!XDG_*}
 
-RO="\${HOME}/.ssh /etc/localtime"
-RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc"
+RO="\${HOME}/.ssh /etc/localtime \${HOME}/.gnupg"
+RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc"
 E="USER TERM SSH_CONNECTION"
 
 echo -n "\
