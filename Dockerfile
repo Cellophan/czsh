@@ -151,6 +151,11 @@ RUN apt-get update &&\
   pip3 install --system pytest &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+#xonsh
+RUN apt-get update &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends xonsh &&\
+  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
 #aws-cli
 #RUN apt-get update &&\
 #  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
