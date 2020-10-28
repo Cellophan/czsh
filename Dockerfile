@@ -61,7 +61,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends c
 WORKDIR /usr/local/bin
 
 RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
-RUN curl -sSL https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
+RUN curl -sSL https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
 RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
 RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
