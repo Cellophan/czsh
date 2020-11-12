@@ -67,7 +67,7 @@ RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/f
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
   cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
-RUN curl -sSL https://releases.hashicorp.com/terraform/0.12.18/terraform_0.12.18_linux_amd64.zip >/tmp/terraform.zip &&\
+RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip >/tmp/terraform.zip &&\
   unzip /tmp/terraform.zip
 
 RUN chmod +x /usr/local/bin/*
