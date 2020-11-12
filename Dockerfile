@@ -175,7 +175,7 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
   rm /tmp/tmp.deb
 #awsudo 1&2
 RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
-RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git
+RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 ##github.com/cli/cli
 #RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
