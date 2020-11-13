@@ -69,6 +69,8 @@ RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-rep
   cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip >/tmp/terraform.zip &&\
   unzip /tmp/terraform.zip
+RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
+  | tar --directory=/usr/local/bin -xvz exercism
 
 RUN chmod +x /usr/local/bin/*
 
