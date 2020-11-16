@@ -23,7 +23,7 @@ RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
 ##RUN go get github.com/gruntwork-io/terragrunt
 RUN go get github.com/digitalocean/doctl/cmd/doctl
-#RUN go get github.com/charmbracelet/glow
+# RUN go get github.com/charmbracelet/glow
 RUN go get github.com/wagoodman/dive
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 
@@ -181,6 +181,11 @@ RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git@intera
 #RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
 #  dpkg -i /tmp/tmp.deb &&\
 #  rm /tmp/tmp.deb
+
+#glow
+RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb
 
 #pwgen
 RUN apt-get update &&\
