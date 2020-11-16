@@ -8,20 +8,19 @@ RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz 
   chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 
-RUN go get golang.org/x/tools/cmd/godoc
-RUN go get golang.org/x/tools/cmd/goimports
-RUN go get golang.org/x/tools/cmd/gorename
-RUN go get github.com/nsf/gocode
-RUN go get github.com/rogpeppe/godef
-#RUN go get github.com/golang/lint/golint
-RUN go get github.com/kisielk/errcheck
-RUN go get github.com/jstemmer/gotags
+# RUN go get golang.org/x/tools/cmd/godoc
+# RUN go get golang.org/x/tools/cmd/goimports
+# RUN go get golang.org/x/tools/cmd/gorename
+# RUN go get github.com/nsf/gocode
+# RUN go get github.com/rogpeppe/godef
+# # RUN go get github.com/golang/lint/golint
+# RUN go get github.com/kisielk/errcheck
+# RUN go get github.com/jstemmer/gotags
 
 RUN go get github.com/Originate/git-town
-#RUN go get github.com/interesse/git-town
+# RUN go get github.com/interesse/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
-##RUN go get github.com/gruntwork-io/terragrunt
 RUN go get github.com/digitalocean/doctl/cmd/doctl
 # RUN go get github.com/charmbracelet/glow
 RUN go get github.com/wagoodman/dive
