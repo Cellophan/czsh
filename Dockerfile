@@ -228,7 +228,7 @@ COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 
 #tools
 RUN apt-get update &&\
-  apt-get install -qy --no-install-recommends make ncdu entr pt-file &&\
+  apt-get install -qy --no-install-recommends make ncdu entr apt-file &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
