@@ -19,7 +19,7 @@ echo -n "\
     --net container:vpn --pid host \
     -w \"\$PWD\" \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
-    -e VIRTUAL_ENV='vpn' \
+    -e CONTAINER_PROMPT='vpn' \
     \${ro_args} \${rw_args} \${e_args} \
     $@ \
     ${DOCKER_IMAGE}"

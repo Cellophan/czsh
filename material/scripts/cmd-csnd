@@ -18,7 +18,7 @@ echo -n "\
 
   docker run -ti --rm \
     --device /dev/snd --device /dev/video0 \
-    -e VIRTUAL_ENV='csnd' \
+    -e CONTAINER_PROMPT='csnd' \
     -w \"\$PWD\" \
     -e USER -e UID=\$(id --user) -e GID=\$(id --group) \
     \${ro_args} \${rw_args} \${z_args} \${e_args} \

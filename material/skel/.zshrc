@@ -249,3 +249,14 @@ alias apply='awsudo2 terraform apply the.tfplan'
 # inspired by https://www.atlassian.com/git/tutorials/dotfiles
 alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
+#Customize Agnoster
+prompt_dir() {
+  prompt_segment blue $PRIMARY_FG ' %(4~|%-1~/…/%2~|%3~) '
+}
+
+prompt_container() {
+  prompt_segment 'green' 'white' "${CONTAINER_PROMPT:- }"
+}
+
+export AGNOSTER_PROMPT_SEGMENTS=("prompt_container" "${AGNOSTER_PROMPT_SEGMENTS[@]}")
+

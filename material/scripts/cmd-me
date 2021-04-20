@@ -21,7 +21,7 @@ echo -n "
     --net host --pid host \
     -w \"\${PWD}\" \
     -e UID=\$(id --user) -e GID=\$(id --group) \
-    -e VIRTUAL_ENV=\$(basename \${0}) \
+    -e CONTAINER_PROMPT=\$(basename \${0}) \
     \${ro_args} \${rw_args} \${e_args} \
     \${home_dir} \
     $@ \

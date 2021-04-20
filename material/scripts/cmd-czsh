@@ -23,7 +23,6 @@ echo -n "\
     --net host --pid host \
     -w \"\$PWD\" \
     -e UID=\$(id --user) -e GID=\$(id --group) \
-    -e VIRTUAL_ENV='•' \
     \${ro_args} \${rw_args} \${e_args} \
     $@ \
     ${DOCKER_IMAGE}"
