@@ -144,12 +144,74 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #python3
+# RUN apt-get update &&\
+#   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
+#   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3-wheel &&\
+#   pip3 install --system setuptools &&\
+#   pip3 install --system pytest &&\
+#   apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#python
+#FROM ubuntu:rolling as python-stuff
+#RUN apt-get update &&\
+#  apt-get install -qy --no-install-recommends curl ca-certificates xz-utils &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+#RUN mkdir -p /usr/src/python &&\
+#  curl -sSL https://www.python.org/ftp/python/3.9.4/Python-3.9.4.tar.xz \
+#  | tar -xJ -C /usr/src/python --strip-components=1
+
+# Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+#ENV PYTHON_VERSION="3.9.2" \
+#  PYENV_ROOT="/opt/python" \
+#  PYENV_ROOT="/opt/python" \
+#  POETRY_HOME="/opt/poetry"
+#ENV PATH="/opt/python/versions/${PYTHON_VERSION}/bin:/opt/python/bin:$PATH"
+#RUN apt-get update &&\
+#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
+#    ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/*
+## export PYENV_ROOT="/opt/python"
+#RUN curl https://pyenv.run \
+#    | bash &&\
+#  pyenv init - >/etc/profile.d/pyenv-init.sh &&\
+#  pyenv virtualenv-init - >/etc/profile.d/pyenv-virtualenv-init.sh
+#RUN pyenv install ${PYTHON_VERSION}
+#RUN curl -sSL https://bootstrap.pypa.io/get-pip.py \
+#  | python -
+#RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
+#  | python -
+
+ENV PYTHON_VERSION="3.9.4"
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3-wheel &&\
-  pip3 install --system setuptools &&\
-  pip3 install --system pytest &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
+    ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN \
+  cd /tmp &&\
+  wget -q -O python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz &&\
+  tar -xJf python.tar.xz &&\
+  cd Python* &&\
+  ./configure --enable-optimizations &&\
+  make &&\
+  make install &&\
+  make clean &&\
+  cd / &&\
+  rm -rf /tmp/*
+RUN ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
+  ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
+  ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
+
+## export PYENV_ROOT="/opt/python"
+#RUN curl https://pyenv.run \
+#    | bash &&\
+#  pyenv init - >/etc/profile.d/pyenv-init.sh &&\
+#  pyenv virtualenv-init - >/etc/profile.d/pyenv-virtualenv-init.sh
+#RUN pyenv install ${PYTHON_VERSION}
+#RUN curl -sSL https://bootstrap.pypa.io/get-pip.py \
+#  | python -
+#RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
+#  | python -
+
 
 #xonsh
 RUN apt-get update &&\
@@ -174,8 +236,9 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb
 #awsudo 1&2
-RUN pip3 install --system git+https://github.com/makethunder/awsudo.git
-RUN pip3 install --system git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
+RUN pip install --help
+RUN pip install git+https://github.com/makethunder/awsudo.git
+RUN pip install git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 ##github.com/cli/cli
 #RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
@@ -210,11 +273,11 @@ RUN apt-get update &&\
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
 
 #k6
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
-  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list &&\
-  apt-get update &&\
-  apt-get install k6 &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/
+#RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
+#  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list &&\
+#  apt-get update &&\
+#  apt-get install k6 &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #dive
 #RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
