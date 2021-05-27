@@ -255,8 +255,8 @@ prompt_dir() {
 }
 
 prompt_container() {
-  prompt_segment 'green' 'white' "${CONTAINER_PROMPT:- }"
+  prompt_segment 'green' "$PRIMARY_FG" "${CONTAINER_PROMPT:- }"
 }
 
-export AGNOSTER_PROMPT_SEGMENTS=("prompt_container" "${AGNOSTER_PROMPT_SEGMENTS[@]}")
+export AGNOSTER_PROMPT_SEGMENTS=("prompt_status" "prompt_container" "${AGNOSTER_PROMPT_SEGMENTS[@]/prompt_status}")
 
