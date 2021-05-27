@@ -1,5 +1,5 @@
 #golang env
-FROM ubuntu:rolling as golang-tools
+FROM ubuntu:latest as golang-tools
 
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates
@@ -54,7 +54,7 @@ RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 ##RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
 
 #download tools
-FROM ubuntu:rolling as downloaded-tools
+FROM ubuntu:latest as downloaded-tools
 RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
 WORKDIR /usr/local/bin
@@ -182,11 +182,12 @@ RUN apt-get update &&\
 #  | python -
 
 ENV PYTHON_VERSION="3.9.4"
-RUN apt-get update &&\
+RUN echo Install build dependencies &&\
+  apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
     ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/*
-RUN \
+  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+  echo Get/Compile python &&\
   cd /tmp &&\
   wget -q -O python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz &&\
   tar -xJf python.tar.xz &&\
@@ -196,8 +197,9 @@ RUN \
   make install &&\
   make clean &&\
   cd / &&\
-  rm -rf /tmp/*
-RUN ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
+  rm -rf /tmp/* &&\
+  apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
+  ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
   ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
   ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
 
@@ -280,9 +282,9 @@ RUN apt-get update &&\
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #dive
-#RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
-#  dpkg -i /tmp/tmp.deb &&\
-#  rm /tmp/tmp.deb
+RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb
 
 #Imports
 #COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
