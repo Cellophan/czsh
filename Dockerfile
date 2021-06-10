@@ -22,9 +22,8 @@ RUN go get github.com/Originate/git-town
 RUN go get github.com/erning/gorun
 RUN go get mvdan.cc/sh/cmd/shfmt
 RUN go get github.com/digitalocean/doctl/cmd/doctl
-# RUN go get github.com/charmbracelet/glow
-# RUN go get github.com/wagoodman/dive
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
+#RUN GO111MODULE=on go get github.com/bazelbuild/bazelisk
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
@@ -73,6 +72,32 @@ RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism
 
 RUN chmod +x /usr/local/bin/*
 
+#Blah
+#FROM ubuntu:latest
+#
+#ENV PYTHON_VERSION="3.9.4"
+#RUN echo Install build dependencies &&\
+#  apt-get update &&\
+#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
+#    ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
+#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
+#  echo Get/Compile python &&\
+#  cd /tmp &&\
+#  wget -q -O python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz &&\
+#  tar -xJf python.tar.xz &&\
+#  cd Python* &&\
+#  ./configure --enable-optimizations &&\
+#  make &&\
+#  make install &&\
+#  make clean &&\
+#  cd / &&\
+#  rm -rf /tmp/* &&\
+#  apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
+#  apt autoremove -qy &&\
+#  ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
+#  ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
+#  ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
+
 #Main
 FROM cell/playground
 ENV DOCKER_IMAGE="cell/czsh"
@@ -84,16 +109,20 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
   ln -s /etc/skel/.oh-my-zsh /root &&\
-  ln -s /etc/skel/.zshrc /root
+  ln -s /etc/skel/.zshrc /root &&\
+  find . -name .git -type d -exec echo rm -rf {} \;
 
 #agnoster
 #RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
 RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
-  ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
+  ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
+  find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
 #zsh-autosuggestions
-RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions
+RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
+  find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
 #zsh-autosuggestions
-RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
+  find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
 #awsudo
 RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
   mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
@@ -110,7 +139,8 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
   /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
-  git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh
+  git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
+  find /etc/skel/.oh-my-zsh/custom/plugins -name .git -type d -exec echo rm -rf {} \;
 
 #powerline
 RUN apt-get update &&\
@@ -199,6 +229,7 @@ RUN echo Install build dependencies &&\
   cd / &&\
   rm -rf /tmp/* &&\
   apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
+  apt autoremove -qy &&\
   ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
   ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
   ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
@@ -214,6 +245,8 @@ RUN echo Install build dependencies &&\
 #RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
 #  | python -
 
+# bpytop
+RUN pip install --quiet --no-cache-dir bpytop
 
 #xonsh
 RUN apt-get update &&\
@@ -238,9 +271,8 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb
 #awsudo 1&2
-RUN pip install --help
-RUN pip install git+https://github.com/makethunder/awsudo.git
-RUN pip install git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
+RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
+RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 ##github.com/cli/cli
 #RUN curl -sSL https://github.com/cli/cli/releases/download/v0.10.1/gh_0.10.1_linux_amd64.deb >/tmp/tmp.deb &&\
