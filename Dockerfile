@@ -58,9 +58,9 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
 WORKDIR /usr/local/bin
 
-RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
-RUN curl -sSL https://github.com/docker/compose/releases/download/1.27.4/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
-RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
+#RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
+RUN curl -sSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
+#RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
 #RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
 RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
@@ -72,8 +72,8 @@ RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism
 
 RUN chmod +x /usr/local/bin/*
 
-#Blah
-#FROM ubuntu:latest
+#Python
+#FROM ubuntu:latest as python
 #
 #ENV PYTHON_VERSION="3.9.4"
 #RUN echo Install build dependencies &&\
@@ -90,7 +90,6 @@ RUN chmod +x /usr/local/bin/*
 #  make &&\
 #  make install &&\
 #  make clean &&\
-#  cd / &&\
 #  rm -rf /tmp/* &&\
 #  apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
 #  apt autoremove -qy &&\
@@ -233,6 +232,7 @@ RUN echo Install build dependencies &&\
   ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
   ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
   ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
+#COPY --from=python /usr/local /usr/local
 
 ## export PYENV_ROOT="/opt/python"
 #RUN curl https://pyenv.run \
