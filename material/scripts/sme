@@ -5,7 +5,7 @@
 read -r -d '' rc <<-EOF
 
 if docker images | grep 'cell/czsh.*latest' &>/dev/null; then
-  eval \$(docker run --rm --entrypoint cmd-me cell/czsh)
+  eval \$(docker run --rm --entrypoint cmd-me cell/czsh -e CONTAINER_PROMPT=  )
   exit \$?
 else
   echo 'cell/czsh not present'
