@@ -215,7 +215,7 @@ RUN apt-get update &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
   cd /tmp &&\
   curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" >/tmp/awscliv2.zip &&\
-  unzip /tmp/awscliv2.zip &&\
+  unzip -q /tmp/awscliv2.zip &&\
   /tmp/aws/install &&\
   rm -rf /tmp/aws*
 #aws cli session-manager-plugin
