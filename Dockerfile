@@ -172,109 +172,25 @@ RUN apt-get update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-#python3
-# RUN apt-get update &&\
-#   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
-#   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3-wheel &&\
-#   pip3 install --system setuptools &&\
-#   pip3 install --system pytest &&\
-#   apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-#python
-#FROM ubuntu:rolling as python-stuff
-#RUN apt-get update &&\
-#  apt-get install -qy --no-install-recommends curl ca-certificates xz-utils &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/*
-#RUN mkdir -p /usr/src/python &&\
-#  curl -sSL https://www.python.org/ftp/python/3.9.4/Python-3.9.4.tar.xz \
-#  | tar -xJ -C /usr/src/python --strip-components=1
-
+# pyenv, python. poetry
 # Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-#ENV PYTHON_VERSION="3.9.2" \
-#  PYENV_ROOT="/opt/python" \
-#  PYENV_ROOT="/opt/python" \
-#  POETRY_HOME="/opt/poetry"
-#ENV PATH="/opt/python/versions/${PYTHON_VERSION}/bin:/opt/python/bin:$PATH"
-#RUN apt-get update &&\
-#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-#    ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/*
-## export PYENV_ROOT="/opt/python"
-#RUN curl https://pyenv.run \
-#    | bash &&\
-#  pyenv init - >/etc/profile.d/pyenv-init.sh &&\
-#  pyenv virtualenv-init - >/etc/profile.d/pyenv-virtualenv-init.sh
-#RUN pyenv install ${PYTHON_VERSION}
-#RUN curl -sSL https://bootstrap.pypa.io/get-pip.py \
-#  | python -
-#RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
-#  | python -
-
-ENV PYTHON_VERSION="3.9.4"
-# RUN echo Install build dependencies &&\
-#   apt-get update &&\
-#   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-#     ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-#   apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-#   echo Get/Compile python &&\
-#   cd /tmp &&\
-#   wget -q -O python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz &&\
-#   tar -xJf python.tar.xz &&\
-#   cd Python* &&\
-#   ./configure --enable-optimizations &&\
-#   make &&\
-#   make install &&\
-#   make clean &&\
-#   cd / &&\
-#   rm -rf /tmp/* &&\
-#   apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
-#   apt autoremove -qy &&\
-#   ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
-#   ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
-#   ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
-# #COPY --from=python /usr/local /usr/local
-
-#ENV PYENV_ROOT="/etc/skel/.pyenv"
-# ENV PATH="${PYENV_ROOT}/bin:${PATH}"
 RUN apt update &&\
   DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
     ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
-# RUN echo Install Python &&\
-#   curl https://pyenv.run \
-#     | bash &&\
-#   pyenv init - >/etc/profile.d/pyenv-init.sh &&\
-#   pyenv virtualenv-init - >/etc/profile.d/pyenv-virtualenv-init.sh &&\
-#   pyenv install ${PYTHON_VERSION}
-# pyenv
-RUN export HOME="/etc/skel" &&\
+
+RUN export PYTHON_VERSION="3.9.6" &&\
+  export HOME="/etc/skel" &&\
   export PYENV_ROOT="${HOME}/.pyenv" &&\
   export PATH="${PYENV_ROOT}/bin:${PATH}" &&\
-  eval "$(pyenv init --path)" &&\
   curl https://pyenv.run | bash &&\
-  ls -al ${PYENV_ROOT} &&\
-  cd ${PYENV_ROOT} && pwd && cd - &&\
   eval "$(pyenv init -)" &&\
   eval "$(pyenv virtualenv-init -)" &&\
   eval "$(pyenv init --path)" &&\
   pyenv install ${PYTHON_VERSION} &&\
   pyenv global ${PYTHON_VERSION} &&\
   python --version &&\
-  curl -sSL https://bootstrap.pypa.io/get-pip.py | ${PYENV_ROOT}/versions/*/bin/python - &&\
-  ${PYENV_ROOT}/versions/*/bin/pip install poetry
-#RUN \
-#  pyenv init - &&\
-#  . /etc/profile.d/pyenv-init.sh &&\
-#  . /etc/profile.d/pyenv-virtualenv-init.sh &&\
-#  curl -sSL https://bootstrap.pypa.io/get-pip.py \
-#    | python - &&\
-#  curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py \
-#   | python -
-# RUN export HOME="/etc/skel" PYENV_ROOT="~/.pyenv" &&\
-#   curl -sSL https://bootstrap.pypa.io/get-pip.py \
-#     | ${PYENV_ROOT}/versions/*/bin/python -
-# RUN export HOME="/etc/skel" PYENV_ROOT="~/.pyenv" &&\
-#   ${PYENV_ROOT}/versions/*/bin/pip install poetry
+  pip install --no-cache-dir poetry
 
 #python distrib and xonsh
 RUN apt-get update &&\
