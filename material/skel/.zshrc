@@ -112,11 +112,13 @@ if _has fzf && _has ag; then
 fi
 
 # Python
-export PYENV_ROOT="${HOME}/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-eval "$(pyenv init --path)"
+if [ -x "${PYENV_ROOT}/bin/pyenv" ]; then
+  export PYENV_ROOT="${HOME}/.pyenv"
+  export PATH="${PYENV_ROOT}/bin:${PATH}"
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+  eval "$(pyenv init --path)"
+fi
 
 # https://stackoverflow.com/questions/13125825/zsh-update-prompt-with-current-time-when-a-command-is-started
 strlen () {
