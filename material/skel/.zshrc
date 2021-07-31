@@ -59,7 +59,7 @@ plugins=(git docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass pye
 #docker-compose
 #z zsh-syntax-highlighting zsh-autosuggestions
 
-source $ZSH/oh-my-zsh.sh
+source ${ZSH}/oh-my-zsh.sh
 
 # User configuration
 
@@ -91,7 +91,7 @@ export EDITOR='cvim'
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-DEFAULT_USER=$(echo $USER)
+DEFAULT_USER=${USER}
 VIRTUAL_ENV_DISABLE_PROMPT=true
 
 # https://statico.github.io/vim3.html
@@ -256,7 +256,7 @@ alias plan='awsudo2 terraform plan -out the.tfplan'
 alias apply='awsudo2 terraform apply the.tfplan'
 
 # inspired by https://www.atlassian.com/git/tutorials/dotfiles
-alias dotfiles='git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
+alias dotfiles='git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 
 #Customize Agnoster
 prompt_dir() {
