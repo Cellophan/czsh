@@ -15,7 +15,11 @@ curl -sSL "https://discordapp.com/api/download?platform=linux&format=deb" \
 sudo dpkg -i /tmp/discord.deb
 rm /tmp/discord.deb
 
+sudo DEBIAN_FRONTEND=noninteractive  apt --fix-broken install -qy
+
 set +vx
 
+echo
 echo exec $SHELL
 echo discord --no-sandbox
+
