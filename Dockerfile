@@ -8,22 +8,9 @@ RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz 
   chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 
-# RUN go get golang.org/x/tools/cmd/godoc
-# RUN go get golang.org/x/tools/cmd/goimports
-# RUN go get golang.org/x/tools/cmd/gorename
-# RUN go get github.com/nsf/gocode
-# RUN go get github.com/rogpeppe/godef
-# # RUN go get github.com/golang/lint/golint
-# RUN go get github.com/kisielk/errcheck
-# RUN go get github.com/jstemmer/gotags
-
 RUN go get github.com/Originate/git-town
-# RUN go get github.com/interesse/git-town
-RUN go get github.com/erning/gorun
-RUN go get mvdan.cc/sh/cmd/shfmt
-RUN go get github.com/digitalocean/doctl/cmd/doctl
+# RUN go get mvdan.cc/sh/cmd/shfmt
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
-#RUN GO111MODULE=on go get github.com/bazelbuild/bazelisk
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
@@ -59,10 +46,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends c
 WORKDIR /usr/local/bin
 
 #RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
-RUN curl -sSL https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) >/usr/local/bin/docker-compose
+RUN curl -sSL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" >/usr/local/bin/docker-compose
 #RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
 #RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
-RUN curl -sSLO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+RUN curl -sSLO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
   cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip >/tmp/terraform.zip &&\
@@ -71,31 +58,6 @@ RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism
   | tar --directory=/usr/local/bin -xvz exercism
 
 RUN chmod +x /usr/local/bin/*
-
-#Python
-#FROM ubuntu:latest as python
-#
-#ENV PYTHON_VERSION="3.9.4"
-#RUN echo Install build dependencies &&\
-#  apt-get update &&\
-#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-#    ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-#  echo Get/Compile python &&\
-#  cd /tmp &&\
-#  wget -q -O python.tar.xz https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz &&\
-#  tar -xJf python.tar.xz &&\
-#  cd Python* &&\
-#  ./configure --enable-optimizations &&\
-#  make &&\
-#  make install &&\
-#  make clean &&\
-#  rm -rf /tmp/* &&\
-#  apt remove -qy build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev &&\
-#  apt autoremove -qy &&\
-#  ln -s /usr/local/bin/python3 /usr/local/bin/python &&\
-#  ln -s /usr/local/bin/pip3 /usr/local/bin/pip &&\
-#  ln -s /usr/local/bin/pydoc3 /usr/local/bin/pydoc
 
 #Main
 FROM cell/playground
@@ -257,13 +219,6 @@ RUN apt-get update &&\
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
 #  kubectl completion bash >> /etc/skel/.bashrc
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
-
-#k6
-#RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 379CE192D401AB61 &&\
-#  echo "deb https://dl.bintray.com/loadimpact/deb stable main" | tee -a /etc/apt/sources.list &&\
-#  apt-get update &&\
-#  apt-get install k6 &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/
 
 #dive
 RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
