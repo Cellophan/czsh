@@ -74,7 +74,6 @@ RUN apt-get update &&\
   find . -name .git -type d -exec echo rm -rf {} \;
 
 #agnoster
-#RUN git clone --depth 1 https://github.com/Cellophan/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
 RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
   ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
   find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
@@ -226,7 +225,6 @@ RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.
   rm /tmp/tmp.deb
 
 #Imports
-#COPY --from=dc           /usr/local/bin/*  /usr/local/bin/
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 #COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
