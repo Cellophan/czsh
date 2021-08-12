@@ -153,18 +153,13 @@ RUN export PYTHON_VERSION="3.9.6" &&\
   python --version &&\
   pip install --no-cache-dir poetry
 
-#python distrib and xonsh
+#python distrib
 RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip xonsh &&\
+  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
   apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # bpytop
 RUN pip install --quiet --no-cache-dir bpytop
-
-#xonsh
-RUN apt-get update &&\
-  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends xonsh &&\
-  apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #aws-cli
 #RUN apt-get update &&\
