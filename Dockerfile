@@ -149,7 +149,8 @@ RUN export PYTHON_VERSION="3.9.6" &&\
   eval "$(pyenv virtualenv-init -)" &&\
   eval "$(pyenv init --path)" &&\
   pyenv install ${PYTHON_VERSION} &&\
-  pyenv global ${PYTHON_VERSION} &&\
+  ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}" &&\
+  pyenv global ${PYTHON_VERSION%.*} &&\
   python --version &&\
   pip install --no-cache-dir poetry
 
