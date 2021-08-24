@@ -16,6 +16,11 @@ CONTEXT=$(abspath $(shell pwd))
 IMAGE=$(notdir ${CONTEXT})
 
 
+# Check if everything is commited in git
+git-detect:
+> git update-index --refresh
+> git diff-index --quiet HEAD --
+
 build: $(shell find material -type f) Dockerfile
 > docker build -t ${REGISTRY}/${IMAGE} ${CONTEXT}
 .PHONY: build
@@ -27,3 +32,16 @@ fresh:
 use:
 > ./material/payload/deploy/czsh
 .PHONY: use
+
+push:
+> docker push ${REGISTRY}/${IMAGE}
+.PHONY: push
+
+publish: build git-detect push
+> ssh plic " \
+    cd Repos/outer.systems/plic/head.tf/ \
+    && git pull \
+    && docker stack deploy -c docker-compose.yml --with-registry-auth plic"
+.PHONY: publish
+
+
