@@ -1,8 +1,10 @@
 #golang env
-FROM ubuntu:latest as golang-tools
+FROM ubuntu:rolling as golang-tools
 
 RUN apt-get update
+# hadolint ignore=DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates
+# hadolint ignore=DL3059
 RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
     tar -C /usr/local -xz -f /tmp/go.tgz &&\
     chown -R root:root /usr/local/go
@@ -40,31 +42,36 @@ RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 ##RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
 
 #download tools
-FROM ubuntu:latest as downloaded-tools
+FROM ubuntu:rolling as downloaded-tools
 RUN apt-get update
+# hadolint ignore=DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
 WORKDIR /usr/local/bin
 
-#RUN curl -sSL https://storage.googleapis.com/container-diff/latest/container-diff-linux-amd64 >/usr/local/bin/container-diff
 RUN curl -sSL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" >/usr/local/bin/docker-compose
-#RUN curl -sSL https://amazon-ecs-cli.s3.amazonaws.com/ecs-cli-linux-amd64-latest >/usr/local/bin/ecs-cli
-#RUN curl -sSL https://github.com/concourse/concourse/releases/download/v3.14.1/fly_linux_amd64 >/usr/local/bin/fly
+# hadolint ignore=DL3059
 RUN curl -sSLO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+# hadolint ignore=DL3059
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
     cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
+# hadolint ignore=DL3059
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip >/tmp/terraform.zip &&\
     unzip /tmp/terraform.zip
+# hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
     | tar --directory=/usr/local/bin -xvz exercism
 
+# hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
 
 #Main
-FROM cell/playground
+# hadolint ignore=DL3007
+FROM cell/playground:latest
 ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     apt-get install -qy --no-install-recommends zsh &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
@@ -94,6 +101,7 @@ RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
     kubectl completion zsh > /etc/skel/.oh-my-zsh/custom/plugins/kubectl/kubectl.plugin.zsh
 
 #fzf
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     apt-get install -qy --no-install-recommends silversearcher-ag &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
@@ -103,14 +111,16 @@ RUN apt-get update &&\
     find /etc/skel/.oh-my-zsh/custom/plugins -name .git -type d -exec echo rm -rf {} \;
 
 #powerline
+# hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends wget dconf-cli &&\
+    apt-get install -qy --no-install-recommends curl ca-certificates dconf-cli &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     mkdir -p /etc/skel/.fonts /etc/skel/.config/fontconfig/conf.d &&\
-    wget -q -P /etc/skel/.fonts/ https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
-    wget -q -P /etc/skel/.config/fontconfig/conf.d https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
-    apt-get remove -y wget dconf-cli
+    curl -sSL --output /etc/skel/.fonts/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
+    curl -sSL --output /etc/skel/.config/fontconfig/conf.d/10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
+    apt-get remove -y dconf-cli
 
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     apt-get install -qy --no-install-recommends fontconfig locales &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
@@ -124,22 +134,26 @@ RUN apt-get update &&\
 # TODO: make a link for czsh instead of an extra layer?
 COPY material/payload/deploy/czsh /usr/local/bin/
 # TODO: Use NNN_MULTISCRIPT instead of EDITOR and NNN_USE_EDITOR for starting cvim?
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #pass
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # pyenv, python. poetry
 # Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-RUN apt update &&\
+# hadolint ignore=DL3008
+RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
         ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
+# hadolint ignore=DL4006,DL3013
 RUN export PYTHON_VERSION="3.9.6" &&\
     export HOME="/etc/skel" &&\
     export PYENV_ROOT="${HOME}/.pyenv" &&\
@@ -155,11 +169,13 @@ RUN export PYTHON_VERSION="3.9.6" &&\
     pip install --no-cache-dir poetry
 
 #python distrib
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 # bpytop
+# hadolint ignore=DL3013
 RUN pip install --quiet --no-cache-dir bpytop
 
 #aws-cli
@@ -167,6 +183,7 @@ RUN pip install --quiet --no-cache-dir bpytop
 #  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
 #  pip3 install --system awscli
+# hadolint ignore=DL3003,DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
@@ -180,7 +197,9 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 #awsudo 1&2
+# hadolint ignore=DL3013
 RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
+# hadolint ignore=DL3013
 RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 ##github.com/cli/cli
@@ -194,16 +213,19 @@ RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glo
     rm /tmp/tmp.deb
 
 #pwgen
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #socat (used in material/scripts/xdg-open)
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #icdiff (used in material/scripts/git-icdiff)
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
@@ -226,6 +248,7 @@ COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 #COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 #tools
+# hadolint ignore=DL3008
 RUN apt-get update &&\
     apt-get install -qy --no-install-recommends make ncdu entr apt-file &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
