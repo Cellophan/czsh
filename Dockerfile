@@ -205,7 +205,8 @@ RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@i
 #github.com/cli/cli
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.0.0/gh_2.0.0_linux_amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb
+  rm /tmp/tmp.deb &&\
+  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
