@@ -1,5 +1,5 @@
 #golang env
-FROM ubuntu:rolling as golang-tools
+FROM ubuntu:latest as golang-tools
 
 RUN apt-get update
 # hadolint ignore=DL3008
@@ -42,7 +42,7 @@ RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 ##RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
 
 #download tools
-FROM ubuntu:rolling as downloaded-tools
+FROM ubuntu:latest as downloaded-tools
 RUN apt-get update
 # hadolint ignore=DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
