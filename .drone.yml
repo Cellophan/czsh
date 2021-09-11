@@ -12,9 +12,3 @@ steps:
               from_secret: docker_username
           password:
               from_secret: docker_password
-
-volumes:
-    - name: docker
-      host:
-          path: /var/run/docker.sock
-
