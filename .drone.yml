@@ -8,6 +8,7 @@ steps:
       image: plugins/docker
       settings:
           repo: cell/czsh
+          tag: "${DRONE_BRANCH/master/latest}"
           username:
               from_secret: docker_username
           password:
