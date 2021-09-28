@@ -12,5 +12,8 @@ if [ ! -d ${HOME}/.local/lib ]; then
     chown ${USER}. ${HOME}/.local/lib
 fi
 
+#debugger
+export PYTHONBREAKPOINT="pudb.set_trace"
+
 # poetry
 export POETRY_VIRTUALENVS_IN_PROJECT=true
