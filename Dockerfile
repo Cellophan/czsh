@@ -13,6 +13,10 @@ ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 RUN go get github.com/Originate/git-town
 # RUN go get mvdan.cc/sh/cmd/shfmt
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
+# hadolint ignore=DL3059
+RUN apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc &&\
+    go get github.com/streamhut/streamhut
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
