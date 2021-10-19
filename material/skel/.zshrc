@@ -54,7 +54,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass pyenv aws terraform kubectl doctl docker-compose awsudo2)
+plugins=(docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass pyenv aws terraform kubectl awsudo2)
 
 #docker-compose
 #z zsh-syntax-highlighting zsh-autosuggestions
@@ -268,4 +268,13 @@ prompt_container() {
 }
 
 export AGNOSTER_PROMPT_SEGMENTS=("prompt_status" "prompt_container" "${AGNOSTER_PROMPT_SEGMENTS[@]/prompt_status}")
+
+SEGMENT_SEPARATOR="◤"
+PLUSMINUS="±"
+# BRANCH="\ue0a0"
+BRANCH=""
+DETACHED="➦"
+CROSS="✘"
+LIGHTNING="⚡"
+GEAR="⚙"
 
