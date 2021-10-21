@@ -17,6 +17,8 @@ RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc &&\
     go get github.com/streamhut/streamhut
+# hadolint ignore=DL3059
+RUN GO111MODULE=on go get github.com/mithrandie/csvq
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
