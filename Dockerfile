@@ -172,7 +172,8 @@ RUN export PYTHON_VERSION="3.9.6" &&\
     ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}" &&\
     pyenv global ${PYTHON_VERSION%.*} &&\
     python --version &&\
-    pip install --no-cache-dir poetry
+    pip install wheel &&\
+    pip install --no-cache-dir poetry pudb
 
 #python distrib
 # hadolint ignore=DL3008
