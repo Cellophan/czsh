@@ -185,6 +185,10 @@ RUN apt-get update &&\
 # hadolint ignore=DL3013
 RUN pip install --quiet --no-cache-dir bpytop
 
+# git-filter-repo
+# hadolint ignore=DL3013
+RUN pip install --quiet --no-cache-dir git-filter-repo
+
 #aws-cli
 #RUN apt-get update &&\
 #  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
