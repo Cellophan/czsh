@@ -1,5 +1,6 @@
-: "${GOPATH:="$WORKDIR"}"
-: "${GOBIN:="${GOPATH}/bin"}"
-PATH=${PATH}:/usr/local/go/bin:${GOBIN}
-export GOPATH GOBIN PATH
+: "${GOBIN:="$WORKDIR"}"
+: "${GOROOT:="/usr/local/go"}"
+# : "${GOPRIVATE:=""}"
+PATH=$PATH:${GOROOT}/bin:${GOBIN}
+export GOBIN GOROOT PATH GOPRIVATE
 

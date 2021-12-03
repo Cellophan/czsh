@@ -278,3 +278,14 @@ CROSS="✘"
 LIGHTNING="⚡"
 GEAR="⚙"
 
+# Golang
+function go-install() {
+    GOVERSION=${1:-1.16.10}
+    set -x
+    go get golang.org/dl/go${GOVERSION}
+    go${GOVERSION} download
+    export "GOROOT=$(go${GOVERSION} env GOROOT)"
+    export "PATH=${GOROOT}/bin:${PATH}"
+    set -x
+}
+
