@@ -14,7 +14,7 @@
   # We wanna grab those pesky un-added files!
   # https://git-scm.com/docs/git-stash
 
-  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --branches
   # No need for a GUI - a nice, colorful, graphical representation
   # https://git-scm.com/docs/git-log
   # via https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
