@@ -1,0 +1,22 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+branches=()
+eval "$(git for-each-ref --merged=HEAD --shell --format='branches+=(%(refname))' refs/heads/)"
+for branch in "${branches[@]}"; do
+    if [[ "${branch#refs/heads/}" == "master" ]] || [[ "${branch#refs/heads/}" == "main" ]]; then
+        # work-around of no negative match for regex
+        echo "Ignoring ${branch#refs/heads/}"
+    else
+        set -vx
+        git branch -d ${branch#refs/heads/}
+        set +vx
+    fi
+done
+
+set -vx
+git reflog expire --expire-unreachable=all --all
+git gc --prune=all
+set +vx
+
