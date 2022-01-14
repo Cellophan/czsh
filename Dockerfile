@@ -14,9 +14,7 @@ RUN go get github.com/Originate/git-town
 # RUN go get mvdan.cc/sh/cmd/shfmt
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 # hadolint ignore=DL3059
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy gcc &&\
-    go get github.com/streamhut/streamhut
+RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/mithrandie/csvq
 
