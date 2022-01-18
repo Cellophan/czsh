@@ -278,14 +278,41 @@ CROSS="✘"
 LIGHTNING="⚡"
 GEAR="⚙"
 
+
+# from shell to git repo in browser
+alias wgh='xdg-open https://$(git config remote.origin.url | sed -e "s#^[^@]*@##" -e "s#\.git##" -e "s#:#/#")'
+
+function ppr() {
+  (
+    set -evx
+    git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+    # Assuming the repo website is github style
+    xdg-open "https://$(git config --get remote.origin.url | sed -e 's#^[^@]*@##' -e 's#:#/#' -e 's#\.git##')/compare/$(git rev-parse --abbrev-ref HEAD)?expand=1"
+    echo
+  )
+}
+
+
 # Golang
 function go-install() {
-    GOVERSION=${1:-1.16.10}
+    # This is needed as function instead of separated script
+    # because the variables needs to be changes in the current shell too.
+    if [ -e go.mod ]; then
+        detected_version=$(cat go.mod | grep '^go [.0-9]*$' | sed 's/go //')
+    fi
+
+    GOVERSION="${1:-${detected_version:-noversion}}"
+
+    if [[ "$GOVERSION" == "noversion" ]]; then
+        echo "No goversion found" >&2
+        echo "Try: go-install 1.16.10"
+        exit 1
+    fi
+
     set -x
     go get golang.org/dl/go${GOVERSION}
     go${GOVERSION} download
     export "GOROOT=$(go${GOVERSION} env GOROOT)"
     export "PATH=${GOROOT}/bin:${PATH}"
-    set -x
+    set +x
 }
-
