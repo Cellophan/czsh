@@ -16,6 +16,7 @@ for branch in "${branches[@]}"; do
 done
 
 set -vx
+git remote prune origin
 git reflog expire --expire-unreachable=all --all
 git gc --prune=all
 set +vx
