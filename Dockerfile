@@ -262,7 +262,7 @@ COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 #tools
 # hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 COPY material/payload /opt/payload/
