@@ -3,9 +3,9 @@ FROM ubuntu:latest as golang-tools
 
 RUN apt-get update
 # hadolint ignore=DL3008
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates gcc libc6-dev
 # hadolint ignore=DL3059
-RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
+RUN curl -sSL https://go.dev/dl/go1.16.13.linux-amd64.tar.gz >/tmp/go.tgz &&\
     tar -C /usr/local -xz -f /tmp/go.tgz &&\
     chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
