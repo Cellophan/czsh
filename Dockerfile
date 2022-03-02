@@ -66,6 +66,9 @@ RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_l
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
     | tar --directory=/usr/local/bin -xvz exercism
+# hadolint ignore=DL3059,DL4006
+RUN curl -sSL https://raw.github.com/xwmx/nb/master/nb >/usr/local/bin/nb
+# sudo nb completions install
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*

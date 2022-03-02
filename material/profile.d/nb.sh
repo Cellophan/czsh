@@ -1,0 +1,5 @@
+# nb env
+: "${NB_NOTEBOOK_PATH:="$WORKDIR"}"
+: "${NBRC_PATH:="$WORKDIR/.nbrc"}"
+: "${NB_DIR:="$WORKDIR"}"
+export NB_NOTEBOOK_PATH NBRC_PATH NB_DIR
