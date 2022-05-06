@@ -7,9 +7,13 @@ Session.vim
 *~
 
 # ---> Personnal settings
+!.ssh
 .clide
 .catom
 .ccode
 .vscode
 .IntelliJIdea
+.tags
+.vim.dict.add
 
+__pycache__
