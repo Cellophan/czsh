@@ -1,0 +1,17 @@
+#!/bin/bash
+set -evx
+
+sudo apt update
+sudo apt install -qy software-properties-common
+
+sudo add-apt-repository ppa:mozillateam/ppa
+echo '
+Package: *
+Pin: release o=LP-PPA-mozillateam
+Pin-Priority: 1001
+' | sudo tee /etc/apt/preferences.d/mozilla-firefox
+
+echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+
+sudo apt update
+sudo apt install -qy firefox ubuntu-restricted-extras libcanberra-gtk-module libcanberra-gtk3-module gnome-colors-common
