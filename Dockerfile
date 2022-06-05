@@ -69,6 +69,9 @@ RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://raw.github.com/xwmx/nb/master/nb >/usr/local/bin/nb
 # sudo nb completions install
+# hadolint ignore=DL3059,DL4006
+RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_arm.tar.gz \
+    | tar --directory=/usr/local/bin -xvz k9s
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
