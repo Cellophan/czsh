@@ -316,3 +316,13 @@ function go-install() {
     export "PATH=${GOROOT}/bin:${PATH}"
     set +x
 }
+
+
+function python-install() {
+    PYTHON_VERSION="${1:-${detected_version:-noversion}}"
+
+    pyenv install ${PYTHON_VERSION}
+    ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}"
+    pyenv global ${PYTHON_VERSION%.*}
+}
+
