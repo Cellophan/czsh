@@ -18,7 +18,7 @@ RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/pitr/fj
 # hadolint ignore=DL3059
-RUN GO111MODULE=on go get github.com/mithrandie/csvq
+# RUN GO111MODULE=on go get github.com/mithrandie/csvq
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
