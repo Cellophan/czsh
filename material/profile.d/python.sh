@@ -1,6 +1,10 @@
+# default pip needs
+PATH="${HOME}/.local/bin:${PATH}"
+export PATH
+
 # pyenv
 PYENV_ROOT="${HOME}/.pyenv"
-PATH="$PYENV_ROOT/bin:$PYENV_ROOT/shims:$PATH"
+PATH="${PYENV_ROOT}/bin:${PYENV_ROOT}/shims:${PATH}"
 export PYENV_ROOT PATH
 
 chmod a+w \
