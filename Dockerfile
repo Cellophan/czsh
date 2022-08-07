@@ -1,8 +1,9 @@
 #golang env
+# hadolint ignore=DL3007
 FROM ubuntu:latest as golang-tools
 
 RUN apt-get update
-# hadolint ignore=DL3008
+# hadolint ignore=DL3008,DL3059
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates gcc libc6-dev
 # hadolint ignore=DL3059
 RUN curl -sSL https://go.dev/dl/go1.16.13.linux-amd64.tar.gz >/tmp/go.tgz &&\
@@ -12,6 +13,7 @@ ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 
 RUN go get github.com/Originate/git-town
 # RUN go get mvdan.cc/sh/cmd/shfmt
+# hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
@@ -19,6 +21,8 @@ RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
 RUN GO111MODULE=on go get github.com/pitr/fj
 # hadolint ignore=DL3059
 # RUN GO111MODULE=on go get github.com/mithrandie/csvq
+# hadolint ignore=DL3059
+RUN go get github.com/charmbracelet/gum@latest
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
