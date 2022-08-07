@@ -18,7 +18,7 @@ RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/pitr/fj
 # hadolint ignore=DL3059
-RUN GO111MODULE=on go get github.com/mithrandie/csvq
+# RUN GO111MODULE=on go get github.com/mithrandie/csvq
 
 ##build tools
 #FROM ubuntu:rolling as built-tools
@@ -220,7 +220,7 @@ RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
 RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
-RUN curl -sSL https://github.com/cli/cli/releases/download/v2.7.0/gh_2.7.0_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/cli/cli/releases/download/v2.14.3/gh_2.14.3_linux_amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb &&\
   chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
