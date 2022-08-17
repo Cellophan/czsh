@@ -306,7 +306,7 @@ function go-install() {
     if [[ "$GOVERSION" == "noversion" ]]; then
         echo "No goversion found" >&2
         echo "Try: go-install 1.16.10"
-        exit 1
+        return 1
     fi
 
     set -x
