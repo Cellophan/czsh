@@ -264,6 +264,12 @@ RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
+# nvm, nodejs version manager
+# hadolint ignore=SC2046,DL3003
+RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
+    cd /etc/skel/.nvm &&\
+    git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
+
 #Imports
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
