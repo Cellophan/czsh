@@ -270,6 +270,18 @@ RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
     cd /etc/skel/.nvm &&\
     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
+RUN echo blah2
+RUN export ASDF_DIR=/etc/skel/.asdf &&\
+    export ASDF_DATA_DIR=${ASDF_DIR} &&\
+    git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} &&\
+    (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
+    export PATH="${PATH}:${ASDF_DIR}/bin" &&\
+    echo golang && asdf plugin add golang &&\
+    echo python && asdf plugin add python &&\
+    echo poetry && asdf plugin add poetry &&\
+    echo nodejs && asdf plugin add nodejs &&\
+    chmod -R o+rw ${ASDF_DIR}
+
 #Imports
 COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
