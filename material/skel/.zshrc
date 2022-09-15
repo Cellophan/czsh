@@ -258,6 +258,8 @@ alias apply='awsudo2 terraform apply the.tfplan'
 # inspired by https://www.atlassian.com/git/tutorials/dotfiles
 alias dotfiles='git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 
+alias csv2json="jq -f /opt/payload/csv2json.jq"
+
 #Customize Agnoster
 prompt_dir() {
   prompt_segment blue $PRIMARY_FG ' %(4~|%-1~/…/%2~|%3~) '

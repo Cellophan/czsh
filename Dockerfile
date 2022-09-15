@@ -20,8 +20,6 @@ RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/pitr/fj
 # hadolint ignore=DL3059
-# RUN GO111MODULE=on go get github.com/mithrandie/csvq
-# hadolint ignore=DL3059
 RUN go get github.com/charmbracelet/gum@latest
 
 ##build tools
@@ -76,6 +74,9 @@ RUN curl -sSL https://raw.github.com/xwmx/nb/master/nb >/usr/local/bin/nb
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_arm.tar.gz \
     | tar --directory=/usr/local/bin -xvz k9s
+# hadolint ignore=DL3059,DL4006
+RUN curl -sSL https://github.com/mithrandie/csvq/releases/download/v1.17.10/csvq-v1.17.10-linux-amd64.tar.gz \
+    | tar --directory=/usr/local/bin -xvz csvq-v1.17.10-linux-amd64/csvq
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
