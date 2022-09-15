@@ -15,5 +15,6 @@ Session.vim
 .IntelliJIdea
 .tags
 .vim.dict.add
+.asdf
 
 __pycache__
