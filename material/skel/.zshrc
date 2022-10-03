@@ -54,7 +54,7 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass pyenv aws terraform kubectl awsudo2 nvm asdf)
+plugins=(docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass aws terraform kubectl awsudo2 asdf)
 
 #docker-compose
 #z zsh-syntax-highlighting zsh-autosuggestions
@@ -262,14 +262,22 @@ alias csv2json="jq -f /opt/payload/csv2json.jq"
 
 #Customize Agnoster
 prompt_dir() {
-  prompt_segment blue $PRIMARY_FG ' %(4~|%-1~/…/%2~|%3~) '
+    prompt_segment blue $PRIMARY_FG ' %(4~|%-1~/…/%2~|%3~) '
 }
 
 prompt_container() {
-  prompt_segment 'green' "$PRIMARY_FG" "${CONTAINER_PROMPT:- }"
+    prompt_segment 'green' "$PRIMARY_FG" "${CONTAINER_PROMPT:- }"
 }
 
-export AGNOSTER_PROMPT_SEGMENTS=("prompt_status" "prompt_container" "${AGNOSTER_PROMPT_SEGMENTS[@]/prompt_status}")
+prompt_asdf() {
+    if [ -n "${ASDF_DATA_DIR:-}" ]; then
+        if [ -d "${ASDF_DATA_DIR:-}" ]; then
+            prompt_segment 'cyan' "$PRIMARY_FG" " asdf "
+        fi
+    fi
+}
+
+export AGNOSTER_PROMPT_SEGMENTS=("prompt_status" "prompt_container" "prompt_asdf" "${AGNOSTER_PROMPT_SEGMENTS[@]/prompt_status}")
 
 SEGMENT_SEPARATOR="◤"
 PLUSMINUS="±"
