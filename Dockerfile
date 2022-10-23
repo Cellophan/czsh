@@ -11,7 +11,6 @@ RUN curl -sSL https://go.dev/dl/go1.16.13.linux-amd64.tar.gz >/tmp/go.tgz &&\
     chown -R root:root /usr/local/go
 ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
 
-RUN go get github.com/Originate/git-town
 # RUN go get mvdan.cc/sh/cmd/shfmt
 # hadolint ignore=DL3059
 RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
