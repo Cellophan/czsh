@@ -261,16 +261,16 @@ RUN export ASDF_DIR=/etc/skel/.asdf &&\
     (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
     export PATH="${PATH}:${ASDF_DIR}/bin"
 
-#Imports
-COPY --from=golang-tools /usr/local/go     /usr/local/go
-COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
-#COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
-
 #tools
 # hadolint ignore=DL3008
 RUN apt-get update &&\
     apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
+
+#Imports
+# COPY --from=golang-tools /usr/local/go     /usr/local/go
+COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
+# COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
