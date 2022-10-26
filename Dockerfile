@@ -181,7 +181,7 @@ RUN apt-get update &&\
 RUN pip install --quiet --no-cache-dir bpytop
 
 # git-filter-repo
-# hadolint ignore=DL3013
+# hadolint ignore=DL3013,DL3059
 RUN pip install --quiet --no-cache-dir git-filter-repo
 
 #aws-cli
@@ -205,7 +205,7 @@ RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/u
 #awsudo 1&2
 # hadolint ignore=DL3013
 RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
-# hadolint ignore=DL3013
+# hadolint ignore=DL3013,DL3059
 RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
@@ -255,6 +255,7 @@ RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
     cd /etc/skel/.nvm &&\
     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
+# hadolint ignore=SC2046,DL3003
 RUN export ASDF_DIR=/etc/skel/.asdf &&\
     git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} &&\
     (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
