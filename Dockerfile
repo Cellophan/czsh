@@ -66,9 +66,6 @@ RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_l
 RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
     | tar --directory=/usr/local/bin -xvz exercism
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://raw.github.com/xwmx/nb/master/nb >/usr/local/bin/nb
-# sudo nb completions install
-# hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_arm.tar.gz \
     | tar --directory=/usr/local/bin -xvz k9s
 # hadolint ignore=DL3059,DL4006
@@ -142,16 +139,6 @@ RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
     /usr/sbin/update-locale LANG=C.UTF-8 &&\
     chsh -s /bin/zsh
-
-#nnn
-# https://github.com/jarun/nnn
-# TODO: make a link for czsh instead of an extra layer?
-COPY material/payload/deploy/czsh /usr/local/bin/
-# TODO: Use NNN_MULTISCRIPT instead of EDITOR and NNN_USE_EDITOR for starting cvim?
-# hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends nnn &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #pass
 # hadolint ignore=DL3008
