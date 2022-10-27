@@ -209,13 +209,18 @@ RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
 RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
-RUN curl -sSL https://github.com/cli/cli/releases/download/v2.14.3/gh_2.14.3_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/cli/cli/releases/download/v2.18.1/gh_2.18.1_linux_amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb &&\
   chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
+    dpkg -i /tmp/tmp.deb &&\
+    rm /tmp/tmp.deb
+
+#gum
+RUN curl -sSL https://github.com/charmbracelet/gum/releases/download/v0.8.0/gum_0.8.0_linux_amd64.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
