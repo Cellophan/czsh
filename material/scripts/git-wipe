@@ -17,6 +17,7 @@ done
 
 set -vx
 git remote prune origin
+: git remote prune upstream # Failure with this remote are ok as it doesn't appear often.
 git reflog expire --expire-unreachable=all --all
 git gc --prune=all
 set +vx
