@@ -228,7 +228,9 @@ alias z=' zz'
 
 setopt no_beep
 
+# aliases
 alias qr='qrencode -t UTF8'
+
 alias status='git status'
 alias pull='git pull'
 alias push='git push'
@@ -245,11 +247,14 @@ alias branch='git branch'
 alias diff='git diff'
 alias clone='git clone'
 alias revert='git revert'
+alias fetch='git fetch'
+
 alias deploy='docker stack deploy'
 alias service='docker service'
 alias up='docker-compose up'
 alias down='docker-compose down'
 alias logs='docker-compose logs'
+
 alias aws='awsudo2 aws'
 alias terraform='awsudo2 terraform'
 alias plan='awsudo2 terraform plan -out the.tfplan'
