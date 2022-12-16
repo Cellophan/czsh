@@ -1,0 +1,85 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+[ -n "${DEBUG:-}" ] && set -vx
+
+: ${GH_REPO:="${CZSH_ISSUE_GH_REPO:-"repo not set for ${BASH_SOURCE[0]}"}"}
+export GH_REPO
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+main() {
+    # default: create
+    case "${1:-"create"}" in
+        "assign")
+            assign
+            ;;
+        "create")
+            create
+            ;;
+        "list")
+            list
+            ;;
+        "show")
+            show
+            ;;
+        "*")
+            exec gh issue $@
+            ;;
+    esac
+}
+
+assign() {
+    URL=$(gh search issues --repo ${GH_REPO} --state open --json "title,labels,url" \
+        | jq -r 'map({"title": .title, "url":.url, "labels":[.labels[].name] | join(" ")})
+            | .[]
+            | "\(.title);\(.labels);\(.url)"' \
+        | column -t -s';' \
+        | gum filter --indicator "ᐅ" \
+        | awk '{ print($NF);}')
+
+    gh issue edit ${URL} --add-assignee "@me" >/dev/null
+    echo "Assigned 🎉"
+}
+
+create() {
+    TITLE=$(gum input --placeholder "Title" --char-limit 80)
+    BODY=$(gum write --width 103 --placeholder "Body")
+
+    IMPACT=$(gum choose --selected 2 Self Team Wide)
+    TYPE=$(gum choose --selected 3 Code Do Read Search Watch Write)
+    SIZE=$(gum choose --selected 3 XL L M S XS)
+    ASSIGNEE=$(gum confirm "Assign directly" --default="No" && echo -n "--assignee @me" || echo -n "")
+
+    exec gh issue create --label "${IMPACT},${TYPE},${SIZE}" --title "${TITLE}" --body "${BODY}" ${ASSIGNEE}
+}
+
+list() {
+    exec gh search issues --assignee "@me" --state "open"
+}
+
+show() {
+    URL=$(
+        (
+            gh search issues --assignee=@me --state=open --json "repository,number,title,url" \
+                | jq -r 'map({"repo": .repository.nameWithOwner, "number": .number, "title": .title, "url": .url})
+                    | .[]
+                    | "Issue;\(.repo):\(.number);'${bold}'\(.title)'${normal}';\(.url)"';
+            gh search prs --assignee=@me --state=open --json "repository,number,title,url" \
+                | jq -r 'map({"repo": .repository.nameWithOwner, "number": .number, "title": .title, "url": .url})
+                    | .[]
+                    | "PR;\(.repo):\(.number);'${bold}'\(.title)'${normal}';\(.url)"'
+        ) \
+            | column -t -s\; \
+            | gum filter --indicator "ᐅ" \
+            | awk '{ print($NF);}'
+    )
+    xdg-open ${URL}
+}
+
+
+
+main "$@"
+
