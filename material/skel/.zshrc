@@ -309,37 +309,3 @@ function ppr() {
   )
 }
 
-
-# Golang
-function go-install() {
-    # This is needed as function instead of separated script
-    # because the variables needs to be changes in the current shell too.
-    if [ -e go.mod ]; then
-        detected_version=$(cat go.mod | grep '^go [.0-9]*$' | sed 's/go //')
-    fi
-
-    GOVERSION="${1:-${detected_version:-noversion}}"
-
-    if [[ "$GOVERSION" == "noversion" ]]; then
-        echo "No goversion found" >&2
-        echo "Try: go-install 1.16.10"
-        return 1
-    fi
-
-    set -x
-    go get golang.org/dl/go${GOVERSION}
-    go${GOVERSION} download
-    export "GOROOT=$(go${GOVERSION} env GOROOT)"
-    export "PATH=${GOROOT}/bin:${PATH}"
-    set +x
-}
-
-
-function python-install() {
-    PYTHON_VERSION="${1:-${detected_version:-noversion}}"
-
-    pyenv install ${PYTHON_VERSION}
-    ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}"
-    pyenv global ${PYTHON_VERSION%.*}
-}
-
