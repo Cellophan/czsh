@@ -13,9 +13,6 @@ normal=$(tput sgr0)
 main() {
     # default: create
     case "${1:-"create"}" in
-        "assign")
-            assign
-            ;;
         "create")
             create
             ;;
@@ -25,23 +22,13 @@ main() {
         "show")
             show
             ;;
+        "take")
+            take
+            ;;
         "*")
             exec gh issue $@
             ;;
     esac
-}
-
-assign() {
-    URL=$(gh search issues --repo ${GH_REPO} --state open --json "title,labels,url" \
-        | jq -r 'map({"title": .title, "url":.url, "labels":[.labels[].name] | join(" ")})
-            | .[]
-            | "\(.title);\(.labels);\(.url)"' \
-        | column -t -s';' \
-        | gum filter --indicator "ᐅ" \
-        | awk '{ print($NF);}')
-
-    gh issue edit ${URL} --add-assignee "@me" >/dev/null
-    echo "Assigned 🎉"
 }
 
 create() {
@@ -79,6 +66,18 @@ show() {
     xdg-open ${URL}
 }
 
+take() {
+    URL=$(gh search issues --repo ${GH_REPO} --state open --json "title,labels,url" \
+        | jq -r 'map({"title": .title, "url":.url, "labels":[.labels[].name] | join(" ")})
+            | .[]
+            | "\(.title);\(.labels);\(.url)"' \
+        | column -t -s';' \
+        | gum filter --indicator "ᐅ" \
+        | awk '{ print($NF);}')
+
+    gh issue edit ${URL} --add-assignee "@me" >/dev/null
+    echo "Assigned 🎉"
+}
 
 
 main "$@"
