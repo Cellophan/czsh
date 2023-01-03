@@ -16,6 +16,12 @@ main() {
         "create")
             create
             ;;
+        "help")
+            _help
+            ;;
+        "--help")
+            _help
+            ;;
         "list")
             list
             ;;
@@ -41,6 +47,11 @@ create() {
     ASSIGNEE=$(gum confirm "Assign directly" --default="No" && echo -n "--assignee @me" || echo -n "")
 
     exec gh issue create --label "${IMPACT},${TYPE},${SIZE}" --title "${TITLE}" --body "${BODY}" ${ASSIGNEE}
+}
+
+_help() {
+    echo "
+    Interact with GH_REPO or CZSH_ISSUE_GH_REPO repo to create, take, list, show issues"
 }
 
 list() {
