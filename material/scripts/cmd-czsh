@@ -6,7 +6,7 @@
 # Perhaps add XDG variables? \${!XDG_*}
 
 RO="\${HOME}/.ssh /etc/localtime \${HOME}/.gnupg"
-RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc \${HOME}/.config/exercism \${HOME}/.config/pudb \${HOME}/.local/share/cataclysm-dda \${HOME}/.gitignore"
+RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc \${HOME}/.config/exercism \${HOME}/.config/pudb \${HOME}/.local/share/cataclysm-dda \${HOME}/.config/tea \${HOME}/.gitignore"
 E="USER TERM SSH_CONNECTION"
 
 echo -n "\
