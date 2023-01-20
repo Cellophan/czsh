@@ -1,25 +1,29 @@
 #!/bin/bash
 
-set -vx
+set -vex
 
-sudo apt-get update
-sudo apt-get install -qy --no-install-recommends \
-    libc++1 libappindicator1 gconf2 gconf-service gvfs-bin libasound2 libcap2 \
-    libgconf-2-4 libgnome-keyring-dev libgtk2.0-0 libnotify4 libnss3 \
-    libxkbfile1 libxss1 libxtst6 libx11-xcb1 xdg-utils libatomic1 libgtk-3-0 \
-    libgtkextra libgconf2 libxcomposite1
-sudo apt-get install -qy --no-install-recommends \
-    curl ca-certificates
-curl -sSL "https://discordapp.com/api/download?platform=linux&format=deb" \
-    >/tmp/discord.deb
-sudo dpkg -i /tmp/discord.deb
-rm /tmp/discord.deb
+install() {
+    sudo apt-get update
+    sudo apt-get install -qy --no-install-recommends \
+        libc++1 libappindicator1 gconf2 gconf-service libasound2 libcap2 \
+        libgconf-2-4 libgtk2.0-0 libnotify4 libnss3 \
+        libxkbfile1 libxss1 libxtst6 libx11-xcb1 xdg-utils libatomic1 libgtk-3-0 \
+        libxcomposite1 canberra-gtk-module \
+        libxshmfence1 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgtk-3-0 libgbm1
+    sudo apt-get install -qy --no-install-recommends curl ca-certificates
+    curl -sSL "https://discordapp.com/api/download?platform=linux&format=deb" \
+        >/tmp/discord.deb
+    sudo dpkg -i /tmp/discord.deb
+    rm /tmp/discord.deb
 
-sudo DEBIAN_FRONTEND=noninteractive  apt --fix-broken install -qy
+    sudo DEBIAN_FRONTEND=noninteractive  apt --fix-broken install -qy
 
-set +vx
+    hash -r
+}
 
-echo
-echo exec $SHELL
-echo discord --no-sandbox
+if [ ! -e /usr/bin/discord ]; then
+    install
+fi
+
+exec discord --no-sandbox
 
