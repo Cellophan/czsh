@@ -8,7 +8,7 @@ install() {
         libc++1 libappindicator1 gconf2 gconf-service libasound2 libcap2 \
         libgconf-2-4 libgtk2.0-0 libnotify4 libnss3 \
         libxkbfile1 libxss1 libxtst6 libx11-xcb1 xdg-utils libatomic1 libgtk-3-0 \
-        libxcomposite1 canberra-gtk-module \
+        libxcomposite1 \
         libxshmfence1 libatk1.0-0 libatk-bridge2.0-0 libdrm2 libgtk-3-0 libgbm1
     sudo apt-get install -qy --no-install-recommends curl ca-certificates
     curl -sSL "https://discordapp.com/api/download?platform=linux&format=deb" \
