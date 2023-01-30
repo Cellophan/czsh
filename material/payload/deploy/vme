@@ -1,0 +1,4 @@
+#!/bin/bash
+
+eval $(docker run --rm --entrypoint cmd-vme cell/czsh) $@
+
