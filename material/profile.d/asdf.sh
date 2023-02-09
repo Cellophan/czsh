@@ -6,5 +6,3 @@ PATH="/etc/skel/.asdf/bin:${PATH}"
 if [ -d "${WORKDIR}/.asdf/shims" ]; then
     PATH="${WORKDIR}/.asdf/shims:${PATH}"
 fi
-
-export ASDF_DIR ASDF_DATA_DIR PATH
