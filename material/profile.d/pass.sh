@@ -1,2 +1,3 @@
+set -o allexport
 : "${PASSWORD_STORE_DIR:="$WORKDIR"}"
-export PASSWORD_STORE_DIR
+set +o allexport
