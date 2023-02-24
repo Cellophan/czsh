@@ -280,8 +280,11 @@ prompt_asdf() {
     if [ -n "${ASDF_DATA_DIR:-}" ]; then
         if [ -d "${ASDF_DATA_DIR:-}" ]; then
             prompt_segment 'cyan' "$PRIMARY_FG" " asdf "
+        elif [ -f ".tool-versions" ]; then
+            prompt_segment 'cyan' "$PRIMARY_FG" " .tool-versions "
         fi
     fi
+
 }
 
 export AGNOSTER_PROMPT_SEGMENTS=("prompt_status" "prompt_container" "prompt_asdf" "${AGNOSTER_PROMPT_SEGMENTS[@]/prompt_status}")
