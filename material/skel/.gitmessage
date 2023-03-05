@@ -1,6 +1,19 @@
 
 
-Ref:
 
 # 50-character subject line ------------------->|
 # 72-character wrapped longer description --------------------------->|
+#
+# Feature   A new feature is introduced with the changes
+# Fix       A bug fix has occurred
+# Chore     Changes that do not relate to a fix or feature and don't modify src or test files (for example updating dependencies)
+# Refactor  Refactored code that neither fixes a bug nor adds a feature
+# Docs      Updates to documentation such as a the README or other markdown files
+# Style     Changes that do not affect the meaning of the code, likely related to code formatting such as white-space, missing semi-colons, and so on.
+# Test      Including new or correcting previous tests
+# Perf      Performance improvements
+# CI        Continuous integration related
+# Build     Changes that affect the build system or external dependencies
+# Revert    Reverts a previous commit 
+
+# https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
