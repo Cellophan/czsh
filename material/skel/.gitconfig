@@ -10,6 +10,10 @@
   # Not quite as common as an amend, but still common
   # https://git-scm.com/docs/git-reset#git-reset-emgitresetemltmodegtltcommitgt
 
+  recommit = commit --reuse-message=HEAD@{1}
+  # Reuse the commit message after a git undo
+  # https://stackoverflow.com/questions/16858069/git-how-to-reuse-retain-commit-messages-after-git-reset
+
   stash-all = stash save --include-untracked
   # We wanna grab those pesky un-added files!
   # https://git-scm.com/docs/git-stash
