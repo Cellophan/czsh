@@ -104,10 +104,10 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/sk
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
 #awsudo
-RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
-    mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
-    cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
-    rm -rf /tmp/awsudo2
+# RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
+#     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
+#     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
+#     rm -rf /tmp/awsudo2
 #kubectl
 COPY --from=downloaded-tools /usr/local/bin/kubectl  /usr/local/bin/kubectl
 RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
@@ -201,14 +201,14 @@ RUN apt-get update &&\
     /tmp/aws/install &&\
     rm -rf /tmp/aws*
 #aws cli session-manager-plugin
-RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
-    dpkg -i /tmp/tmp.deb &&\
-    rm /tmp/tmp.deb
+# RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
+#     dpkg -i /tmp/tmp.deb &&\
+#     rm /tmp/tmp.deb
 #awsudo 1&2
-# hadolint ignore=DL3013
-RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
-# hadolint ignore=DL3013,DL3059
-RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
+# # hadolint ignore=DL3013
+# RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
+# # hadolint ignore=DL3013,DL3059
+# RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.20.2/gh_2.20.2_linux_amd64.deb >/tmp/tmp.deb &&\
