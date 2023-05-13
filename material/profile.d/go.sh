@@ -6,6 +6,7 @@
 # go mod tidy
 : ${GOBIN:="${WORKDIR}/bin"}
 : ${GOCACHE:="${WORKDIR}/.gocache"}
+PATH="${GOBIN}:${PATH}"
 
 # : "${GOROOT:="/usr/local/go"}"
 # # : "${GOPRIVATE:=""}"
