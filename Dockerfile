@@ -79,7 +79,7 @@ RUN chmod +x /usr/local/bin/*
 
 #Main
 # hadolint ignore=DL3007
-FROM cell/playground:latest
+FROM cell/playground:latest as final
 ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh
