@@ -4,7 +4,7 @@ set -evx
 sudo apt update
 sudo apt install -qy software-properties-common
 
-sudo add-apt-repository ppa:mozillateam/ppa
+sudo add-apt-repository ppa:mozillateam/ppa --yes
 echo '
 Package: *
 Pin: release o=LP-PPA-mozillateam
