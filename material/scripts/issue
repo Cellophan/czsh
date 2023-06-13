@@ -51,7 +51,7 @@ create() {
 
 _help() {
     echo "
-    Interact with GH_REPO or CZSH_ISSUE_GH_REPO repo to create, take, list, show issues"
+    Interact with ${GH_REPO:-"\$GH_REPO"} or ${CZSH_ISSUE_GH_REPO:-"\$CZSH_ISSUE_GH_REPO"} repo to create, take, list, show issues"
 }
 
 list() {

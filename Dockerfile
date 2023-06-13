@@ -211,7 +211,7 @@ RUN apt-get update &&\
 # RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
-RUN curl -sSL https://github.com/cli/cli/releases/download/v2.20.2/gh_2.20.2_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/cli/cli/releases/download/v2.29.0/gh_2.29.0_linux_amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb &&\
   chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
