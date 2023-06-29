@@ -1,52 +1,5 @@
-#golang env
+# Download tools
 # hadolint ignore=DL3007
-FROM ubuntu:latest as golang-tools
-
-RUN apt-get update
-# hadolint ignore=DL3008,DL3059
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl git ca-certificates gcc libc6-dev
-# hadolint ignore=DL3059
-RUN curl -sSL https://go.dev/dl/go1.16.13.linux-amd64.tar.gz >/tmp/go.tgz &&\
-    tar -C /usr/local -xz -f /tmp/go.tgz &&\
-    chown -R root:root /usr/local/go
-ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-
-# RUN go get mvdan.cc/sh/cmd/shfmt
-# hadolint ignore=DL3059
-RUN GO111MODULE=on go get github.com/mikefarah/yq/v3
-# hadolint ignore=DL3059
-RUN GO111MODULE=on go get github.com/go-delve/delve/cmd/dlv
-# hadolint ignore=DL3059
-RUN GO111MODULE=on go get github.com/pitr/fj
-
-##build tools
-#FROM ubuntu:rolling as built-tools
-#RUN apt-get update
-#RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl make gcc
-#
-### Skopeo
-### From https://github.com/containers/skopeo
-##RUN apt-get update
-##RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends wget git ca-certificates curl
-##RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy libgpgme-dev libassuan-dev libbtrfs-dev libdevmapper-dev libostree-dev
-##RUN curl -sSL https://dl.google.com/go/go1.13.1.linux-amd64.tar.gz >/tmp/go.tgz &&\
-##  tar -C /usr/local -xz -f /tmp/go.tgz &&\
-##  chown -R root:root /usr/local/go
-##ENV GOPATH=/tmp/go GOBIN=/usr/local/go/bin PATH=${PATH}:/usr/local/go/bin
-##
-##RUN git clone --depth 1 https://github.com/containers/skopeo $GOPATH/src/github.com/containers/skopeo
-##RUN cd $GOPATH/src/github.com/containers/skopeo &&\
-##  make binary-local DISABLE_CGO=1 &&\
-##  mv skopeo /usr/local/bin/
-#
-### gh cli
-### From https://github.com/cli/cli/blob/master/source.md
-##RUN git clone --depth 1 https://github.com/cli/cli.git $GOPATH/githubcli
-##RUN cd $GOPATH/githubcli &&\
-##  make
-##RUN mv $GOPATH/githubcli/bin/* /usr/local/bin/
-
-#download tools
 FROM ubuntu:latest as downloaded-tools
 RUN apt-get update
 # hadolint ignore=DL3008
