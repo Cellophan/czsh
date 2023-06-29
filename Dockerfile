@@ -2,7 +2,7 @@
 # hadolint ignore=DL3007
 FROM ubuntu:latest as downloaded-tools
 RUN apt-get update
-# hadolint ignore=DL3008
+# hadolint ignore=DL3059,DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
 WORKDIR /usr/local/bin
 
