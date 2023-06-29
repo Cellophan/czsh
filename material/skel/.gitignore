@@ -13,8 +13,9 @@ Session.vim
 .ccode
 .vscode
 .IntelliJIdea
-.tags
+.tags*
 .vim.dict.add
 .asdf
+.gocache
 
 __pycache__
