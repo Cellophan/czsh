@@ -239,8 +239,6 @@ alias clone='git clone'
 alias commit='git commit'
 alias diff='git diff'
 alias fetch='git fetch'
-alias main='git switch main'
-alias master='git switch master'
 alias merge='git merge'
 alias pull='git pull'
 alias push='git push'
@@ -252,6 +250,14 @@ alias stash-all='git stash-all'
 alias status='git status'
 alias switch='git switch'
 alias undo='git undo'
+
+main() {
+    git switch $(git branch -l master main | sed "s/^* //")
+}
+
+master() {
+    git switch $(git branch -l master main | sed "s/^* //")
+}
 
 alias deploy='docker stack deploy'
 alias service='docker service'
