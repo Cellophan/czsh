@@ -134,10 +134,6 @@ RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# bpytop
-# hadolint ignore=DL3013
-RUN pip install --quiet --no-cache-dir bpytop
-
 # git-filter-repo
 # hadolint ignore=DL3013,DL3059
 RUN pip install --quiet --no-cache-dir git-filter-repo
@@ -227,7 +223,7 @@ RUN export ASDF_DIR=/etc/skel/.asdf &&\
 #tools
 # hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time bsdextrautils &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time bsdextrautils btop exa &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Imports
