@@ -47,7 +47,7 @@ RUN apt-get update &&\
     git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
     ln -s /etc/skel/.oh-my-zsh /root &&\
     ln -s /etc/skel/.zshrc /root &&\
-    find . -name .git -type d -exec echo rm -rf {} \;
+    find /etc/skel -name .git -type d -exec echo rm -rf {} \;
 
 #agnoster
 RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
