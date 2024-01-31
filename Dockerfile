@@ -28,7 +28,7 @@ RUN curl -sSL https://github.com/mithrandie/csvq/releases/download/v1.17.10/csvq
 RUN curl -sSL https://dl.gitea.io/tea/0.9/tea-0.9-linux-amd64 >/usr/local/bin/tea
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
-    | sh -s -- -b /usr/local/bin v1.53.3
+    | sh -s -- -b /usr/local/bin v1.55.2
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
