@@ -1,0 +1,100 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+[ -n "${DEBUG:-}" ] && set -vx
+
+# : ${GH_REPO:="${CZSH_ISSUE_GH_REPO:-"repo not set for ${BASH_SOURCE[0]}"}"}
+
+: ${TEA_REPO:="cell/headmess"}
+: ${TEA_LOGIN:="cell"}
+TEA_DEFAULT_OPTIONS="--login ${TEA_LOGIN} --repo ${TEA_REPO}"
+# tea  issue list --repo cell/headmess --login cell
+
+
+bold=$(tput bold)
+normal=$(tput sgr0)
+
+main() {
+    # default: create
+    case "${1:-"create"}" in
+        "create")
+            create
+            ;;
+        "help")
+            _help
+            ;;
+        "--help")
+            _help
+            ;;
+        "list")
+            list
+            ;;
+        "show")
+            show
+            ;;
+        "take")
+            take
+            ;;
+        "*")
+            exec gh issue $@
+            ;;
+    esac
+}
+
+create() {
+    TITLE=$(gum input --placeholder "Title" --char-limit 80)
+    BODY=$(gum write --width 103 --placeholder "Body")
+
+    IMPACT=$(gum choose --selected 2 Self Team Wide)
+    TYPE=$(gum choose --selected 3 Code Do Read Search Watch Write)
+    SIZE=$(gum choose --selected 3 XL L M S XS)
+    # ASSIGNEE=$(gum confirm "Assign directly" --default="No" && echo -n "--assignee cell" || echo -n "")
+    ASSIGNEE=$(gum confirm "Assign directly" --default="No" && echo -n "--assignees $TEA_LOGIN" || echo -n "")
+
+    # exec gh issue create --label "${IMPACT},${TYPE},${SIZE}" --title "${TITLE}" --body "${BODY}" ${ASSIGNEE}
+    exec tea issue create ${TEA_DEFAULT_OPTIONS} --labels "${IMPACT},${TYPE},${SIZE}" --title "${TITLE}" --description "${BODY}" ${ASSIGNEE} 1>/dev/null
+}
+
+_help() {
+    # echo "
+    # Interact with GH_REPO or CZSH_ISSUE_GH_REPO repo to create, take, list, show issues"
+    echo
+}
+
+list() {
+    # exec gh search issues --assignee "@me" --state "open"
+    exec tea issue list ${TEA_DEFAULT_OPTIONS} --fields state,title,labels,url --kind all --output tsv \
+        | grep -v '^.state.' \
+        | sed \
+            -e 's/^"//g' -e 's/"$//g' -e 's/"\t"/\t/g' \
+            -e 's/\t/;/g' \
+        | cut -d\; -f2- \
+        | column -t -s\;
+}
+
+show() {
+    URL=$(
+        list \
+        | gum filter --indicator "ᐅ" \
+        | awk '{ print($NF);}'
+    )
+    xdg-open ${URL}
+}
+
+take() {
+    URL=$(gh search issues --repo ${GH_REPO} --state open --json "title,labels,url" \
+        | jq -r 'map({"title": .title, "url":.url, "labels":[.labels[].name] | join(" ")})
+            | .[]
+            | "\(.title);\(.labels);\(.url)"' \
+        | column -t -s';' \
+        | gum filter --indicator "ᐅ" \
+        | awk '{ print($NF);}')
+
+    gh issue edit ${URL} --add-assignee "@me" >/dev/null
+    echo "Assigned 🎉"
+}
+
+
+main "$@"
+
