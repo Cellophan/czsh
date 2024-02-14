@@ -1,8 +1,13 @@
 
 
-
 # 50-character subject line ------------------->|
 # 72-character wrapped longer description --------------------------->|
+#
+# - Description
+# - Breaking chnages? Risks?
+# - How to rollout? Tests?
+# - How to rollback?
+# - How to test locally?
 #
 # Feature   A new feature is introduced with the changes
 # Fix       A bug fix has occurred
@@ -14,6 +19,6 @@
 # Perf      Performance improvements
 # CI        Continuous integration related
 # Build     Changes that affect the build system or external dependencies
-# Revert    Reverts a previous commit 
+# Revert    Reverts a previous commit
 
 # https://www.freecodecamp.org/news/how-to-write-better-git-commit-messages/
