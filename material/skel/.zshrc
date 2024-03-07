@@ -310,13 +310,4 @@ GEAR="⚙"
 # from shell to git repo in browser
 alias wgh='xdg-open https://$(git config remote.origin.url | sed -e "s#^[^@]*@##" -e "s#\.git##" -e "s#:#/#")'
 
-function ppr() {
-  (
-    set -evx
-    git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
-    # Assuming the repo website is github style
-    xdg-open "https://$(git config --get remote.origin.url | sed -e 's#^[^@]*@##' -e 's#:#/#' -e 's#\.git##')/compare/$(git rev-parse --abbrev-ref HEAD)?expand=1"
-    echo
-  )
-}
 
