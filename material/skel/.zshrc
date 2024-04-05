@@ -130,7 +130,7 @@ strlen () {
 
 # show right prompt with date ONLY when command is executed
 preexec () {
-    DATE=$( date +"[%H:%M:%S]" )
+    DATE=$( date +"# %H:%M:%S" )
     local len_right=$( strlen "$DATE" )
     len_right=$(( $len_right+1 ))
     local right_start=$(($COLUMNS - $len_right))
