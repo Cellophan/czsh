@@ -10,18 +10,16 @@
   # Not quite as common as an amend, but still common
   # https://git-scm.com/docs/git-reset#git-reset-emgitresetemltmodegtltcommitgt
 
-  recommit = commit --reuse-message=HEAD@{1}
-  # Reuse the commit message after a git undo
-  # https://stackoverflow.com/questions/16858069/git-how-to-reuse-retain-commit-messages-after-git-reset
-
   stash-all = stash save --include-untracked
   # We wanna grab those pesky un-added files!
   # https://git-scm.com/docs/git-stash
 
-  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --branches
+  glog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
   # No need for a GUI - a nice, colorful, graphical representation
   # https://git-scm.com/docs/git-log
   # via https://medium.com/@payload.dd/thanks-for-the-git-st-i-will-use-this-4da5839a21a4
+
+  recommit = commit --reuse-message=HEAD@{1}
 
 [merge]
   ff = only
@@ -40,7 +38,11 @@ default = simple
   # https://git-scm.com/docs/git-config#git-config-pushdefault
 
 [pull]
-rebase = false
+  rebase = true
+
+[rebase]
+  # https://leosiddle.com/posts/2020/07/git-config-pull-rebase-autostash/
+  autoStash = true
 
 [status]
   showUntrackedFiles = all
@@ -54,10 +56,12 @@ rebase = false
   # https://git-scm.com/docs/git-config#git-config-transferfsckObjects
   # via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 
-[commit]
-  template = ~/.gitmessage
-
 [core]
   excludesfile = ~/.gitignore
   # A global-ish ignore file
 
+[commit]
+	template = ~/.gitmessage
+
+[url "git@github.bus.zalan.do:"]
+  insteadOf = https://github.bus.zalan.do
