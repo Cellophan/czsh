@@ -37,11 +37,3 @@ push:
 > docker push ${REGISTRY}/${IMAGE}
 .PHONY: push
 
-publish: build git-detect push
-> ssh plic " \
-    cd Repos/outer.systems/plic/head.tf/ \
-    && git pull \
-    && docker stack deploy -c docker-compose.yml --with-registry-auth plic"
-.PHONY: publish
-
-
