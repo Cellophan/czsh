@@ -226,7 +226,7 @@ RUN export ASDF_DIR=/etc/skel/.asdf &&\
 #tools
 # hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time bsdextrautils btop exa &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time bsdextrautils btop exa libnotify-bin &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Imports
