@@ -1,0 +1,11 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+head_branch=$(git remote show origin | awk '/HEAD branch/{ print $3 }')
+current_branch=$(git branch --show-current)
+
+commit_hash=$(git merge-base ${current_branch} ${head_branch})
+
+git rebase -i ${commit_hash}
+
