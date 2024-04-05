@@ -5,8 +5,9 @@ This is thought as a toolbox and contains:
 
 * `docker` (the client)
 * `refresh` for pulling the image itself.
-* [docker-compose](https://docs.docker.com/compose/), [awsudo2](https://github.com/outersystems/awsudo2), [terraform](https://www.terraform.io/), [aws](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* [docker-compose](https://docs.docker.com/compose/), [terraform](https://www.terraform.io/), [aws](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 * zsh aliases
+* Check the content of material/scripts/
 * ...
 
 
@@ -33,7 +34,7 @@ $ czsh command
 
 ## Install / Deploy
 
-This is just a shortcut added in `/usr/local/bin`:
+This is just shortcuts added in `/usr/local/bin`:
 
 ```
 docker run --rm --entrypoint deploy -v /usr/local/bin:/deploydir cell/czsh
