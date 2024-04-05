@@ -29,6 +29,9 @@ RUN curl -sSL https://dl.gitea.io/tea/0.9/tea-0.9-linux-amd64 >/usr/local/bin/te
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
     | sh -s -- -b /usr/local/bin v1.55.2
+# hadolint ignore=DL3059,DL4006
+RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/difft-x86_64-unknown-linux-gnu.tar.gz \
+    | tar --directory=/usr/local/bin -xvz difft
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
