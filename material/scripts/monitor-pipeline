@@ -1,0 +1,34 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+# to be executed from a git repository
+# requires github cli (https://cli.github.com/)
+
+branch_name=$(git rev-parse --short HEAD)
+
+pull_request_json=$(gh api \
+    -H "Accept: application/vnd.github.groot-preview+json" \
+    "repos/:owner/:repo/commits/$branch_name/pulls" \
+    | jq '.[0]')
+
+pull_request_url=$(echo "$pull_request_json" | jq -r '.html_url')
+
+while true; do
+    pipeline_status=$(gh api "repos/:owner/:repo/commits/$branch_name/status" | jq '.statuses[] | select(.context == "pipeline") | .state' -r)
+
+    if [[ "$pipeline_status" != "pending" ]]; then
+        emoji="⚠️"
+        if [[ "$pipeline_status" == "success" ]]; then
+            emoji="✅"
+        fi
+
+        notify-send \
+            "${emoji} $(basename $PWD): ${pipeline_status}" \
+            "$pull_request_url"
+        echo ${pipeline_status}
+        exit
+    fi
+    echo -n "."
+    sleep 5s
+done
