@@ -211,6 +211,17 @@ RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
+# ntfy
+# https://docs.ntfy.sh/install/
+# hadolint ignore=SC2046,DL3003
+RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/ntfy_2.10.0_linux_amd64.tar.gz >/tmp/tmp.tgz &&\
+    cd /tmp &&\
+    tar zxvf /tmp/tmp.tgz &&\
+    cp -a ntfy_*_linux_amd64/ntfy /usr/local/bin/ntfy &&\
+    mkdir /etc/ntfy &&\
+    cp ntfy_*_linux_amd64/client/*.yml /etc/ntfy/ &&\
+    cp ntfy_*_linux_amd64/server/*.yml /etc/ntfy/
+
 # nvm, nodejs version manager
 # hadolint ignore=SC2046,DL3003
 RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
