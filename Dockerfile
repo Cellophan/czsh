@@ -224,9 +224,9 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 
 # nvm, nodejs version manager
 # hadolint ignore=SC2046,DL3003
-RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
-    cd /etc/skel/.nvm &&\
-    git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
+# RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
+#     cd /etc/skel/.nvm &&\
+#     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
 # hadolint ignore=SC2046,DL3003
 RUN export ASDF_DIR=/etc/skel/.asdf &&\
