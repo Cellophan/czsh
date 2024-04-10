@@ -1,0 +1,23 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+function get_last_pr_number {
+    head_branch=$(git remote show origin | awk '/HEAD branch/{ print $3 }')
+
+    echo $(gh pr list --state merged i--base ${head_branch} \
+        --json number,mergedAt,title,url --template '{{ range . }}{{ (printf "%s;%s;%s;%s\n" .number (timeago .mergedAt) .title .url) }}{{ end }}' \
+        | head -1
+    )
+}
+
+ref_pr=$(get_last_pr_number)
+while true; do
+    last_pr=$(get_last_pr_number)
+    if [[ ${ref_pr} != ${last_pr} ]]; then
+        ref_pr=${last_pr}
+        notify-send "⚠️ PR Merged in repo"
+    fi
+    sleep 5s
+done
+
