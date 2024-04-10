@@ -5,6 +5,11 @@
 # to be executed from a git repository
 # requires github cli (https://cli.github.com/)
 
+url_encode()
+{
+    echo -n $1 | jq -sRr '@uri'
+}
+
 branch_name=$(git rev-parse --short HEAD)
 
 pull_request_json=$(gh api \
@@ -15,20 +20,22 @@ pull_request_json=$(gh api \
 pull_request_url=$(echo "$pull_request_json" | jq -r '.html_url')
 
 while true; do
-    pipeline_status=$(gh api "repos/:owner/:repo/commits/$branch_name/status" | jq '.statuses[] | select(.context == "pipeline") | .state' -r)
+    url="repos/:owner/:repo/commits/$(url_encode "${branch_name}")/status"
+    pipeline_status=$(gh api ${url} | jq '.statuses[] | select(.context == "pipeline") | .state' -r)
 
-    if [[ "$pipeline_status" != "pending" ]]; then
+    if [[ "${pipeline_status}" != "pending" ]]; then
         emoji="⚠️"
-        if [[ "$pipeline_status" == "success" ]]; then
+        if [[ "${pipeline_status}" == "success" ]]; then
             emoji="✅"
         fi
 
         notify-send \
             "${emoji} $(basename $PWD): ${pipeline_status}" \
-            "$pull_request_url"
+            "${pull_request_url}"
         echo ${pipeline_status}
         exit
     fi
     echo -n "."
     sleep 5s
 done
+
