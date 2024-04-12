@@ -1,7 +1,8 @@
 #!/bin bash
 
-set -evx
-git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+. /lib/stacktrace.sh
 
-xdg-open "https://$(git config --get remote.origin.url | sed -e 's#^[^@]*@##' -e 's#:#/#' -e 's#\.git##')/compare/$(git rev-parse --abbrev-ref HEAD)?expand=1"
-echo
+git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
+gh pr create --label minor --assignee "@me" --web
+
+
