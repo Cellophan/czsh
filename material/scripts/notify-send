@@ -6,7 +6,7 @@ if [[ -e ~/.config/ntfy/client.yml ]]; then
     summary=${1:-}
     body=${2:-}
 
-    exec ntfy publish --title "${summary}" ${NTFY_TOPIC:-default} "${body}"
+    exec ntfy publish --title "${summary}" ${NTFY_TOPIC:-default} "${body}" >/dev/null
 else
-    exec notify-send ${@}
+    exec /usr/bin/notify-send ${@}
 fi
