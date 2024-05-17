@@ -111,14 +111,14 @@ if _has fzf && _has ag; then
   '
 fi
 
-# Python
-if [ -x "${PYENV_ROOT}/bin/pyenv" ]; then
-  export PYENV_ROOT="${HOME}/.pyenv"
-  export PATH="${PYENV_ROOT}/bin:${PATH}"
-  eval "$(pyenv init -)"
-  eval "$(pyenv virtualenv-init -)"
-  eval "$(pyenv init --path)"
-fi
+# # Python
+# if [ -x "${PYENV_ROOT}/bin/pyenv" ]; then
+#   export PYENV_ROOT="${HOME}/.pyenv"
+#   export PATH="${PYENV_ROOT}/bin:${PATH}"
+#   eval "$(pyenv init -)"
+#   eval "$(pyenv virtualenv-init -)"
+#   eval "$(pyenv init --path)"
+# fi
 
 # https://stackoverflow.com/questions/13125825/zsh-update-prompt-with-current-time-when-a-command-is-started
 strlen () {
@@ -164,35 +164,6 @@ clot() {
 chpwd_zz() {
   print -P '0\t%D{%s}\t1\t%~' >>~/.zz
 }
-# zz() {
-#   awk -v ${(%):-now='%D{%s}'} <~/.zz '
-#     function r(t,f) {
-#       age = now - t
-#       return (age<3600) ? f*4 : (age<86400) ? f*2 : (age<604800) ? f/2 : f/4
-#     }
-#     { f[$4]+=$3; if ($2>l[$4]) l[$4]=$2 }
-#     END { for(i in f) printf("%d\t%d\t%d\t%s\n",r(l[i],f[i]),l[i],f[i],i) }' |
-#       sort -k2 -n -r | sed 9000q | sort -n -r -o ~/.zz
-#   if (( $# )); then
-#     local p=$(awk 'NR != FNR { exit }  # exit after first file argument
-#                    { for (i = 3; i < ARGC; i++) if ($4 !~ ARGV[i]) next
-#                      print $4; exit }' ~/.zz ~/.zz "$@")
-#     [[ $p ]] || return 1
-#     local op=print
-#     [[ -t 1 ]] && op=cd
-#     if [[ -d ${~p} ]]; then
-#       $op ${~p}
-#     else
-#       # clean nonexisting paths and retry
-#       while read -r line; do
-#         [[ -d ${~${line#*$'\t'*$'\t'*$'\t'}} ]] && print -r $line
-#       done <~/.zz | sort -n -r -o ~/.zz
-#       zz "$@"
-#     fi
-#   else
-#     sed 10q ~/.zz
-#   fi
-# }
 
 zz() {
   awk -v ${(%):-now='%D{%s}'} <~/.zz '
@@ -237,11 +208,13 @@ alias checkout='git checkout'
 alias clean='git clean'
 alias clone='git clone'
 alias commit='git commit'
+alias cherry-pick 'git cherry-pick'
 alias diff='git diff'
 alias fetch='git fetch'
 alias merge='git merge'
 alias pull='git pull'
 alias push='git push'
+alias rebase='git rebase'
 alias recommit='git recommit'
 alias restore='git restore'
 alias revert='git revert'
@@ -260,10 +233,10 @@ master() {
 }
 
 alias deploy='docker stack deploy'
-alias service='docker service'
-alias up='docker-compose up'
 alias down='docker-compose down'
 alias logs='docker-compose logs'
+alias service='docker service'
+alias up='docker-compose up'
 
 # alias aws='awsudo2 aws'
 # alias terraform='awsudo2 terraform'
