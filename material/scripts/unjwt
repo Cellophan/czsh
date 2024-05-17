@@ -1,0 +1,6 @@
+#!/bin/bash
+
+. /lib/stacktrace.sh
+
+echo -n "$@" | jq -R 'split(".") | .[0],.[1] | @base64d | fromjson'
+
