@@ -107,39 +107,39 @@ RUN apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# dependencies to install python (with asdf install python latest)
-# Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-# hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-        ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
-# pyenv, python. poetry
-# # hadolint ignore=DL4006,DL3013
-# RUN export PYTHON_VERSION="3.9.6" &&\
-#     export HOME="/etc/skel" &&\
-#     export PYENV_ROOT="${HOME}/.pyenv" &&\
-#     export PATH="${PYENV_ROOT}/bin:${PATH}" &&\
-#     curl https://pyenv.run | bash &&\
-#     eval "$(pyenv init -)" &&\
-#     eval "$(pyenv virtualenv-init -)" &&\
-#     eval "$(pyenv init --path)" &&\
-#     pyenv install ${PYTHON_VERSION} &&\
-#     ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}" &&\
-#     pyenv global ${PYTHON_VERSION%.*} &&\
-#     python --version &&\
-#     pip install wheel &&\
-#     pip install --no-cache-dir poetry pudb
-
-#python distrib
-# hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
-
-# git-filter-repo
-# hadolint ignore=DL3013,DL3059
-# RUN pip install --quiet --no-cache-dir git-filter-repo
+# # dependencies to install python (with asdf install python latest)
+# # Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
+# # hadolint ignore=DL3008
+# RUN apt-get update &&\
+#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
+#         ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
+#     apt-get clean -y && rm -rf /var/lib/apt/lists/*
+# # pyenv, python. poetry
+# # # hadolint ignore=DL4006,DL3013
+# # RUN export PYTHON_VERSION="3.9.6" &&\
+# #     export HOME="/etc/skel" &&\
+# #     export PYENV_ROOT="${HOME}/.pyenv" &&\
+# #     export PATH="${PYENV_ROOT}/bin:${PATH}" &&\
+# #     curl https://pyenv.run | bash &&\
+# #     eval "$(pyenv init -)" &&\
+# #     eval "$(pyenv virtualenv-init -)" &&\
+# #     eval "$(pyenv init --path)" &&\
+# #     pyenv install ${PYTHON_VERSION} &&\
+# #     ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}" &&\
+# #     pyenv global ${PYTHON_VERSION%.*} &&\
+# #     python --version &&\
+# #     pip install wheel &&\
+# #     pip install --no-cache-dir poetry pudb
+# 
+# #python distrib
+# # hadolint ignore=DL3008
+# RUN apt-get update &&\
+#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
+#     apt-get clean -y && rm -rf /var/lib/apt/lists/*
+# 
+# # git-filter-repo
+# # hadolint ignore=DL3013,DL3059
+# # RUN pip install --quiet --no-cache-dir git-filter-repo
 
 #aws-cli
 #RUN apt-get update &&\
