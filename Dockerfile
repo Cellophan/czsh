@@ -139,7 +139,7 @@ RUN apt-get update &&\
 
 # git-filter-repo
 # hadolint ignore=DL3013,DL3059
-RUN pip install --quiet --no-cache-dir git-filter-repo
+# RUN pip install --quiet --no-cache-dir git-filter-repo
 
 #aws-cli
 #RUN apt-get update &&\
@@ -237,7 +237,7 @@ RUN export ASDF_DIR=/etc/skel/.asdf &&\
 #tools
 # hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat iputils-ping time bsdextrautils btop exa libnotify-bin &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Imports

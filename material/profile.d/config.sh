@@ -1,1 +1,1 @@
-chown ${USER}. ~/.config
+chown ${USER}: ~/.config
