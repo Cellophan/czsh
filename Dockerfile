@@ -220,7 +220,8 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
     cp -a ntfy_*_linux_amd64/ntfy /usr/local/bin/ntfy &&\
     mkdir /etc/ntfy &&\
     cp ntfy_*_linux_amd64/client/*.yml /etc/ntfy/ &&\
-    cp ntfy_*_linux_amd64/server/*.yml /etc/ntfy/
+    cp ntfy_*_linux_amd64/server/*.yml /etc/ntfy/ &&\
+    rm -rf /tmp/*
 
 # nvm, nodejs version manager
 # hadolint ignore=SC2046,DL3003
