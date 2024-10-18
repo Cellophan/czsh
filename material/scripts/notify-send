@@ -4,7 +4,11 @@
 
 if [[ -e ~/.config/ntfy/client.yml ]]; then
     summary=${1:-}
-    body=${2:-}
+    if [ -t 0 ]; then
+        body="${2:-}"
+    else
+        body="${2:-$(< /dev/stdin)}"
+    fi
 
     exec ntfy publish --title "${summary}" ${NTFY_TOPIC:-default} "${body}" >/dev/null
 else
