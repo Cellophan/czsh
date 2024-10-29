@@ -174,6 +174,12 @@ RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_lin
   rm /tmp/tmp.deb &&\
   chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
+#github.com/grafana/k6
+RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-amd64.deb >/tmp/tmp.deb &&\
+  dpkg -i /tmp/tmp.deb &&\
+  rm /tmp/tmp.deb &&\
+  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
+
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
