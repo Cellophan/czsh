@@ -32,6 +32,9 @@ RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/i
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/difft-x86_64-unknown-linux-gnu.tar.gz \
     | tar --directory=/usr/local/bin -xvz difft
+# hadolint ignore=DL3059,DL4006
+RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/download/v1.9.1/jd-amd64-linux
+
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
