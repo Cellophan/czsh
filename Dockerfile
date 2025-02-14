@@ -1,6 +1,6 @@
 # Download tools
 # hadolint ignore=DL3007
-FROM ubuntu:latest as downloaded-tools
+FROM ubuntu:latest AS downloaded-tools
 RUN apt-get update
 # hadolint ignore=DL3059,DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
@@ -34,6 +34,9 @@ RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/dif
     | tar --directory=/usr/local/bin -xvz difft
 # hadolint ignore=DL3059,DL4006
 RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/download/v1.9.1/jd-amd64-linux
+# hadolint ignore=DL3059,DL4006
+RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-amd64.tar.gz \
+    | tar --directory=/usr/local/bin -xvz asdf
 
 
 # hadolint ignore=DL3059
@@ -41,7 +44,7 @@ RUN chmod +x /usr/local/bin/*
 
 #Main
 # hadolint ignore=DL3007
-FROM cell/playground:latest as final
+FROM cell/playground:latest AS final
 ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh
@@ -238,11 +241,11 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 #     cd /etc/skel/.nvm &&\
 #     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
-# hadolint ignore=SC2046,DL3003
-RUN export ASDF_DIR=/etc/skel/.asdf &&\
-    git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} &&\
-    (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
-    export PATH="${PATH}:${ASDF_DIR}/bin"
+# # hadolint ignore=SC2046,DL3003
+# RUN export ASDF_DIR=/etc/skel/.asdf &&\
+#     git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} &&\
+#     (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
+#     export PATH="${PATH}:${ASDF_DIR}/bin"
 
 #tools
 # hadolint ignore=DL3008

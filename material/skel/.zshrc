@@ -54,7 +54,8 @@ HIST_STAMPS="yyyy-mm-dd"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass aws kubectl asdf)
+plugins=(docker fzf-zsh zsh-autosuggestions zsh-syntax-highlighting pass aws kubectl)
+# source <(asdf completion zsh)
 
 #docker-compose
 #z zsh-syntax-highlighting zsh-autosuggestions
@@ -246,7 +247,8 @@ alias up='docker-compose up'
 # inspired by https://www.atlassian.com/git/tutorials/dotfiles
 alias dotfiles='git --git-dir=${HOME}/.dotfiles/ --work-tree=${HOME}'
 
-alias csv2json="jq -f /opt/payload/csv2json.jq"
+alias jqcsv2json="jq --from-file /opt/payload/baggage/csv2json.jq"
+alias jqflatten="jq --raw-output --from-file /opt/payload/baggage/flatten.jq"
 
 #Customize Agnoster
 prompt_dir() {
