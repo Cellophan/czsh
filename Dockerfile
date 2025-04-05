@@ -248,9 +248,13 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 #     export PATH="${PATH}:${ASDF_DIR}/bin"
 
 #tools
+# openssh-client: to permit ssh mount while build:
+#   DOCKER_BUILDKIT=1 docker build --ssh default -t ...
+#   RUN --mount=type=ssh mkdir -p -m 0600 ~/.ssh &&\
+#      ssh-keyscan <host to know> >> ~/.ssh/known_hosts
 # hadolint ignore=DL3008
 RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client &&\
     apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 #Imports
