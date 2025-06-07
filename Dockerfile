@@ -73,11 +73,6 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
 #     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
 #     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
 #     rm -rf /tmp/awsudo2
-#kubectl
-COPY --from=downloaded-tools /usr/local/bin/kubectl  /usr/local/bin/kubectl
-RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
-    kubectl completion zsh > /etc/skel/.oh-my-zsh/custom/plugins/kubectl/kubectl.plugin.zsh
-
 #fzf
 # hadolint ignore=DL3008
 RUN apt-get update &&\
@@ -241,12 +236,6 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 #     cd /etc/skel/.nvm &&\
 #     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
-# # hadolint ignore=SC2046,DL3003
-# RUN export ASDF_DIR=/etc/skel/.asdf &&\
-#     git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} &&\
-#     (cd ${ASDF_DIR} && git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))) &&\
-#     export PATH="${PATH}:${ASDF_DIR}/bin"
-
 #tools
 # openssh-client: to permit ssh mount while build:
 #   DOCKER_BUILDKIT=1 docker build --ssh default -t ...
@@ -261,6 +250,11 @@ RUN apt-get update &&\
 # COPY --from=golang-tools /usr/local/go     /usr/local/go
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 # COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
+
+#Completions
+#kubectl
+RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
+    kubectl completion zsh >/etc/skel/.oh-my-zsh/custom/plugins/kubectl/kubectl.plugin.zsh
 
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
