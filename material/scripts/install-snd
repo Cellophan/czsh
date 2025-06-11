@@ -1,0 +1,10 @@
+#!/bin/bash
+set -evx
+
+sudo apt update
+
+sudo apt install -qy \
+    alsa-base alsa-utils pulseaudio
+#    mplayer
+
+
