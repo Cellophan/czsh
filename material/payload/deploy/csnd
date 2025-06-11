@@ -1,4 +1,0 @@
-#!/bin/bash
-
-eval $(docker run --rm --entrypoint cmd-csnd cell/czsh) $@
-

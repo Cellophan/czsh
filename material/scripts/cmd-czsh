@@ -6,8 +6,8 @@
 # Perhaps add XDG variables? \${!XDG_*}
 
 RO="\${HOME}/.ssh /etc/localtime \${HOME}/.gnupg"
-RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc \${HOME}/.config/exercism \${HOME}/.config/pudb \${HOME}/.local/share/cataclysm-dda \${HOME}/.config/tea \${HOME}/.gitignore \${HOME}/.config/ntfy/client.yml"
-E="USER TERM SSH_CONNECTION"
+RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc \${HOME}/.config/exercism \${HOME}/.config/pudb \${HOME}/.local/share/cataclysm-dda \${HOME}/.config/tea \${HOME}/.gitignore \${HOME}/.config/ntfy/client.yml \${XDG_RUNTIME_DIR}/pulse/native \${HOME}/.config/pulse/cookie"
+E="USER TERM SSH_CONNECTION XDG_RUNTIME_DIR"
 
 echo -n "\
     ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \
@@ -23,6 +23,7 @@ echo -n "\
         --net host --pid host \
         -w \"\$PWD\" \
         -e UID=\$(id --user) -e GID=\$(id --group) \
+        --device /dev/snd:/dev/snd \
         \${ro_args} \${rw_args} \${e_args} \
         $@ \
         ${DOCKER_IMAGE}"

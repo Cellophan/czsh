@@ -2,8 +2,8 @@
 #Provide the default parameters used by the image.
 
 RO="\${HOME}/.ssh /etc/localtime"
-RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.config/doctl \${HOME}/.config/gh \${HOME}/.flyrc"
-E="TERM"
+RW="\${HOME}/.docker \${PWD} /dev/shm /run/user/\$(id --user) /var/run/docker.sock \${HOME}/.gnupg \${HOME}/.aws \${HOME}/.kube \${HOME}/.flyrc \${XDG_RUNTIME_DIR}/pulse/native \${HOME}/.config/pulse/cookie"
+E="TERM XDG_RUNTIME_DIR"
 
 echo -n "\
   ro_list=\"${RO}\"; rw_list=\"${RW}\"; e_list=\"${E}\"; \

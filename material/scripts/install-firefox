@@ -15,3 +15,6 @@ echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codenam
 
 sudo apt update
 sudo apt install -qy firefox ubuntu-restricted-extras libcanberra-gtk-module libcanberra-gtk3-module gnome-colors-common
+
+install-snd
+
