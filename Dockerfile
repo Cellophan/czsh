@@ -28,7 +28,7 @@ RUN curl -sSL https://github.com/mithrandie/csvq/releases/download/v1.17.10/csvq
 RUN curl -sSL https://dl.gitea.io/tea/0.9/tea-0.9-linux-amd64 >/usr/local/bin/tea
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
-    | sh -s -- -b /usr/local/bin v1.55.2
+    | sh -s -- -b /usr/local/bin v1.64.5
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/difft-x86_64-unknown-linux-gnu.tar.gz \
     | tar --directory=/usr/local/bin -xvz difft
