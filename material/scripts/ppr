@@ -3,6 +3,6 @@
 . /lib/stacktrace.sh
 
 git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)
-gh pr create --label minor --assignee "@me" --web
+gh pr create --label minor --assignee "@me" --draft --web
 
 
