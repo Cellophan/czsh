@@ -4,7 +4,9 @@ set -evx
 sudo apt update
 
 sudo apt install -qy \
-    alsa-base alsa-utils pulseaudio
+    alsa-base alsa-utils \
+    pulseaudio \
+    pipewire-alsa pipewire
 #    mplayer
 
 
