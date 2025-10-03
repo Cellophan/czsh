@@ -50,9 +50,9 @@ ENV DOCKER_IMAGE="cell/czsh"
 #zsh and oh-my-zsh
 #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
 # hadolint ignore=DL3008
-RUN apt-get update &&\
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
     apt-get install -qy --no-install-recommends zsh &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
     ln -s /etc/skel/.oh-my-zsh /root &&\
     ln -s /etc/skel/.zshrc /root &&\
@@ -75,9 +75,9 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
 #     rm -rf /tmp/awsudo2
 #fzf
 # hadolint ignore=DL3008
-RUN apt-get update &&\
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
     apt-get install -qy --no-install-recommends silversearcher-ag &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
     /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
     git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
@@ -85,18 +85,18 @@ RUN apt-get update &&\
 
 #powerline
 # hadolint ignore=DL3008
-RUN apt-get update &&\
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
     apt-get install -qy --no-install-recommends curl ca-certificates dconf-cli &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     mkdir -p /etc/skel/.fonts /etc/skel/.config/fontconfig/conf.d &&\
     curl -sSL --output /etc/skel/.fonts/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
     curl -sSL --output /etc/skel/.config/fontconfig/conf.d/10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
     apt-get remove -y dconf-cli
 
 # hadolint ignore=DL3008
-RUN apt-get update &&\
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
     apt-get install -qy --no-install-recommends fontconfig locales &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     locale-gen en_US.UTF-8 en_US &&\
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales &&\
     /usr/sbin/update-locale LANG=C.UTF-8 &&\
@@ -104,9 +104,9 @@ RUN apt-get update &&\
 
 #pass
 # hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool
 
 # # dependencies to install python (with asdf install python latest)
 # # Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
@@ -148,9 +148,9 @@ RUN apt-get update &&\
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
 #  pip3 install --system awscli
 # hadolint ignore=DL3003,DL3008
-RUN apt-get update &&\
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
     cd /tmp &&\
     curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" >/tmp/awscliv2.zip &&\
     unzip -q /tmp/awscliv2.zip &&\
@@ -190,21 +190,21 @@ RUN curl -sSL https://github.com/charmbracelet/gum/releases/download/v0.8.0/gum_
 
 #pwgen
 # hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen
 
 #socat (used in material/scripts/xdg-open)
 # hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat
 
 #icdiff (used in material/scripts/git-icdiff)
 # hadolint ignore=DL3008
-RUN apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff
 
 #Completion for bash for colleagues
 #RUN apt-get update &&\
@@ -242,9 +242,9 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 #   RUN --mount=type=ssh mkdir -p -m 0600 ~/.ssh &&\
 #      ssh-keyscan <host to know> >> ~/.ssh/known_hosts
 # hadolint ignore=DL3008
-RUN apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client &&\
-    apt-get clean -y && rm -rf /var/lib/apt/lists/*
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client
 
 #Imports
 # COPY --from=golang-tools /usr/local/go     /usr/local/go
