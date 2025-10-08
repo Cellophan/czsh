@@ -91,7 +91,7 @@ container_prompt() {
   if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
     echo -n "${CONTAINER_PROMPT:-} "
   elif [[ -n "${DOCKER_IMAGE:-}" ]]; then
-    echo -n "${DOCKER_IMAGE:-} " | sed 's#^.*/##'
+    echo -n "📦 "
   fi
 
   echo -n "%F{clean}%b"
@@ -108,13 +108,7 @@ precmd() {
   STATUS="%(?:${HOST_PROMPT}:⭕ )"
   CURRENT_DIR="%{%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b "
 
-  PROMPT="${STATUS}${CONTAINER_PROMPT}$(asdf_prompt)${CURRENT_DIR}$(git_prompt)> "
-}
-
-asdf_prompt() {
-  if [[ -e ".asdf" || -e ".tool-versions" ]]; then
-      echo -n "🛠️  "
-  fi
+  PROMPT="${STATUS}${CONTAINER_PROMPT}${CURRENT_DIR}$(git_prompt)> "
 }
 
 git_prompt() {
