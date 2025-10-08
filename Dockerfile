@@ -47,51 +47,55 @@ RUN chmod +x /usr/local/bin/*
 FROM cell/playground:latest AS final
 ENV DOCKER_IMAGE="cell/czsh"
 
-#zsh and oh-my-zsh
-#https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
-# hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update &&\
-    apt-get install -qy --no-install-recommends zsh &&\
-    git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
-    ln -s /etc/skel/.oh-my-zsh /root &&\
-    ln -s /etc/skel/.zshrc /root &&\
-    find /etc/skel -name .git -type d -exec echo rm -rf {} \;
+# #zsh and oh-my-zsh
+# #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
+# # hadolint ignore=DL3008
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update &&\
+#     apt-get install -qy --no-install-recommends zsh &&\
+#     git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
+#     ln -s /etc/skel/.oh-my-zsh /root &&\
+#     ln -s /etc/skel/.zshrc /root &&\
+#     find /etc/skel -name .git -type d -exec echo rm -rf {} \;
+# 
+# #agnoster
+# RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
+#     ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
+#     find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
+# #zsh-autosuggestions
+# RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
+#     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
+# #zsh-autosuggestions
+# RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
+#     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
+# #awsudo
+# # RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
+# #     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
+# #     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
+# #     rm -rf /tmp/awsudo2
+# #fzf
+# # hadolint ignore=DL3008
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update &&\
+#     apt-get install -qy --no-install-recommends silversearcher-ag &&\
+#     git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
+#     /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
+#     git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
+#     find /etc/skel/.oh-my-zsh/custom/plugins -name .git -type d -exec echo rm -rf {} \;
 
-#agnoster
-RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
-    ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
-    find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
-#zsh-autosuggestions
-RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
-    find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
-#zsh-autosuggestions
-RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
-    find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
-#awsudo
-# RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
-#     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
-#     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
-#     rm -rf /tmp/awsudo2
-#fzf
-# hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update &&\
-    apt-get install -qy --no-install-recommends silversearcher-ag &&\
-    git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
-    /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
-    git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
-    find /etc/skel/.oh-my-zsh/custom/plugins -name .git -type d -exec echo rm -rf {} \;
+# #powerline
+# # hadolint ignore=DL3008
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update &&\
+#     apt-get install -qy --no-install-recommends curl ca-certificates dconf-cli &&\
+#     mkdir -p /etc/skel/.fonts /etc/skel/.config/fontconfig/conf.d &&\
+#     curl -sSL --output /etc/skel/.fonts/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
+#     curl -sSL --output /etc/skel/.config/fontconfig/conf.d/10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
+#     apt-get remove -y dconf-cli
 
-#powerline
-# hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
-    apt-get install -qy --no-install-recommends curl ca-certificates dconf-cli &&\
-    mkdir -p /etc/skel/.fonts /etc/skel/.config/fontconfig/conf.d &&\
-    curl -sSL --output /etc/skel/.fonts/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
-    curl -sSL --output /etc/skel/.config/fontconfig/conf.d/10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
-    apt-get remove -y dconf-cli
+    apt-get install -qy --no-install-recommends zsh
 
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
@@ -169,14 +173,13 @@ RUN --mount=type=cache,target=/var/cache/apt \
 #github.com/cli/cli
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb &&\
-  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
+  rm /tmp/tmp.deb
+#  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
 #github.com/grafana/k6
 RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-amd64.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb &&\
-  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
+  rm /tmp/tmp.deb
 
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
@@ -200,11 +203,11 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat
 
-#icdiff (used in material/scripts/git-icdiff)
-# hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff
+# #icdiff (used in material/scripts/git-icdiff)
+# # hadolint ignore=DL3008
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update &&\
+#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff
 
 #Completion for bash for colleagues
 #RUN apt-get update &&\
@@ -251,10 +254,21 @@ RUN --mount=type=cache,target=/var/cache/apt \
 COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 # COPY --from=built-tools /usr/local/bin/*  /usr/local/bin/
 
-#Completions
-#kubectl
-RUN mkdir -p /etc/skel/.oh-my-zsh/custom/plugins/kubectl &&\
-    kubectl completion zsh >/etc/skel/.oh-my-zsh/custom/plugins/kubectl/kubectl.plugin.zsh
+
+# ZSH
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get install -qy wget gawk
+RUN mkdir -p /opt/local/zsh/fzf &&\
+    wget --quiet --directory-prefix=/opt/local/zsh/ \
+      https://raw.githubusercontent.com/git/git/refs/heads/master/contrib/completion/git-completion.zsh \
+      https://raw.githubusercontent.com/zsh-users/zsh-autosuggestions/refs/heads/master/zsh-autosuggestions.zsh &&\
+    wget --quiet --directory-prefix=/opt/local/zsh/fzf/ \
+      https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/shell/completion.zsh \
+      https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/shell/key-bindings.zsh
+# Completions
+RUN docker completion zsh >/opt/local/zsh/docker.zsh
+RUN kubectl completion zsh >/opt/local/zsh/kubectl.zsh
+RUN asdf completion zsh >/opt/local/zsh/asdf.zsh
 
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
