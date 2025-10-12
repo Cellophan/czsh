@@ -21,9 +21,9 @@ RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-rep
 # hadolint ignore=DL3059
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_${TARGETARCH}.zip >/tmp/terraform.zip &&\
     unzip /tmp/terraform.zip
-# hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-$(uname -m).tar.gz \
-    | tar --directory=/usr/local/bin -xvz exercism
+# # hadolint ignore=DL3059,DL4006
+# RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-$(uname -m).tar.gz \
+#     | tar --directory=/usr/local/bin -xvz exercism
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.50.15/k9s_Linux_${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz k9s
@@ -184,9 +184,14 @@ RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_lin
 #  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
 #github.com/grafana/k6
-RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-${TARGETARCH}.deb >/tmp/tmp.deb &&\
-  dpkg -i /tmp/tmp.deb &&\
-  rm /tmp/tmp.deb
+# RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-${TARGETARCH}.deb >/tmp/tmp.deb &&\
+#   dpkg -i /tmp/tmp.deb &&\
+#   rm /tmp/tmp.deb
+# https://github.com/grafana/k6/releases/download/v1.3.0/k6-v1.3.0-linux-arm64.tar.gz
+RUN curl -sSL https://github.com/grafana/k6/releases/download/v1.3.0/k6-v1.3.0-linux-${TARGETARCH}.tar.gz >/tmp/tmp.tgz &&\
+    cd /tmp &&\
+    tar zxvf /tmp/tmp.tgz &&\
+    cp -a */k6 /usr/local/bin/
 
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
@@ -224,7 +229,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
 
 #dive
-RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
@@ -234,10 +239,10 @@ RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.
 RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/ntfy_2.10.0_linux_${TARGETARCH}.tar.gz >/tmp/tmp.tgz &&\
     cd /tmp &&\
     tar zxvf /tmp/tmp.tgz &&\
-    cp -a ntfy_*_linux_amd64/ntfy /usr/local/bin/ntfy &&\
+    cp -a */ntfy /usr/local/bin/ntfy &&\
     mkdir /etc/ntfy &&\
-    cp ntfy_*_linux_amd64/client/*.yml /etc/ntfy/ &&\
-    cp ntfy_*_linux_amd64/server/*.yml /etc/ntfy/ &&\
+    cp */client/*.yml /etc/ntfy/ &&\
+    cp */server/*.yml /etc/ntfy/ &&\
     rm -rf /tmp/*
 
 # nvm, nodejs version manager
