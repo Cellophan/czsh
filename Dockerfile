@@ -1,6 +1,12 @@
 # Download tools
 # hadolint ignore=DL3007
 FROM ubuntu:latest AS downloaded-tools
+# https://docs.docker.com/build/building/multi-platform/
+# ${TARGETARCH}: amd64 or arm64
+# $(uname -m): x86_64 or aarch64
+ARG TARGETARCH
+# RUN echo $TARGETARCH; echo $(uname -m);exit 1
+
 RUN apt-get update
 # hadolint ignore=DL3059,DL3008
 RUN DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends curl ca-certificates unzip git
@@ -8,34 +14,34 @@ WORKDIR /usr/local/bin
 
 RUN curl -sSL "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" >/usr/local/bin/docker-compose
 # hadolint ignore=DL3059
-RUN curl -sSLO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl"
+RUN curl -sSLO "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/${TARGETARCH}/kubectl"
 # hadolint ignore=DL3059
 RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-replacement.git /tmp/docker-systemctl-replacement &&\
     cp /tmp/docker-systemctl-replacement/files/docker/systemctl3.py /usr/local/bin/systemctl
 # hadolint ignore=DL3059
-RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_amd64.zip >/tmp/terraform.zip &&\
+RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_${TARGETARCH}.zip >/tmp/terraform.zip &&\
     unzip /tmp/terraform.zip
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-x86_64.tar.gz \
+RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-$(uname -m).tar.gz \
     | tar --directory=/usr/local/bin -xvz exercism
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.25.18/k9s_Linux_arm.tar.gz \
+RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.50.15/k9s_Linux_${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz k9s
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/mithrandie/csvq/releases/download/v1.17.10/csvq-v1.17.10-linux-amd64.tar.gz \
-    | tar --directory=/usr/local/bin -xvz csvq-v1.17.10-linux-amd64/csvq
+RUN curl -sSL https://github.com/mithrandie/csvq/releases/download/v1.17.10/csvq-v1.17.10-linux-${TARGETARCH}.tar.gz \
+    | tar --directory=/usr/local/bin -xvz csvq-v1.17.10-linux-${TARGETARCH}/csvq
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://dl.gitea.io/tea/0.9/tea-0.9-linux-amd64 >/usr/local/bin/tea
+RUN curl -sSL https://dl.gitea.io/tea/0.9/tea-0.9-linux-${TARGETARCH} >/usr/local/bin/tea
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh \
     | sh -s -- -b /usr/local/bin v1.64.5
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/difft-x86_64-unknown-linux-gnu.tar.gz \
+RUN curl -sSL https://github.com/Wilfred/difftastic/releases/download/0.56.1/difft-$(uname -m)-unknown-linux-gnu.tar.gz \
     | tar --directory=/usr/local/bin -xvz difft
 # hadolint ignore=DL3059,DL4006
-RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/download/v1.9.1/jd-amd64-linux
+RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/download/v1.9.1/jd-${TARGETARCH}-linux
 # hadolint ignore=DL3059,DL4006
-RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-amd64.tar.gz \
+RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz asdf
 
 
@@ -45,6 +51,7 @@ RUN chmod +x /usr/local/bin/*
 #Main
 # hadolint ignore=DL3007
 FROM cell/playground:latest AS final
+ARG TARGETARCH
 ENV DOCKER_IMAGE="cell/czsh"
 
 # #zsh and oh-my-zsh
@@ -156,7 +163,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
     cd /tmp &&\
-    curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" >/tmp/awscliv2.zip &&\
+    curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" >/tmp/awscliv2.zip &&\
     unzip -q /tmp/awscliv2.zip &&\
     /tmp/aws/install &&\
     rm -rf /tmp/aws*
@@ -171,23 +178,23 @@ RUN --mount=type=cache,target=/var/cache/apt \
 # RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
-RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb
 #  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
 
 #github.com/grafana/k6
-RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-${TARGETARCH}.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb
 
 #glow
-RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
 #gum
-RUN curl -sSL https://github.com/charmbracelet/gum/releases/download/v0.8.0/gum_0.8.0_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/charmbracelet/gum/releases/download/v0.8.0/gum_0.8.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
@@ -217,14 +224,14 @@ RUN --mount=type=cache,target=/var/cache/apt \
 #  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
 
 #dive
-RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_amd64.deb >/tmp/tmp.deb &&\
+RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.9.2/dive_0.9.2_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
     rm /tmp/tmp.deb
 
 # ntfy
 # https://docs.ntfy.sh/install/
 # hadolint ignore=SC2046,DL3003
-RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/ntfy_2.10.0_linux_amd64.tar.gz >/tmp/tmp.tgz &&\
+RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/ntfy_2.10.0_linux_${TARGETARCH}.tar.gz >/tmp/tmp.tgz &&\
     cd /tmp &&\
     tar zxvf /tmp/tmp.tgz &&\
     cp -a ntfy_*_linux_amd64/ntfy /usr/local/bin/ntfy &&\
