@@ -277,6 +277,9 @@ RUN mkdir -p /opt/local/zsh/fzf &&\
     wget --quiet --directory-prefix=/opt/local/zsh/fzf/ \
       https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/shell/completion.zsh \
       https://raw.githubusercontent.com/junegunn/fzf/refs/heads/master/shell/key-bindings.zsh
+RUN mkdir -p /etc/skel/.zsh &&\
+    wget --quiet --directory-prefix=/etc/skel/.zsh/ \
+      https://raw.githubusercontent.com/zsh-users/zsh-autosuggestions/refs/heads/master/zsh-autosuggestions.zsh
 # Completions
 RUN docker completion zsh >/opt/local/zsh/docker.zsh
 RUN kubectl completion zsh >/opt/local/zsh/kubectl.zsh
