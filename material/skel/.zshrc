@@ -23,7 +23,10 @@ zstyle ':completion:*' menu select
 # stty start '^-' stop '^-'
 unsetopt flow_control
 
-source ~/.zsh/zsh-autosuggestions.zsh
+# Only for "big" machines...
+if [[ "$(uname -m)" ==  "x86_64" ]]; then
+    source ~/.zsh/zsh-autosuggestions.zsh
+fi
 
 
 # Right prompt
@@ -104,7 +107,7 @@ zz() {
     }
     { f[$4]+=$3; if ($2>l[$4]) l[$4]=$2 }
     END { for(i in f) printf("%d\t%d\t%d\t%s\n",r(l[i],f[i]),l[i],f[i],i) }' |
-      sort -k2 -n -r | sed 9000q | sort -n -r -o ~/.zz
+    sort -k2 -n -r | sed 9000q | sort -n -r -o ~/.zz
   if (( $# )); then
     local p=$(fzf --filter="$@" --no-sort < ~/.zz | gawk '{ print $4; exit }')
     [[ $p ]] || return 1
@@ -130,7 +133,7 @@ alias z=' zz'
 
 # Prompts
 host_prompt() {
-  if [[ -n ${SSH_CLIENT} ]]; then
+  if [[ -n ${SSH_CONNECTION} ]]; then
     if _has hostname && _has md5sum; then
       number=$(hostname | md5sum | gawk '//{ hex=sprintf("0x%s\n", $1); dec=sprintf("%s", strtonum(hex)); print(substr(dec, 0, 10))}')
       local emojis=(
@@ -167,6 +170,8 @@ precmd() {
 container_prompt() {
   if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
     echo -n "${CONTAINER_PROMPT:-} "
+  else
+    echo -n "📦 "
   fi
 }
 
