@@ -269,7 +269,7 @@ COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 
 # ZSH
 RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get install -qy wget gawk
+    apt-get install -qy wget gawk fzf
 RUN mkdir -p /opt/local/zsh/fzf &&\
     wget --quiet --directory-prefix=/opt/local/zsh/ \
       https://raw.githubusercontent.com/git/git/refs/heads/master/contrib/completion/git-completion.zsh \
