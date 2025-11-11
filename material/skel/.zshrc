@@ -1,7 +1,25 @@
-# export ZSH="$HOME/.oh-my-zsh"
-# # ZSH_THEME="robbyrussell"
-# # ZSH_THEME="self"
-# source $ZSH/oh-my-zsh.sh
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/templates/zshrc.zsh-template
+export ZSH="$HOME/.oh-my-zsh"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="czsh"
+
+# Only for "big" machines...
+if [[ "$(uname -m)" ==  "x86_64" ]]; then
+    plugins=(
+        zsh-autosuggestions
+        zsh-syntax-highlighting
+    )
+else
+    plugins=(
+        zsh-syntax-highlighting
+    )
+fi
+
+# https://github.com/ohmyzsh/ohmyzsh?tab=readme-ov-file#advanced-topics
+zstyle ':omz:update' frequency 28
+zstyle ':omz:plugins:*' aliases no
+source $ZSH/oh-my-zsh.sh
+
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
@@ -12,21 +30,16 @@ setopt appendhistory
 export LC_ALL=en_US.UTF-8
 export LC_CTYPE=en_US.UTF-8
 
-# https://github.com/jeffreytse/zsh-vi-mode#initialization-mode
-ZVM_INIT_MODE=sourcing
-
-# Menu in case of tab
-# zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*' menu select
-
-# CTRL-q
-# stty start '^-' stop '^-'
-unsetopt flow_control
-
-# Only for "big" machines...
-if [[ "$(uname -m)" ==  "x86_64" ]]; then
-    source ~/.zsh/zsh-autosuggestions.zsh
-fi
+# # https://github.com/jeffreytse/zsh-vi-mode#initialization-mode
+# ZVM_INIT_MODE=sourcing
+# 
+# # Menu in case of tab
+# # zstyle ':completion:*:*:*:*:*' menu select
+# zstyle ':completion:*' menu select
+# 
+# # CTRL-q
+# # stty start '^-' stop '^-'
+# unsetopt flow_control
 
 
 # Right prompt
@@ -151,21 +164,21 @@ host_prompt() {
 }
 export HOST_PROMPT=$(host_prompt)
 
-precmd() {
-  # red, blue, green, cyan, yellow, magenta, black, white
-  # #008000
-  # %F Foreground %K bacKground %U Underline %S
-  # PROMPT="%1 %(?:🟩:⭕) %{%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b"
-
-  # STATUS="%(?:🟩:⭕) "
-  STATUS="%(?:${HOST_PROMPT}:⭕ )"
-  CURRENT_DIR="%{%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b "
-  SEGMENT_SEPARATOR="◤"
-
-  # PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)🢖 "
-  # PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)◤ "
-  PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)▶ "
-}
+# precmd() {
+#   # red, blue, green, cyan, yellow, magenta, black, white
+#   # #008000
+#   # %F Foreground %K bacKground %U Underline %S
+#   # PROMPT="%1 %(?:🟩:⭕) %{%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b"
+# 
+#   # STATUS="%(?:🟩:⭕) "
+#   STATUS="%(?:${HOST_PROMPT}:⭕ )"
+#   CURRENT_DIR="%{%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b "
+#   SEGMENT_SEPARATOR="◤"
+# 
+#   # PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)🢖 "
+#   # PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)◤ "
+#   PROMPT="${STATUS}$(container_prompt)$(asdf_prompt)${CURRENT_DIR}$(git_prompt)▶ "
+# }
 
 container_prompt() {
   if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
@@ -329,3 +342,4 @@ main() {
 master() {
     git switch $(git branch -l main master | sed "s/^* //")
 }
+

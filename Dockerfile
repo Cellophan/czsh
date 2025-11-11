@@ -54,27 +54,27 @@ FROM cell/playground:latest AS final
 ARG TARGETARCH
 ENV DOCKER_IMAGE="cell/czsh"
 
-# #zsh and oh-my-zsh
-# #https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
-# # hadolint ignore=DL3008
-# RUN --mount=type=cache,target=/var/cache/apt \
-#     apt-get update &&\
-#     apt-get install -qy --no-install-recommends zsh &&\
-#     git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
-#     ln -s /etc/skel/.oh-my-zsh /root &&\
-#     ln -s /etc/skel/.zshrc /root &&\
-#     find /etc/skel -name .git -type d -exec echo rm -rf {} \;
-# 
+#zsh and oh-my-zsh
+#https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
+# hadolint ignore=DL3008
+RUN --mount=type=cache,target=/var/cache/apt \
+    apt-get update &&\
+    apt-get install -qy --no-install-recommends zsh &&\
+    git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
+    ln -s /etc/skel/.oh-my-zsh /root &&\
+    ln -s /etc/skel/.zshrc /root &&\
+    find /etc/skel -name .git -type d -exec echo rm -rf {} \;
+
 # #agnoster
 # RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
 #     ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
 #     find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
-# #zsh-autosuggestions
-# RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
-#     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
-# #zsh-autosuggestions
-# RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
-#     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
+#zsh-autosuggestions
+RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
+    find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
+#zsh-autosuggestions
+RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
+    find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
 # #awsudo
 # # RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
 # #     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
@@ -285,6 +285,7 @@ RUN docker completion zsh >/opt/local/zsh/docker.zsh
 RUN kubectl completion zsh >/opt/local/zsh/kubectl.zsh
 RUN asdf completion zsh >/opt/local/zsh/asdf.zsh
 
+COPY material/czsh.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
 COPY material/profile.d /etc/profile.d/
