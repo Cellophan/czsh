@@ -27,11 +27,11 @@ host_prompt() {
 HOST_PROMPT="$(host_prompt)"
 
 container_prompt() {
-  if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
-    echo -n "${CONTAINER_PROMPT:-} "
-  else
+  # if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
+  #   echo -n "${CONTAINER_PROMPT:-} "
+  # else
     echo -n "📦 "
-  fi
+  # fi
 }
 
 asdf_prompt() {
