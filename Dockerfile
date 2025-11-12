@@ -285,7 +285,7 @@ RUN docker completion zsh >/opt/local/zsh/docker.zsh
 RUN kubectl completion zsh >/opt/local/zsh/kubectl.zsh
 RUN asdf completion zsh >/opt/local/zsh/asdf.zsh
 
-COPY material/czsh.zsh-theme /etc/skel/.oh-my-zsh/custom/themes
+COPY material/*.zsh-theme /etc/skel/.oh-my-zsh/custom/themes/
 COPY material/payload /opt/payload/
 COPY material/scripts /usr/local/bin/
 COPY material/profile.d /etc/profile.d/
