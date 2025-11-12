@@ -1,4 +1,8 @@
 
+_has() {
+  return $( whence $1 >/dev/null )
+}
+
 dir_prompt() {
   echo -n "%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b "
 }
