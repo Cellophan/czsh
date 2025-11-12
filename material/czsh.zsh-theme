@@ -33,6 +33,7 @@ container_prompt() {
     echo -n "📦 "
   # fi
 }
+CONTAINER_PROMPT="$(container_prompt)"
 
 asdf_prompt() {
   if [[ -e ".asdf" || -e ".tool-versions" ]]; then
@@ -151,6 +152,10 @@ git_prompt() {
     '
 }
 
+status_prompt() {
+  echo -n "%(?:🟩:⭕) "
+}
+STATUS_PROMPT="$(status_prompt)"
 
-PROMPT="%(?:🟩:⭕) ${HOST_PROMPT}$(container_prompt)$(dir_prompt)$(git_prompt)%B>%b "
+PROMPT="${STATUS_PROMPT}${HOST_PROMPT}$(CONTAINER_PROMPT)$(dir_prompt)$(git_prompt)%B>%b "
 
