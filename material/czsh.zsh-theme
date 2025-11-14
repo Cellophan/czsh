@@ -12,7 +12,7 @@ host_prompt() {
     if _has hostname && _has md5sum; then
       number=$(hostname | md5sum | gawk '//{ hex=sprintf("0x%s\n", $1); dec=sprintf("%s", strtonum(hex)); print(substr(dec, 0, 10))}')
       local emojis=(
-        "👾" "👽" "👹" "🫀" "🦾" "🦹" "🧙" "🧘" "👣" "👥" 
+        "👾" "👽" "👹" "♾️"" "🦾" "🦹" "🧙" "🧘" "👣" "👥" 
         "🦍" "🐺" "🦓" "🦄" "🐮" "🦏" "🦇" "🐻" "🐸" "🦕"
         "🐋" "🐚" "🐙" "🐛" "🦠" "🌼" "🍀" "🍁" "🍄" "🍉"
         "🫐" "🥥" "🍏" "🌰" "🥦" "🥐" "🥖" "🥘" "🍵" "🏺"
@@ -22,7 +22,7 @@ host_prompt() {
       echo -n "${emojis[$index]} "
     fi
   fi
- # "💡" "📎" "⚙️" "🧲" "📡" "♾️" "☣️" "🛄"
+ # "💡" "📎" "⚙️" "🧲" "📡" "☣️" "🛄"
 }
 HOST_PROMPT="$(host_prompt)"
 
@@ -157,5 +157,5 @@ status_prompt() {
 }
 STATUS_PROMPT="$(status_prompt)"
 
-PROMPT="${STATUS_PROMPT}${HOST_PROMPT}$(CONTAINER_PROMPT)$(dir_prompt)$(git_prompt)%B>%b "
+PROMPT="${STATUS_PROMPT}${HOST_PROMPT}${CONTAINER_PROMPT}$(dir_prompt)$(git_prompt)%B>%b "
 
