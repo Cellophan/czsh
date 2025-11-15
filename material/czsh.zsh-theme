@@ -6,6 +6,7 @@ _has() {
 dir_prompt() {
   echo -n "%F{blue}%B%(4~|%-1~/…/%2~|%3~)%F{clean}%b "
 }
+DIR_PROMPT="$(dir_prompt)"
 
 host_prompt() {
   if [[ -n ${SSH_CONNECTION} ]]; then
@@ -24,16 +25,14 @@ host_prompt() {
   fi
  # "💡" "📎" "⚙️" "🧲" "📡" "☣️" "🛄"
 }
-HOST_PROMPT="$(host_prompt)"
 
-container_prompt() {
-  # if [[ -n "${CONTAINER_PROMPT:-}" ]]; then
-  #   echo -n "${CONTAINER_PROMPT:-} "
-  # else
+c_prompt() {
+  if [[ -e "/.dockerenv" ]]; then
     echo -n "📦 "
-  # fi
+  else
+    echo -n ""
+  fi
 }
-CONTAINER_PROMPT="$(container_prompt)"
 
 asdf_prompt() {
   if [[ -e ".asdf" || -e ".tool-versions" ]]; then
@@ -155,7 +154,6 @@ git_prompt() {
 status_prompt() {
   echo -n "%(?:🟩:⭕) "
 }
-STATUS_PROMPT="$(status_prompt)"
 
-PROMPT="${STATUS_PROMPT}${HOST_PROMPT}${CONTAINER_PROMPT}$(dir_prompt)$(git_prompt)%B>%b "
+PROMPT="$(status_prompt)$(host_prompt)$(c_prompt)$(dir_prompt)\$(git_prompt)%B>%b "
 
