@@ -259,7 +259,7 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
-    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client
+    apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client openssh-server
 
 #Imports
 # COPY --from=golang-tools /usr/local/go     /usr/local/go
