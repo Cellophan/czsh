@@ -20,15 +20,21 @@ zstyle ':omz:update' frequency 28
 zstyle ':omz:plugins:*' aliases no
 source $ZSH/oh-my-zsh.sh
 
+export LC_ALL=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
 
 export HISTFILE=~/.zsh_history
 export HISTSIZE=999999
 export SAVEHIST=999999
-setopt SHARE_HISTORY
-setopt appendhistory
 
-export LC_ALL=en_US.UTF-8
-export LC_CTYPE=en_US.UTF-8
+# man zshoptions
+setopt HIST_IGNORE_SPACE
+setopt SHARE_HISTORY
+setopt APPEND_HISTORY
+# setopt EXTENDED_HISTORY
+setopt HIST_IGNORE_SPACE
+setopt HIST_NO_STORE
+setopt HIST_REDUCE_BLANKS
 
 # # https://github.com/jeffreytse/zsh-vi-mode#initialization-mode
 # ZVM_INIT_MODE=sourcing
