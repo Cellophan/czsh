@@ -144,14 +144,14 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | \
 #  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
 #  pip3 install --system awscli
 # hadolint ignore=DL3003,DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
-    apt-get update &&\
-    DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
-    cd /tmp &&\
-    curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" >/tmp/awscliv2.zip &&\
-    unzip -q /tmp/awscliv2.zip &&\
-    /tmp/aws/install &&\
-    rm -rf /tmp/aws*
+# RUN --mount=type=cache,target=/var/cache/apt \
+#     apt-get update &&\
+#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
+#     cd /tmp &&\
+#     curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" >/tmp/awscliv2.zip &&\
+#     unzip -q /tmp/awscliv2.zip &&\
+#     /tmp/aws/install &&\
+#     rm -rf /tmp/aws*
 #aws cli session-manager-plugin
 # RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
 #     dpkg -i /tmp/tmp.deb &&\
