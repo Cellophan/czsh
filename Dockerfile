@@ -80,25 +80,6 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
 # #     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
 # #     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
 # #     rm -rf /tmp/awsudo2
-# #fzf
-# # hadolint ignore=DL3008
-# RUN --mount=type=cache,target=/var/cache/apt \
-#     apt-get update &&\
-#     apt-get install -qy --no-install-recommends silversearcher-ag &&\
-#     git clone --depth 1 https://github.com/junegunn/fzf.git /etc/skel/.oh-my-zsh/custom/plugins/fzf &&\
-#     /etc/skel/.oh-my-zsh/custom/plugins/fzf/install --bin &&\
-#     git clone --depth 1 https://github.com/Treri/fzf-zsh.git /etc/skel/.oh-my-zsh/custom/plugins/fzf-zsh &&\
-#     find /etc/skel/.oh-my-zsh/custom/plugins -name .git -type d -exec echo rm -rf {} \;
-
-# #powerline
-# # hadolint ignore=DL3008
-# RUN --mount=type=cache,target=/var/cache/apt \
-#     apt-get update &&\
-#     apt-get install -qy --no-install-recommends curl ca-certificates dconf-cli &&\
-#     mkdir -p /etc/skel/.fonts /etc/skel/.config/fontconfig/conf.d &&\
-#     curl -sSL --output /etc/skel/.fonts/PowerlineSymbols.otf https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf &&\
-#     curl -sSL --output /etc/skel/.config/fontconfig/conf.d/10-powerline-symbols.conf https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf &&\
-#     apt-get remove -y dconf-cli
 
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
@@ -181,17 +162,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
   dpkg -i /tmp/tmp.deb &&\
   rm /tmp/tmp.deb
-#  chmod -R a+w /etc/skel/.oh-my-zsh/plugins/gh
-
-#github.com/grafana/k6
-# RUN curl -sSL https://github.com/grafana/k6/releases/download/v0.54.0/k6-v0.54.0-linux-${TARGETARCH}.deb >/tmp/tmp.deb &&\
-#   dpkg -i /tmp/tmp.deb &&\
-#   rm /tmp/tmp.deb
-# https://github.com/grafana/k6/releases/download/v1.3.0/k6-v1.3.0-linux-arm64.tar.gz
-RUN curl -sSL https://github.com/grafana/k6/releases/download/v1.3.0/k6-v1.3.0-linux-${TARGETARCH}.tar.gz >/tmp/tmp.tgz &&\
-    cd /tmp &&\
-    tar zxvf /tmp/tmp.tgz &&\
-    cp -a */k6 /usr/local/bin/
 
 #glow
 RUN curl -sSL https://github.com/charmbracelet/glow/releases/download/v1.1.0/glow_1.1.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
