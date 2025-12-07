@@ -21,9 +21,6 @@ RUN git clone -b v1.4 --depth 1 https://github.com/gdraheim/docker-systemctl-rep
 # hadolint ignore=DL3059
 RUN curl -sSL https://releases.hashicorp.com/terraform/0.13.5/terraform_0.13.5_linux_${TARGETARCH}.zip >/tmp/terraform.zip &&\
     unzip /tmp/terraform.zip
-# # hadolint ignore=DL3059,DL4006
-# RUN curl -sSL https://github.com/exercism/cli/releases/download/v3.0.13/exercism-3.0.13-linux-$(uname -m).tar.gz \
-#     | tar --directory=/usr/local/bin -xvz exercism
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/derailed/k9s/releases/download/v0.50.15/k9s_Linux_${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz k9s
@@ -44,7 +41,6 @@ RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/
 RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz asdf
 
-
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
 
@@ -55,7 +51,6 @@ ARG TARGETARCH
 ENV DOCKER_IMAGE="cell/czsh"
 
 #zsh and oh-my-zsh
-#https://hub.docker.com/r/nacyot/ubuntu/~/dockerfile/
 # hadolint ignore=DL3008
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
@@ -65,22 +60,12 @@ RUN --mount=type=cache,target=/var/cache/apt \
     ln -s /etc/skel/.zshrc /root &&\
     find /etc/skel -name .git -type d -exec echo rm -rf {} \;
 
-# #agnoster
-# RUN git clone --depth 1 https://github.com/agnoster/agnoster-zsh-theme /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme &&\
-#     ln -s /etc/skel/.oh-my-zsh/custom/themes/agnoster-zsh-theme/agnoster.zsh-theme /etc/skel/.oh-my-zsh/custom/themes &&\
-#     find /etc/skel/.oh-my-zsh/custom/themes -name .git -type d -exec echo rm -rf {} \;
 #zsh-autosuggestions
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions &&\
     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-autosuggestions -name .git -type d -exec echo rm -rf {} \;
 #zsh-autosuggestions
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
-# #awsudo
-# # RUN git clone --depth 1 https://github.com/outersystems/awsudo2.git /tmp/awsudo2 &&\
-# #     mkdir /etc/skel/.oh-my-zsh/custom/plugins/awsudo2 &&\
-# #     cp /tmp/awsudo2/completion/zsh/awsudo2.plugin.zsh /etc/skel/.oh-my-zsh/custom/plugins/awsudo2/ &&\
-# #     rm -rf /tmp/awsudo2
-
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
     apt-get install -qy --no-install-recommends zsh
@@ -100,67 +85,9 @@ RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool
 
-# # dependencies to install python (with asdf install python latest)
-# # Based on https://github.com/pyenv/pyenv/wiki#suggested-build-environment
-# # hadolint ignore=DL3008
-# RUN apt-get update &&\
-#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends \
-#         ca-certificates make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev git &&\
-#     apt-get clean -y && rm -rf /var/lib/apt/lists/*
-# # pyenv, python. poetry
-# # # hadolint ignore=DL4006,DL3013
-# # RUN export PYTHON_VERSION="3.9.6" &&\
-# #     export HOME="/etc/skel" &&\
-# #     export PYENV_ROOT="${HOME}/.pyenv" &&\
-# #     export PATH="${PYENV_ROOT}/bin:${PATH}" &&\
-# #     curl https://pyenv.run | bash &&\
-# #     eval "$(pyenv init -)" &&\
-# #     eval "$(pyenv virtualenv-init -)" &&\
-# #     eval "$(pyenv init --path)" &&\
-# #     pyenv install ${PYTHON_VERSION} &&\
-# #     ln -s "${PYENV_ROOT}/versions/${PYTHON_VERSION}" "${PYENV_ROOT}/versions/${PYTHON_VERSION%.*}" &&\
-# #     pyenv global ${PYTHON_VERSION%.*} &&\
-# #     python --version &&\
-# #     pip install wheel &&\
-# #     pip install --no-cache-dir poetry pudb
-#
-# #python distrib
-# # hadolint ignore=DL3008
-# RUN apt-get update &&\
-#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends python3 python3-pip &&\
-#     apt-get clean -y && rm -rf /var/lib/apt/lists/*
-#
-# # git-filter-repo
-# # hadolint ignore=DL3013,DL3059
-# # RUN pip install --quiet --no-cache-dir git-filter-repo
-
 # uv
 RUN curl -LsSf https://astral.sh/uv/install.sh | \
     sudo -s UV_INSTALL_DIR=/usr/local/bin/ sh
-
-#aws-cli
-#RUN apt-get update &&\
-#  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-#  pip3 install --system awscli
-# hadolint ignore=DL3003,DL3008
-# RUN --mount=type=cache,target=/var/cache/apt \
-#     apt-get update &&\
-#     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends unzip groff &&\
-#     cd /tmp &&\
-#     curl -sSL "https://awscli.amazonaws.com/awscli-exe-linux-$(uname -m).zip" >/tmp/awscliv2.zip &&\
-#     unzip -q /tmp/awscliv2.zip &&\
-#     /tmp/aws/install &&\
-#     rm -rf /tmp/aws*
-#aws cli session-manager-plugin
-# RUN curl -sSL https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb >/tmp/tmp.deb &&\
-#     dpkg -i /tmp/tmp.deb &&\
-#     rm /tmp/tmp.deb
-#awsudo 1&2
-# # hadolint ignore=DL3013
-# RUN pip install --no-cache-dir git+https://github.com/makethunder/awsudo.git
-# # hadolint ignore=DL3013,DL3059
-# RUN pip install --no-cache-dir git+https://github.com/outersystems/awsudo2.git@interate-profile-handling
 
 #github.com/cli/cli
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
@@ -195,13 +122,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
 #     apt-get update &&\
 #     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff
 
-#Completion for bash for colleagues
-#RUN apt-get update &&\
-#  apt-get install -qy --no-install-recommends bash-completion &&\
-#  apt-get clean -y && rm -rf /var/lib/apt/lists/* &&\
-#  kubectl completion bash >> /etc/skel/.bashrc
-#  echo "complete -C /usr/local/bin/aws_completer" >>/etc/skel/.bashrc
-
 #dive
 RUN curl -sSL https://github.com/wagoodman/dive/releases/download/v0.13.1/dive_0.13.1_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
     dpkg -i /tmp/tmp.deb &&\
@@ -219,11 +139,6 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
     cp */server/*.yml /etc/ntfy/ &&\
     rm -rf /tmp/*
 
-# nvm, nodejs version manager
-# hadolint ignore=SC2046,DL3003
-# RUN git clone https://github.com/nvm-sh/nvm.git "/etc/skel/.nvm" &&\
-#     cd /etc/skel/.nvm &&\
-#     git checkout $(git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1))
 
 #tools
 # openssh-client: to permit ssh mount while build:
