@@ -134,6 +134,10 @@ RUN --mount=type=cache,target=/var/cache/apt \
 # # hadolint ignore=DL3013,DL3059
 # # RUN pip install --quiet --no-cache-dir git-filter-repo
 
+# uv
+RUN curl -LsSf https://astral.sh/uv/install.sh | \
+    sudo -s UV_INSTALL_DIR=/usr/local/bin/ sh
+
 #aws-cli
 #RUN apt-get update &&\
 #  DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends groff &&\
