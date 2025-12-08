@@ -40,6 +40,10 @@ RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/
 # hadolint ignore=DL3059,DL4006
 RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz asdf
+# hadolint ignore=DL3059
+RUN curl -sSL  https://github.com/astral-sh/uv/releases/download/0.9.16/uv-x86_64-unknown-linux-gnu.tar.gz >/tmp/tmp.tgz &&\
+    tar -C /tmp -xz -f /tmp/tmp.tgz &&\
+    mv /tmp/*/uv* /usr/local/bin/
 
 # hadolint ignore=DL3059
 RUN chmod +x /usr/local/bin/*
@@ -84,10 +88,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
 RUN --mount=type=cache,target=/var/cache/apt \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool
-
-# uv
-RUN curl -LsSf https://astral.sh/uv/install.sh | \
-    sudo -s UV_INSTALL_DIR=/usr/local/bin/ sh
 
 #github.com/cli/cli
 RUN curl -sSL https://github.com/cli/cli/releases/download/v2.59.0/gh_2.59.0_linux_${TARGETARCH}.deb >/tmp/tmp.deb &&\
