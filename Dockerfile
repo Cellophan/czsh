@@ -54,9 +54,13 @@ FROM cell/playground:latest AS final
 ARG TARGETARCH
 ENV DOCKER_IMAGE="cell/czsh"
 
+# hadolint ignore=DL3008
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
+    apt-get update
+
 #zsh and oh-my-zsh
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     apt-get install -qy --no-install-recommends zsh &&\
     git clone --depth 1 https://github.com/robbyrussell/oh-my-zsh.git /etc/skel/.oh-my-zsh &&\
@@ -70,12 +74,12 @@ RUN git clone --depth 1 https://github.com/zsh-users/zsh-autosuggestions /etc/sk
 #zsh-autosuggestions
 RUN git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting &&\
     find /etc/skel/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting -name .git -type d -exec echo rm -rf {} \;
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     apt-get install -qy --no-install-recommends zsh
 
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     apt-get install -qy --no-install-recommends fontconfig locales &&\
     locale-gen en_US.UTF-8 en_US &&\
@@ -85,7 +89,7 @@ RUN --mount=type=cache,target=/var/cache/apt \
 
 #pass
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pass gnupg2 qrencode xclip pass-extension-otp oathtool
 
@@ -106,19 +110,19 @@ RUN curl -sSL https://github.com/charmbracelet/gum/releases/download/v0.8.0/gum_
 
 #pwgen
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends pwgen
 
 #socat (used in material/scripts/xdg-open)
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends socat
 
 # #icdiff (used in material/scripts/git-icdiff)
 # # hadolint ignore=DL3008
-# RUN --mount=type=cache,target=/var/cache/apt \
+# RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
 #     apt-get update &&\
 #     DEBIAN_FRONTEND=noninteractive apt-get install -qy --no-install-recommends icdiff
 
@@ -139,14 +143,13 @@ RUN curl -sSL https://github.com/binwiederhier/ntfy/releases/download/v2.10.0/nt
     cp */server/*.yml /etc/ntfy/ &&\
     rm -rf /tmp/*
 
-
 #tools
 # openssh-client: to permit ssh mount while build:
 #   DOCKER_BUILDKIT=1 docker build --ssh default -t ...
 #   RUN --mount=type=ssh mkdir -p -m 0600 ~/.ssh &&\
 #      ssh-keyscan <host to know> >> ~/.ssh/known_hosts
 # hadolint ignore=DL3008
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get update &&\
     apt-get install -qy --no-install-recommends make ncdu entr apt-file less netcat-openbsd iputils-ping time bsdextrautils btop libnotify-bin openssh-client openssh-server
 
@@ -157,7 +160,7 @@ COPY --from=downloaded-tools /usr/local/bin/*  /usr/local/bin/
 
 
 # ZSH
-RUN --mount=type=cache,target=/var/cache/apt \
+RUN --mount=type=cache,target=/var/cache/apt --mount=type=cache,target=/var/lib/apt/lists \
     apt-get install -qy wget gawk fzf
 RUN mkdir -p /opt/local/zsh/fzf &&\
     wget --quiet --directory-prefix=/opt/local/zsh/ \
