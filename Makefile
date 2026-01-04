@@ -26,8 +26,12 @@ build: $(shell find material -type f) Dockerfile
 .PHONY: build
 
 fresh:
-> docker build -t ${REGISTRY}/${IMAGE} --pull --no-cache ${CONTEXT}
+> docker build -t ${REGISTRY}/${IMAGE} --no-cache ${CONTEXT}
 .PHONY: fresh
+
+freshest:
+> docker build -t ${REGISTRY}/${IMAGE} --pull --no-cache ${CONTEXT}
+.PHONY: freshest
 
 use:
 > ./material/payload/deploy/czsh
