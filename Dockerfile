@@ -41,7 +41,7 @@ RUN curl -o /usr/local/bin/jd -sSL https://github.com/josephburnett/jd/releases/
 RUN curl -sSL https://github.com/asdf-vm/asdf/releases/download/v0.16.2/asdf-v0.16.2-linux-${TARGETARCH}.tar.gz \
     | tar --directory=/usr/local/bin -xvz asdf
 # hadolint ignore=DL3059
-RUN curl -sSL  https://github.com/astral-sh/uv/releases/download/0.9.16/uv-x86_64-unknown-linux-gnu.tar.gz >/tmp/tmp.tgz &&\
+RUN curl -sSL  https://github.com/astral-sh/uv/releases/download/0.9.16/uv-$(uname -m)-unknown-linux-gnu.tar.gz >/tmp/tmp.tgz &&\
     tar -C /tmp -xz -f /tmp/tmp.tgz &&\
     mv /tmp/*/uv* /usr/local/bin/
 
