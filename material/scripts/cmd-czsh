@@ -14,6 +14,7 @@ echo -n "\
     [[ -n \"\${DISPLAY}\"       ]] && e_list=\"\${e_list} DISPLAY\"       && rw_list=\"\${rw_list} /tmp/.X11-unix\"; \
     [[ -n \"\${XAUTHORITY}\"    ]] && e_list=\"\${e_list} XAUTHORITY\"    && ro_list=\"\${ro_list} \${XAUTHORITY}\"; \
     [[ -n \"\${SSH_AUTH_SOCK}\" ]] && e_list=\"\${e_list} SSH_AUTH_SOCK\" && ro_list=\"\${ro_list} \${SSH_AUTH_SOCK}\"; \
+    [[ -n \"\${DEBUG}\"         ]] && debug=\"-e DEBUG=1\"; \
 
     ro_args=\"\"; for i in \${ro_list}; do [[ -e \"\${i}\" ]]  && ro_args=\"\${ro_args} -v \${i}:\${i}:ro\"; done; \
     rw_args=\"\"; for i in \${rw_list}; do [[ -e \"\${i}\" ]]  && rw_args=\"\${rw_args} -v \${i}:\${i}\"; done; \
@@ -23,6 +24,7 @@ echo -n "\
         --net host --pid host \
         -w \"\$PWD\" \
         -e UID=\$(id --user) -e GID=\$(id --group) \
+        \${debug} \
         --device /dev/snd:/dev/snd \
         \${ro_args} \${rw_args} \${e_args} \
         $@ \
